@@ -1,0 +1,16 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://pypi.nvidia.com
+numpy>=2,<2.6
+scipy>=1.13
+scikit-learn>=1.7
+matplotlib>=3.9
+pillow>=10
+umap-learn>=0.5.9
+flowio>=1.4
+fastdtw>=0.3.4
+torch==2.11.0+cu128
+cuml-cu12>=26.2,<27
+cudf-cu12>=26.2,<27
+cuvs-cu12>=26.2,<27
+cupy-cuda12x>=14,<15
+dire-rapids[persistent] @ git+https://github.com/sashakolpakov/dire-rapids.git@main

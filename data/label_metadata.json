@@ -1,0 +1,92 @@
+{
+  "blobs": {
+    "legend_title": "Synthetic cluster",
+    "label_map": {
+      "0": "cluster 0",
+      "1": "cluster 1",
+      "2": "cluster 2",
+      "3": "cluster 3",
+      "4": "cluster 4",
+      "5": "cluster 5",
+      "6": "cluster 6",
+      "7": "cluster 7",
+      "8": "cluster 8",
+      "9": "cluster 9",
+      "10": "cluster 10",
+      "11": "cluster 11"
+    }
+  },
+  "moons": {
+    "legend_title": "Synthetic class",
+    "label_map": {
+      "0": "class 0",
+      "1": "class 1"
+    }
+  },
+  "mnist": {
+    "legend_title": "Digit",
+    "label_map": {
+      "0": "digit 0",
+      "1": "digit 1",
+      "2": "digit 2",
+      "3": "digit 3",
+      "4": "digit 4",
+      "5": "digit 5",
+      "6": "digit 6",
+      "7": "digit 7",
+      "8": "digit 8",
+      "9": "digit 9"
+    },
+    "source": "OpenML mnist_784 target values"
+  },
+  "levine13": {
+    "legend_title": "Cell population",
+    "source": "https://raw.githubusercontent.com/lmweber/benchmark-data-Levine-13-dim/master/data/population_names_Levine_13dim.txt",
+    "label_map": {
+      "1": "CD11b- Monocyte cells",
+      "2": "CD11bhi Monocyte cells",
+      "3": "CD11bmid Monocyte cells",
+      "4": "CMP cells",
+      "5": "Erythroblast cells",
+      "6": "GMP cells",
+      "7": "HSC cells",
+      "8": "Immature B cells",
+      "9": "Mature CD38lo B cells",
+      "10": "Mature CD38mid B cells",
+      "11": "Mature CD4+ T cells",
+      "12": "Mature CD8+ T cells",
+      "13": "Megakaryocyte cells",
+      "14": "MEP cells",
+      "15": "MPP cells",
+      "16": "Myelocyte cells",
+      "17": "Naive CD4+ T cells",
+      "18": "Naive CD8+ T cells",
+      "19": "NK cells",
+      "20": "Plasma cell cells",
+      "21": "Plasmacytoid DC cells",
+      "22": "Platelet cells",
+      "23": "Pre-B I cells",
+      "24": "Pre-B II cells"
+    }
+  },
+  "levine32": {
+    "legend_title": "Cell population",
+    "source": "https://raw.githubusercontent.com/lmweber/benchmark-data-Levine-32-dim/master/data/population_names_Levine_32dim.txt",
+    "label_map": {
+      "1": "Basophils",
+      "2": "CD16- NK cells",
+      "3": "CD16+ NK cells",
+      "4": "CD34+CD38+CD123- HSPCs",
+      "5": "CD34+CD38+CD123+ HSPCs",
+      "6": "CD34+CD38lo HSCs",
+      "7": "CD4 T cells",
+      "8": "CD8 T cells",
+      "9": "Mature B cells",
+      "10": "Monocytes",
+      "11": "pDCs",
+      "12": "Plasma B cells",
+      "13": "Pre B cells",
+      "14": "Pro B cells"
+    }
+  }
+}
