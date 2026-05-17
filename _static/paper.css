@@ -1,0 +1,24 @@
+.body {
+  max-width: 1050px;
+}
+
+.manuscript-figure {
+  margin: 1.5rem 0;
+}
+
+.manuscript-figure .figure {
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
+  min-width: 280px;
+  margin: 0 1% 1rem 0;
+}
+
+.manuscript-figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+.math {
+  overflow-x: auto;
+}

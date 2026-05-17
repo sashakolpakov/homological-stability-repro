@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dimensionality reduction for homological stability and global structure preservation &#8212; Homological Stability Reproducibility  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="_static/paper.css?v=d15cacb7" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Figure Gallery" href="figures.html" />
+    <link rel="prev" title="Homological Stability Reproducibility" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="dimensionality-reduction-for-homological-stability-and-global-structure-preservation">
+<h1>Dimensionality reduction for homological stability and global structure preservation<a class="headerlink" href="#dimensionality-reduction-for-homological-stability-and-global-structure-preservation" title="Link to this heading">¶</a></h1>
+<p>Alexander Kolpakov; Igor Rivin</p>
+<p>University of Austin, Austin TX, USA; <code class="docutils literal notranslate"><span class="pre">akolpakov&#64;uaustin.org</span></code></p>
+<p>Temple University, Philadelphia PA, USA; <code class="docutils literal notranslate"><span class="pre">rivin&#64;temple.edu</span></code></p>
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">¶</a></h2>
+<p>We propose DiRe, a force-directed dimensionality reduction framework designed to preserve global structure and homological features while remaining practical on modern hardware. The computations in this paper use DiRe-RAPIDS, while DiRe-JAX is the earlier implementation associated with the JOSS publication. The method combines an initial embedding with a graph-based layout optimization and evaluates the resulting low-dimensional representation using local distortion, context preservation, and persistent homology measures. Across the benchmark suite considered here, DiRe provides a complementary tradeoff to UMAP and tSNE: it is designed less as a purely local visualization heuristic and more as a framework for embeddings whose large-scale geometry can be quantified through Betti curves and persistence diagrams.</p>
+</section>
+</section>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>Traditional dimensionality reduction techniques such as UMAP and tSNE [umap, vandermaaten-tsne] are widely used for visualizing high-dimensional data in lower-dimensional spaces, usually 2D and sometimes 3D. Other uses include dimensionality reduction to other, possibly higher and thus non-visual dimensions, for the subsequent use of classifiers such as SVMs.</p>
+<p>However, these methods often struggle with scalability, interpretability, and preservation of global data structures. UMAP, while fast and scalable, may overemphasize local structures at the expense of global data relationships [pachter]. And tSNE, while known for producing high-quality visualizations, may be computationally expensive and sensitive to hyperparameter tuning [kobak2019art].</p>
+<p>DiRe addresses these challenges by combining an initial low-dimensional embedding with a force-directed layout driven by the <span class="math notranslate nohighlight">\(k\)</span>-nearest-neighbor graph of the original data. The goal is not to replace every use of UMAP or tSNE, but to provide an alternative whose optimization and diagnostics are explicitly tied to preservation of large-scale and homological structure.</p>
+<p>The computational results in this manuscript use DiRe-RAPIDS [dire-rapids]. Its GPU stack includes PyTorch [pytorch], optional PyKeOps acceleration [pykeops], and RAPIDS/cuVS components [cuml, cuvs]; DiRe-JAX is the earlier implementation described in [dire-joss].</p>
+<p>The contribution of this paper is therefore twofold. First, it describes the algorithmic framework and the homological stability motivation behind DiRe. Second, it evaluates the framework with metrics that measure local distortion, classification context, and persistent homology of the original data and its embedding.</p>
+<section id="relation-to-existing-methods">
+<h2>Relation to existing methods<a class="headerlink" href="#relation-to-existing-methods" title="Link to this heading">¶</a></h2>
+<p>tSNE and UMAP both build low-dimensional embeddings by matching neighborhood information, but they differ in objective functions, kernels, and optimization details [vandermaaten-tsne, kobak2019art, umap]. DiRe uses the <span class="math notranslate nohighlight">\(k\)</span>NN graph in a different role: it supplies the attraction graph for a force-directed layout after an explicit initial embedding. PCA and random projections provide analytical reference points because their distortion can be bounded directly in terms of variance or Johnson-Lindenstrauss distortion, while spectral methods use graph operators related to the same neighborhood graph [belkin-niyogi-laplacian, coifman-lafon-diffusion]. DiRe is closest in spirit to graph layout methods, but the evaluation criterion emphasized here is topological: we compare persistence diagrams and Betti curves of the high-dimensional point cloud with those of the resulting embedding.</p>
+</section>
+</section>
+<section id="main-methods">
+<h1>Main methods<a class="headerlink" href="#main-methods" title="Link to this heading">¶</a></h1>
+<p>Let <span class="math notranslate nohighlight">\(X = \{x_1,\ldots,x_n\} \subset \mathbb{R}^D\)</span> be the input point cloud, represented in practice as an <span class="math notranslate nohighlight">\(n \times D\)</span> numerical array. DiRe performs the following main steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Capturing dataset topology:</strong> Create the kNN graph of <span class="math notranslate nohighlight">\(X\)</span>, say <span class="math notranslate nohighlight">\(\Gamma\)</span>, for a given number of neighbors <span class="math notranslate nohighlight">\(k\)</span> (<span class="math notranslate nohighlight">\(=\)</span> <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>). DiRe-RAPIDS can use PyTorch, PyKeOps, or RAPIDS/cuVS backends for this step, depending on data size and available hardware. Other libraries like FAISS [faiss] may also be used for nearest-neighbor search.</p></li>
+<li><p><strong>Initial dimension reduction:</strong> Produce <span class="math notranslate nohighlight">\(Y \subset \mathbb{R}^d\)</span>, the initial embedding of <span class="math notranslate nohighlight">\(X\)</span>, with <span class="math notranslate nohighlight">\(d \ll D\)</span> (usually <span class="math notranslate nohighlight">\(d=2\)</span> or <span class="math notranslate nohighlight">\(3\)</span>) specified by <code class="docutils literal notranslate"><span class="pre">dimension</span></code>. The available initial embedding methods include <code class="docutils literal notranslate"><span class="pre">random</span></code> (random projections from the Johnson-Lindenstrauss lemma), <code class="docutils literal notranslate"><span class="pre">spectral</span></code> (using the kNN graph <span class="math notranslate nohighlight">\(\Gamma\)</span> to construct a weighted Laplacian, optionally with a similarity kernel), and <code class="docutils literal notranslate"><span class="pre">pca</span></code> (classical or kernel-based).</p></li>
+<li><p><strong>Layout optimization:</strong> Adjust the lower-dimensional embedding <span class="math notranslate nohighlight">\(Y\)</span> to conform to the similarity structure of the higher-dimensional data <span class="math notranslate nohighlight">\(X\)</span>. This is done by using a force layout in which the role of “forces” is played by probability kernels; their scale is controlled by parameters such as <code class="docutils literal notranslate"><span class="pre">min_dist</span></code> and <code class="docutils literal notranslate"><span class="pre">spread</span></code>.</p></li>
+</ol>
+<p>In DiRe-RAPIDS, users can instantiate PyTorch, memory-efficient PyTorch/PyKeOps, or cuVS backends directly; alternatively, <code class="docutils literal notranslate"><span class="pre">create_dire</span></code> selects an implementation according to available dependencies and hardware. The initial embedding and optimized layout are exposed by the software so that the effect of the layout step can be studied separately.</p>
+<p>The initial embedding can be one of the following three choices, each of which we discuss in more detail.</p>
+<section id="random-projection-embedding">
+<h2>Random Projection embedding<a class="headerlink" href="#random-projection-embedding" title="Link to this heading">¶</a></h2>
+<p>This embedding is based on the Johnson-Lindenstrauss lemma [JL].</p>
+<p><strong>Johnson-Lindenstrauss Lemma (Probabilistic Form)</strong></p>
+<p>Given <span class="math notranslate nohighlight">\(0 &lt; \epsilon &lt; 1\)</span> and an integer <span class="math notranslate nohighlight">\(n\)</span>, let <span class="math notranslate nohighlight">\(X\)</span> be a set of <span class="math notranslate nohighlight">\(n\)</span> points in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>. For a random linear map <span class="math notranslate nohighlight">\(f: \mathbb{R}^d \to \mathbb{R}^k\)</span> where <span class="math notranslate nohighlight">\(k = O\left(\frac{\log n}{\epsilon^2}\right)\)</span>, with high probability, for all <span class="math notranslate nohighlight">\(u, v \in X\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[(1 - \epsilon) \|u - v\|^2 \leq \|f(u) - f(v)\|^2 \leq (1 + \epsilon) \|u - v\|^2.\]</div>
+<p>The value</p>
+<div class="math notranslate nohighlight">
+\[\text{dist}(f) = \frac{\|f(u) - f(v)\|}{\|u - v\|}\]</div>
+<p>is called the <em>distortion</em> of <span class="math notranslate nohighlight">\(f\)</span>, and is expected to be close to <span class="math notranslate nohighlight">\(1.0\)</span> for a good quality embedding.</p>
+<p>The Johnson-Lindenstrauss lemma says that a random projection from <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> to <span class="math notranslate nohighlight">\(\mathbb{R}^k\)</span> has, with high probability, distortion close to <span class="math notranslate nohighlight">\(1\)</span> when <span class="math notranslate nohighlight">\(k\)</span> is sufficiently large relative to <span class="math notranslate nohighlight">\(\log n\)</span>. This guarantee does not imply small distortion when <span class="math notranslate nohighlight">\(k\)</span> is restricted to the visualization range (<span class="math notranslate nohighlight">\(k=1, 2, 3\)</span>). The method is nevertheless simple and computationally inexpensive.</p>
+<p>The image of a projection <span class="math notranslate nohighlight">\(p: \mathbb{R}^d \rightarrow \mathbb{R}^k\)</span> may be cluttered when <span class="math notranslate nohighlight">\(k \ll d\)</span>. Indeed, the total variance of <span class="math notranslate nohighlight">\(Y = p(X) \in \mathbb{R}^{n\times k}\)</span> may be much lower than the total variance of <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n\times d}\)</span> unless the projection captures the dominant variance directions.</p>
+</section>
+<section id="principal-component-analysis-embedding">
+<h2>Principal Component Analysis embedding<a class="headerlink" href="#principal-component-analysis-embedding" title="Link to this heading">¶</a></h2>
+<p>The discussion above motivates projections that preserve as much variance as possible. The classical method for this purpose is Principal Component Analysis.</p>
+<p>Assume that <span class="math notranslate nohighlight">\(X\)</span> is centered, so that each column of <span class="math notranslate nohighlight">\(X\)</span> has zero mean. Let its covariance matrix be <span class="math notranslate nohighlight">\(\text{Cov}(X) = \frac{1}{n-1} X^t X\)</span>. PCA is computed from the singular value decomposition</p>
+<div class="math notranslate nohighlight">
+\[X = U \, \Sigma \, W^t,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma\)</span> has <span class="math notranslate nohighlight">\(k \ll d\)</span> dominant singular values <span class="math notranslate nohighlight">\(\Sigma_k = \langle \sigma_1, \ldots, \sigma_k \rangle\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[\sum^k_{i=1} \sigma^2_i = (1 - \varepsilon)^2 \|X\|^2_F.\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\Sigma_k\)</span> be the rank <span class="math notranslate nohighlight">\(k\)</span> truncation of <span class="math notranslate nohighlight">\(\Sigma\)</span> preserving the dominant singular values above, and let <span class="math notranslate nohighlight">\(U_k\)</span> and <span class="math notranslate nohighlight">\(W_k\)</span> be the respective truncations of <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(W\)</span>. Then the rank <span class="math notranslate nohighlight">\(k\)</span> approximation of <span class="math notranslate nohighlight">\(X\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\widehat{X} =  U_k\, \Sigma_k\, W^t_k\]</div>
+<p>and the PCA embedding of <span class="math notranslate nohighlight">\(X\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[X_k = X\, W_k.\]</div>
+<p>If the dominant topological features of <span class="math notranslate nohighlight">\(X\)</span> are represented in the leading <span class="math notranslate nohighlight">\(k\)</span> principal directions, then the persistence diagrams of <span class="math notranslate nohighlight">\(X\)</span> can be compared with those of the projected point cloud <span class="math notranslate nohighlight">\(X_k\)</span>. This equality is exact when <span class="math notranslate nohighlight">\(X\)</span> lies in an affine <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace of <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>. More generally, stability of persistence diagrams gives the following bound [chazal-persistence]:</p>
+<div class="math notranslate nohighlight">
+\[d_b(D(X), D(X_k)) = d_b(D(\widehat{X}W_k), D(XW_k)) \leq \|\widehat{X}W_k - XW_k\|_F = \|\widehat{X} - X\|_F = \varepsilon \|X\|_F.\]</div>
+<p>In this sense, PCA gives a useful reference case: the homological distortion is controlled by the low-rank approximation error when the retained coordinates capture the relevant geometry.</p>
+</section>
+<section id="spectral-laplacian-embedding">
+<h2>Spectral Laplacian embedding<a class="headerlink" href="#spectral-laplacian-embedding" title="Link to this heading">¶</a></h2>
+<p>Spectral Laplacian embeddings are commonly used for manifold learning from local graph structure [tenenbaum-isomap, belkin-niyogi-laplacian]. Diffusion maps use related graph operators to organize data by diffusion geometry [coifman-lafon-diffusion]. Since the <span class="math notranslate nohighlight">\(kNN\)</span>-graph <span class="math notranslate nohighlight">\(\Gamma\)</span> of <span class="math notranslate nohighlight">\(X\)</span> is already available in DiRe, a Laplacian embedding can be computed with standard graph methods.</p>
+</section>
+<section id="force-directed-layout">
+<h2>Force-directed layout<a class="headerlink" href="#force-directed-layout" title="Link to this heading">¶</a></h2>
+<p>After the initial embedding, DiRe applies an iterative force-directed layout in order to correlate the local structure of the embedding <span class="math notranslate nohighlight">\(Y\)</span> with the local structure of the high-dimensional dataset <span class="math notranslate nohighlight">\(X\)</span>. The forces of attraction and repulsion are given by simple distributions modeled after the <span class="math notranslate nohighlight">\(t\)</span>-distributions of UMAP and tSNE.</p>
+<p>Namely, a simple density function</p>
+<div class="math notranslate nohighlight">
+\[\varphi(x) = \frac{1}{1 + a\, \|x\|^{2b}}\]</div>
+<p>is fit to <code class="docutils literal notranslate"><span class="pre">min_dist</span></code> <span class="math notranslate nohighlight">\(=\delta\)</span> and <code class="docutils literal notranslate"><span class="pre">spread</span></code> <span class="math notranslate nohighlight">\(=\sigma\)</span> parameters, so that</p>
+<div class="math notranslate nohighlight">
+\[\varphi(x) \approx 1.0\]</div>
+<p>within <span class="math notranslate nohighlight">\(\|x\| &lt; \delta\)</span>, and then decays exponentially as</p>
+<div class="math notranslate nohighlight">
+\[\varphi(x) \approx \exp( - (\|x\| - \delta)/\sigma )\]</div>
+<p>outside of the <span class="math notranslate nohighlight">\(\delta\)</span>-ball.</p>
+<p>Attraction forces are defined between points in <span class="math notranslate nohighlight">\(Y\)</span> corresponding to <span class="math notranslate nohighlight">\(kNN\)</span>-neighbors in <span class="math notranslate nohighlight">\(\Gamma\)</span>, with magnitude</p>
+<div class="math notranslate nohighlight">
+\[\varphi\left( \frac{1}{\|y_i - y_j\|} \right), \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \in \Gamma.\]</div>
+<p>All other pairs of points experience a repulsion force of magnitude</p>
+<div class="math notranslate nohighlight">
+\[\varphi\left( \|y_i - y_j\| \right) \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \notin \Gamma.\]</div>
+<p>The layout is run for a prescribed iteration budget. Parameters such as <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>, <code class="docutils literal notranslate"><span class="pre">min_dist</span></code>, <code class="docutils literal notranslate"><span class="pre">spread</span></code>, backend choice, random seed, and floating-point precision affect the final embedding and are part of any reproducible specification. In applications these parameters can be tuned against a chosen validation criterion, for example by Bayesian optimization packages such as Hyperopt [hyperopt] or Optuna [optuna]. In the benchmarks below we instead use fixed, reported protocol choices so that the comparison is reproducible and not dataset-specific hyperparameter search.</p>
+</section>
+</section>
+<section id="quantitative-measures">
+<h1>Quantitative measures<a class="headerlink" href="#quantitative-measures" title="Link to this heading">¶</a></h1>
+<p>We use several quantitative measures to assess the quality of DiRe embeddings, and to compare the algorithmic framework to other embedding techniques available, such as tSNE in its cuML implementation, as well as UMAP in both its original and cuML implementations.</p>
+<section id="measuring-the-global-structure">
+<h2>Measuring the global structure<a class="headerlink" href="#measuring-the-global-structure" title="Link to this heading">¶</a></h2>
+<p>We use several types of measures for persistence homology. One type is related to <em>persistence diagrams</em>, and the other is related to the <em>Betti curves</em> derived from them. Although basically equivalent, these two types of persistence homology representation happen to be useful in different ways.</p>
+<section id="persistence-diagrams">
+<h3>Persistence diagrams<a class="headerlink" href="#persistence-diagrams" title="Link to this heading">¶</a></h3>
+<p>Persistence diagrams are classical representations of the “birth-death” pairs in persistence homology. The reader may find more information in [ZC, zomorodian2005topology], while we give a brief description below.</p>
+<p>The <em>Vietoris–-Rips complex</em> at scale <span class="math notranslate nohighlight">\(t \geq 0\)</span>, denoted <span class="math notranslate nohighlight">\(\operatorname{VR}_t(X)\)</span>, is the simplicial complex defined as</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{VR}_t(X) = \left\{ \sigma \subseteq X \mid \|x_i - x_j\| \leq t \text{ for all } x_i, x_j \in \sigma \right\},\]</div>
+<p>which means a simplex <span class="math notranslate nohighlight">\(\sigma\)</span> is contained in <span class="math notranslate nohighlight">\(\operatorname{VR}_t(X)\)</span> if all its vertices are pairwise within distance <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>Consider a non-decreasing sequence of scales <span class="math notranslate nohighlight">\(\{t_i\}_{i \in I}\)</span>, where <span class="math notranslate nohighlight">\(I\)</span> is an index set (often <span class="math notranslate nohighlight">\(I = \mathbb{R}_{\geq 0}\)</span>), generating a <em>filtration</em> of Rips complexes:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{VR}_{t_0}(X) \subseteq \operatorname{VR}_{t_1}(X) \subseteq \operatorname{VR}_{t_2}(X) \subseteq \cdots.\]</div>
+<p>For each <span class="math notranslate nohighlight">\(k \geq 0\)</span> and scale <span class="math notranslate nohighlight">\(t_i\)</span>, compute the <span class="math notranslate nohighlight">\(k\)</span>-th homology group <span class="math notranslate nohighlight">\(H_k\left( \operatorname{VR}_{t_i}(X); \mathbb{F} \right)\)</span> with coefficients in a field <span class="math notranslate nohighlight">\(\mathbb{F}\)</span> (commonly <span class="math notranslate nohighlight">\(\mathbb{F} = \mathbb{Z}/2\mathbb{Z}\)</span>, or another finite field). The inclusion maps induce homomorphisms between homology groups:</p>
+<div class="math notranslate nohighlight">
+\[f_{s,t}^k: H_k\left( \operatorname{VR}_{s}(X); \mathbb{F} \right) \rightarrow H_k\left( \operatorname{VR}_{t}(X); \mathbb{F} \right), \quad \text{for } s \leq t.\]</div>
+<p>A persistent <span class="math notranslate nohighlight">\(k\)</span>-dimensional homology class <span class="math notranslate nohighlight">\(\alpha\)</span> is an element of <span class="math notranslate nohighlight">\(H_k\left( \operatorname{VR}_{s}(X); \mathbb{F} \right)\)</span> that persists across multiple scales. The <em>birth time</em> <span class="math notranslate nohighlight">\(b_\alpha\)</span> and <em>death time</em> <span class="math notranslate nohighlight">\(d_\alpha\)</span> of <span class="math notranslate nohighlight">\(\alpha\)</span> are defined as</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(b_\alpha\)</span>: the smallest <span class="math notranslate nohighlight">\(t\)</span> where <span class="math notranslate nohighlight">\(\alpha \neq 0\)</span> appears in <span class="math notranslate nohighlight">\(H_k\left( \operatorname{VR}_{t}(X); \mathbb{F} \right)\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(d_\alpha\)</span>: the smallest <span class="math notranslate nohighlight">\(t &gt; b_\alpha\)</span> where <span class="math notranslate nohighlight">\(f_{b_\alpha, t}^k(\alpha) = 0\)</span>.</p></li>
+</ul>
+<p>For homology classes that persist indefinitely, we set their death time to infinity: <span class="math notranslate nohighlight">\(d_\alpha = \infty\)</span>.</p>
+<p>The <em>persistence diagram</em> <span class="math notranslate nohighlight">\(D_k\)</span> is the (multi-)set of points <span class="math notranslate nohighlight">\((b_\alpha, d_\alpha)\)</span> in the extended plane <span class="math notranslate nohighlight">\(\mathbb{R}^2 \cup \{\infty\}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[D_k(X) = \left\{ (b_\alpha, d_\alpha) \in (\mathbb{R} \times (\mathbb{R} \cup \{\infty\})) \mid \alpha \in H_k(X) \text{ with birth } b_\alpha \text{ and death } d_\alpha \right\},\]</div>
+<p>where we use <span class="math notranslate nohighlight">\(H_k(X)\)</span> to denote the <span class="math notranslate nohighlight">\(k\)</span>-dimensional persistence homology group defined above.</p>
+<p>Features with longer lifespans <span class="math notranslate nohighlight">\(d_\alpha - b_\alpha\)</span> are considered topologically significant. In particular, features with <span class="math notranslate nohighlight">\(d_\alpha = \infty\)</span> represent persistent homological features that never disappear within the considered scale range, indicating essential topological structures of the space.</p>
+<p>The usual metrics between two diagrams <span class="math notranslate nohighlight">\(D = D_k(X)\)</span> and <span class="math notranslate nohighlight">\(D' = D_k(Y)\)</span> are the bottleneck and Wasserstein distances, cf. [persim-docs].</p>
+</section>
+<section id="betti-curves">
+<h3>Betti curves<a class="headerlink" href="#betti-curves" title="Link to this heading">¶</a></h3>
+<p>Betti curves mark the progression of the persistence Betti numbers with the filtration level increase. This representation was first studied in detail in [Giusti-et-al]. Let <span class="math notranslate nohighlight">\(X\)</span> be a point cloud and <span class="math notranslate nohighlight">\(\mathrm{Rips}_t(X)\)</span> be its Rips complex of level <span class="math notranslate nohighlight">\(t \geq 0\)</span>. Then the <span class="math notranslate nohighlight">\(k\)</span>-th Betti curve is</p>
+<div class="math notranslate nohighlight">
+\[\beta_k(t) = \mathrm{rank}\, H_k(\mathrm{VR}_t(X)).\]</div>
+<p>Several metrics can be used to compare two Betti curves. We include distances that are insensitive to moderate reparametrisations of the filtration scale <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>The most common are the Dynamic Time Warp (DTW) distance [salvador-fastdtw, fastdtw-docs], Time Warp Edit Distance (TWED) [marteau-twed, pytwed-docs], and Earth Mover’s Distance (EMD) [flamary-pot, ot-docs].</p>
+</section>
+<section id="global-structure-preservation">
+<h3>Global structure preservation<a class="headerlink" href="#global-structure-preservation" title="Link to this heading">¶</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n\times d}\)</span> be a set of <span class="math notranslate nohighlight">\(n\)</span> vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> with <span class="math notranslate nohighlight">\(kNN\)</span>-graph <span class="math notranslate nohighlight">\(\Gamma\)</span>. Let <span class="math notranslate nohighlight">\(Y = f(X) \in \mathbb{R}^{n\times k}\)</span> be its embedding. We measure standard distances between the corresponding persistence diagrams <span class="math notranslate nohighlight">\(D^H_k = D_k(X)\)</span> and <span class="math notranslate nohighlight">\(D^L_k = D_k(Y)\)</span> of higher-dimensional data and its lower-dimensional embedding, respectively. In particular, we use the bottleneck distance <span class="math notranslate nohighlight">\(d_b(D^H_k, D^L_k)\)</span> and Wasserstein distance <span class="math notranslate nohighlight">\(d_W(D^H_k, D^L_k)\)</span> for <span class="math notranslate nohighlight">\(k=0, 1\)</span>, since the reported embeddings are <span class="math notranslate nohighlight">\(2\)</span>-dimensional.</p>
+<p>We use the normalized version of <span class="math notranslate nohighlight">\(d_b\)</span> and <span class="math notranslate nohighlight">\(d_W\)</span>, where the distance is averaged over paired subsamples of points from <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> for computational feasibility. The subsampling seed and sample size are part of the benchmark configuration.</p>
+<p>We also employ the Betti curves <span class="math notranslate nohighlight">\(\beta^H(t)\)</span> for the higher-dimensional data and <span class="math notranslate nohighlight">\(\beta^L(t)\)</span> for the lower-dimensional embedding. The distances computed between <span class="math notranslate nohighlight">\(\beta^H(t)\)</span> and <span class="math notranslate nohighlight">\(\beta^L(t)\)</span> are DTW, TWED, and EMD.</p>
+<p>We compute normalized versions by averaging over subsamples. For EMD, the curves are first normalized to unit mass and the distance is then rescaled. If <span class="math notranslate nohighlight">\(\tau\)</span> is the normalizing factor, we compute <span class="math notranslate nohighlight">\(\max\{\tau, \tau^{-1}\} \cdot d_{EMD}(\beta^H, \tau\cdot\beta^L)\)</span>.</p>
+</section>
+</section>
+<section id="measuring-the-local-structure">
+<h2>Measuring the local structure<a class="headerlink" href="#measuring-the-local-structure" title="Link to this heading">¶</a></h2>
+<p>We use two local measures: embedding stress and neighborhood preservation ratio.</p>
+<section id="embedding-stress">
+<h3>Embedding stress<a class="headerlink" href="#embedding-stress" title="Link to this heading">¶</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n\times d}\)</span> be a set of <span class="math notranslate nohighlight">\(n\)</span> vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> with <span class="math notranslate nohighlight">\(kNN\)</span>-graph <span class="math notranslate nohighlight">\(\Gamma\)</span>. Let <span class="math notranslate nohighlight">\(Y = f(X) \in \mathbb{R}^{n\times k}\)</span> be its embedding. For each edge <span class="math notranslate nohighlight">\(e = (x,y)\)</span> in <span class="math notranslate nohighlight">\(\Gamma\)</span> we have its local embedding stress measured by</p>
+<div class="math notranslate nohighlight">
+\[\lambda(e) = \left| 1 - \frac{\|x-y\|_2}{\|f(x) - f(y)\|_2}  \right|\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\Lambda = \Lambda(f, \Gamma) = (\lambda(e))_{e \in \text{edges}(\Gamma)}\)</span> be the sequence of local edge stresses. The total embedding stress of <span class="math notranslate nohighlight">\(\Gamma\)</span> under <span class="math notranslate nohighlight">\(f\)</span> is then computed as</p>
+<div class="math notranslate nohighlight">
+\[\sigma(f, \Gamma) = \frac{\sqrt{\mathrm{Var}[ \Lambda]}}{\mathbb{E}[\Lambda]}.\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\sigma\)</span> is scale-invariant in the sense that if all edge lengths of <span class="math notranslate nohighlight">\(\Gamma\)</span> are being rescaled under <span class="math notranslate nohighlight">\(f\)</span>, then <span class="math notranslate nohighlight">\(\sigma(f, \Gamma) = 0\)</span>, as there is no <em>relative</em> change of the internal metric of <span class="math notranslate nohighlight">\(\Gamma\)</span>.</p>
+</section>
+<section id="neighborhood-preservation">
+<h3>Neighborhood preservation<a class="headerlink" href="#neighborhood-preservation" title="Link to this heading">¶</a></h3>
+<p>Given <span class="math notranslate nohighlight">\(X\)</span> and its <span class="math notranslate nohighlight">\(kNN\)</span> graph <span class="math notranslate nohighlight">\(\Gamma_X := \Gamma\)</span>, let us consider <span class="math notranslate nohighlight">\(Y = f(X)\)</span> and the <span class="math notranslate nohighlight">\(kNN\)</span> graph <span class="math notranslate nohighlight">\(\Gamma_Y\)</span> of <span class="math notranslate nohighlight">\(Y\)</span>. The neighborhood preservation measure counts how many neighbours of a vertex <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(\Gamma_X\)</span> are mapped to neighbours of <span class="math notranslate nohighlight">\(f(x)\)</span> in <span class="math notranslate nohighlight">\(\Gamma_Y\)</span>. That is, let <span class="math notranslate nohighlight">\(N_X(x)\)</span> be the neighbor indices for a vertex <span class="math notranslate nohighlight">\(x\)</span> of <span class="math notranslate nohighlight">\(\Gamma_X\)</span>. Let the vertex indices in <span class="math notranslate nohighlight">\(Y\)</span> be inherited from <span class="math notranslate nohighlight">\(X\)</span>, that is <span class="math notranslate nohighlight">\(y_i = f(x_i)\)</span>, for <span class="math notranslate nohighlight">\(x_i\)</span> a vertex in <span class="math notranslate nohighlight">\(\Gamma_X\)</span>. Let <span class="math notranslate nohighlight">\(N_Y(f(x))\)</span> be the neighbor indices for the embedded point <span class="math notranslate nohighlight">\(f(x)\)</span> in <span class="math notranslate nohighlight">\(\Gamma_Y\)</span>.</p>
+<p>Then the neighborhood preservation sequence of <span class="math notranslate nohighlight">\(f\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[N(X, f) = \left( \frac{\# \bigl(N_X(x)\cap N_Y(f(x))\bigr)}{\# N_X(x)} \right)_{x \in X}.\]</div>
+<p>The neighborhood preservation index is then the pair</p>
+<div class="math notranslate nohighlight">
+\[\nu(X, f) = \left( \mathbb{E}[N(X,f)], \sqrt{\mathrm{Var}[N(X,f)]} \right).\]</div>
+<p>We intentionally compute both the mean and standard deviation in order to see not only how well neighborhoods are preserved, but also how variable the loss of local structure is.</p>
+<p>In our numerical experiments, this quantity is interpreted together with stress and persistence metrics, since local nearest-neighbour agreement and global topological agreement need not rank the methods in the same way.</p>
+</section>
+</section>
+<section id="measuring-context-loss">
+<h2>Measuring context loss<a class="headerlink" href="#measuring-context-loss" title="Link to this heading">¶</a></h2>
+<p>If <span class="math notranslate nohighlight">\(X\)</span> is a labeled set of data points, then its <em>context</em> is the mutual position, both geometric and topological, of its labeled subsets. A useful lower-dimensional embedding should preserve enough of this context to remain informative about the high-dimensional relationships in <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<section id="linear-svm-classifier-accuracy">
+<h3>Linear SVM classifier accuracy<a class="headerlink" href="#linear-svm-classifier-accuracy" title="Link to this heading">¶</a></h3>
+<p>If <span class="math notranslate nohighlight">\(X\)</span> is labeled, we compare the accuracy of a linear Support Vector Machine trained and tested on <span class="math notranslate nohighlight">\(X\)</span> with the corresponding accuracy for <span class="math notranslate nohighlight">\(Y\)</span>. This provides a simple measure of whether the embedding changes the linear separability of labeled subsets.</p>
+<p>Thus, we expect the accuracy <span class="math notranslate nohighlight">\(\alpha_X\)</span> of an SVM classifier trained and tested on <span class="math notranslate nohighlight">\(X\)</span> to be close to that of one trained and tested on <span class="math notranslate nohighlight">\(Y\)</span>, denoted <span class="math notranslate nohighlight">\(\alpha_Y\)</span>. The SVM context loss is defined by</p>
+<div class="math notranslate nohighlight">
+\[\kappa_{SVM} = \log \min\left\{ \frac{\alpha_X}{\alpha_Y}, \frac{\alpha_Y}{\alpha_X} \right\}\]</div>
+<p>A substantial change in accuracy indicates that the embedding has changed the linear separability of labeled subsets.</p>
+</section>
+<section id="knn-classifier-accuracy">
+<h3><span class="math notranslate nohighlight">\(kNN\)</span> classifier accuracy<a class="headerlink" href="#knn-classifier-accuracy" title="Link to this heading">¶</a></h3>
+<p>We also compare the accuracy of a <span class="math notranslate nohighlight">\(kNN\)</span> classifier trained and tested on <span class="math notranslate nohighlight">\(X\)</span> to that of one trained and tested on <span class="math notranslate nohighlight">\(Y\)</span>. This measures whether local class neighborhoods are preserved by the embedding.</p>
+<p>Let <span class="math notranslate nohighlight">\(\alpha_X\)</span> be the accuracy of a <span class="math notranslate nohighlight">\(kNN\)</span> classifier trained and tested on <span class="math notranslate nohighlight">\(X\)</span>, and let <span class="math notranslate nohighlight">\(\alpha_Y\)</span> be the accuracy of a <span class="math notranslate nohighlight">\(kNN\)</span> classifier trained and tested on <span class="math notranslate nohighlight">\(Y\)</span>. The <span class="math notranslate nohighlight">\(kNN\)</span> context loss is then defined as</p>
+<div class="math notranslate nohighlight">
+\[\kappa_{kNN} = \log \frac{\alpha_Y}{\alpha_X}.\]</div>
+</section>
+</section>
+</section>
+<section id="general-workflow">
+<h1>General workflow<a class="headerlink" href="#general-workflow" title="Link to this heading">¶</a></h1>
+<p>DiRe follows a streamlined workflow that is designed for ease of use and integration into existing data analysis pipelines.</p>
+<ol class="arabic simple">
+<li><p><strong>Data Preprocessing:</strong> DiRe does not prescribe a universal preprocessing pipeline. Whether the data has to be normalized, standardized, or processed via some transformation for variance reduction (e.g. <span class="math notranslate nohighlight">\(\log\)</span>- or <span class="math notranslate nohighlight">\(\sinh^{-1}\)</span>-transform) depends on the dataset and scientific question. The benchmark suite reports preprocessing choices explicitly; for single-cell datasets, metadata columns are treated as labels or covariates rather than expression features unless stated otherwise.</p></li>
+<li><p><strong>Data embedding:</strong> Performed according to the steps described in the previous section (cf. Methods).</p></li>
+<li><p><strong>Integration and Export:</strong> DiRe-RAPIDS is designed to be integrated into larger machine learning workflows. It exposes a <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> interface, backend selection utilities, memory-efficient variants, and metric utilities for comparing embeddings.</p></li>
+<li><p><strong>Embedding metrics:</strong> The metrics described above make the final embedding quantitatively comparable across methods and parameter choices, and can also be used as objectives for hyperparameter optimization.</p></li>
+</ol>
+</section>
+<section id="benchmarking">
+<h1>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading">¶</a></h1>
+<p>A collection of benchmarks is available in the DiRe-RAPIDS repository [dire-rapids], some of which are given below. We concentrate on the main differences between DiRe, tSNE, and UMAP. The benchmark protocol uses DiRe-RAPIDS for DiRe, cuML implementations of tSNE and UMAP for GPU baselines [cuml], and the original UMAP implementation by McInnes et al. as a CPU reference implementation [umap-git, umap]. Runtime comparisons therefore report backend and hardware explicitly; original <code class="docutils literal notranslate"><span class="pre">umap-learn</span></code> runtimes are not interpreted as GPU performance.</p>
+<section id="benchmark-protocol">
+<h2>Benchmark protocol<a class="headerlink" href="#benchmark-protocol" title="Link to this heading">¶</a></h2>
+<p>All benchmark figures in this manuscript are regenerated from the same benchmark runner and archived run logs. For each dataset and method we record the dataset source, number of points, ambient dimension, preprocessing, random seed, backend, wall-clock <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> runtime, and the local, context, and persistence metrics used below. The scatter plots use a single canonical seed, while non-topological metric plots report the mean over seeded runs, with error bars equal to the sample standard deviation. Persistent homology metrics are computed on paired subsamples of the high-dimensional data and embedding; the subsample seed and fraction are part of the benchmark configuration and are implemented in the released benchmark runner. The number of repeats contributing to each plotted metric is recorded in the JSON logs. The Lambda Labs instance used for these calculations is an NVIDIA A10 instance in the <code class="docutils literal notranslate"><span class="pre">gpu_1x_a10</span></code> class; the exact driver, CUDA, and package versions are recorded at runtime.</p>
+</section>
+<section id="dataset-blobs">
+<h2>Dataset: Blobs<a class="headerlink" href="#dataset-blobs" title="Link to this heading">¶</a></h2>
+<p>The 2D embeddings of the blobs dataset are given in Fig. 1. The dataset has <span class="math notranslate nohighlight">\(10\)</span>K points, 12 Gaussian clusters, and ambient dimension <span class="math notranslate nohighlight">\(1000\)</span>. It is primarily a sanity check: under appropriate parameters, all methods should recover the cluster structure.</p>
+<p>The key metrics are given in Appendix Blobs: Dataset Metrics. We compare the visual embedding, local metrics, and persistence metrics, since these criteria capture different aspects of the output.</p>
+<p>The local metrics can rank the methods differently from the global metrics, which is expected because stress and neighborhood preservation measure local metric distortion rather than cluster-level topology.</p>
+<p>The average neighborhood preservation score should not be interpreted as a complete quality measure. Even simple dimension reductions can change nearest-neighbor identities while preserving larger clusters or connected components. For example, the planar point cloud <span class="math notranslate nohighlight">\(X_k = \{x_n = (1/n, n) : n=1,\ldots,k\}\)</span> has <span class="math notranslate nohighlight">\(x_k\)</span> as the point farthest from the origin, while its projection to the horizontal axis is closest to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/blobs-dire-rapids.png"><img alt="_images/blobs-dire-rapids.png" src="_images/blobs-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="_images/blobs-tsne.png"><img alt="_images/blobs-tsne.png" src="_images/blobs-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/blobs-cuml-umap.png"><img alt="_images/blobs-cuml-umap.png" src="_images/blobs-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="_images/blobs-umap.png"><img alt="_images/blobs-umap.png" src="_images/blobs-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 1.</strong> “Blobs” dataset embeddings</p>
+</div>
+</section>
+<section id="dataset-mnist-digits">
+<h2>Dataset: MNIST Digits<a class="headerlink" href="#dataset-mnist-digits" title="Link to this heading">¶</a></h2>
+<p>MNIST Digits provides a labeled image benchmark with well known class structure. This benchmark compares whether the methods preserve digit classes, transitions between visually similar digits, and the persistent homology summaries of the high-dimensional data.</p>
+<p>The key metrics are given in Appendix MNIST Digits: Dataset Metrics. In this dataset, visual cluster separation, classifier context, and persistence distances need not induce the same ranking, so these criteria are reported separately.</p>
+<p>Even when all methods reasonably preserve labeled context, the SVM and kNN context scores can distinguish linear separability from local class consistency.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="_images/mnist-dire-rapids.png"><img alt="_images/mnist-dire-rapids.png" src="_images/mnist-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id5" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="_images/mnist-tsne.png"><img alt="_images/mnist-tsne.png" src="_images/mnist-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id6" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="_images/mnist-cuml-umap.png"><img alt="_images/mnist-cuml-umap.png" src="_images/mnist-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id7" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="_images/mnist-umap.png"><img alt="_images/mnist-umap.png" src="_images/mnist-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id8" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 2.</strong> “MNIST Digits” dataset embeddings</p>
+</div>
+</section>
+<section id="dataset-disk-uniform">
+<h2>Dataset: Disk Uniform<a class="headerlink" href="#dataset-disk-uniform" title="Link to this heading">¶</a></h2>
+<p>Here we embed a 2D disk with points uniformly distributed in it. Since the input already has a simple low-dimensional geometry, this benchmark tests whether a method unnecessarily distorts connectedness, density, or boundary shape.</p>
+<p>A similar family of tests can be run on a sphere and an ellipsoid in 3D with uniformly distributed points. See the DiRe-RAPIDS repository for additional datasets [dire-rapids].</p>
+<p>The metrics are given in Appendix Disk Uniform: Dataset Metrics. We treat persistence metrics and local distortion metrics as complementary: a method may preserve nearest neighbors while changing the global shape of this simple input.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="_images/disk-dire-rapids.png"><img alt="_images/disk-dire-rapids.png" src="_images/disk-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id9" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="_images/disk-tsne.png"><img alt="_images/disk-tsne.png" src="_images/disk-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id10" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="_images/disk-cuml-umap.png"><img alt="_images/disk-cuml-umap.png" src="_images/disk-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id11" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id12">
+<a class="reference internal image-reference" href="_images/disk-umap.png"><img alt="_images/disk-umap.png" src="_images/disk-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id12" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 3.</strong> “Disk Uniform” dataset embeddings</p>
+</div>
+</section>
+<section id="dataset-half-moons">
+<h2>Dataset: Half-moons<a class="headerlink" href="#dataset-half-moons" title="Link to this heading">¶</a></h2>
+<p>The half-moons dataset tests whether a method preserves the non-linear relation between two labeled components. Since the input classes are not linearly separable, a two-dimensional embedding that makes them linearly separable may improve a downstream classifier while changing the original context. The context preservation score is reported in Appendix Half-moons: Dataset Metrics.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="_images/moons-dire-rapids.png"><img alt="_images/moons-dire-rapids.png" src="_images/moons-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id13" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id14">
+<a class="reference internal image-reference" href="_images/moons-tsne.png"><img alt="_images/moons-tsne.png" src="_images/moons-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id14" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id15">
+<a class="reference internal image-reference" href="_images/moons-cuml-umap.png"><img alt="_images/moons-cuml-umap.png" src="_images/moons-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id15" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id16">
+<a class="reference internal image-reference" href="_images/moons-umap.png"><img alt="_images/moons-umap.png" src="_images/moons-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id16" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 4.</strong> “Two Half-Moons” dataset embeddings</p>
+</div>
+<p>We compare the embeddings against both context metrics and persistence metrics, rather than relying on visual inspection alone.</p>
+</section>
+<section id="dataset-levine-13">
+<h2>Dataset: Levine 13<a class="headerlink" href="#dataset-levine-13" title="Link to this heading">¶</a></h2>
+<p>The Levine 13 CyTOF single-cell dataset serves as a biological benchmark in which preprocessing choices matter. In this benchmark, the expression channels are transformed with an inverse hyperbolic sine transform with cofactor 5; label and individual metadata columns are excluded from the feature matrix, and unassigned cells are removed.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id17">
+<a class="reference internal image-reference" href="_images/levine13-dire-rapids.png"><img alt="_images/levine13-dire-rapids.png" src="_images/levine13-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id17" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id18">
+<a class="reference internal image-reference" href="_images/levine13-tsne.png"><img alt="_images/levine13-tsne.png" src="_images/levine13-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id18" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id19">
+<a class="reference internal image-reference" href="_images/levine13-cuml-umap.png"><img alt="_images/levine13-cuml-umap.png" src="_images/levine13-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id19" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id20">
+<a class="reference internal image-reference" href="_images/levine13-umap.png"><img alt="_images/levine13-umap.png" src="_images/levine13-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id20" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 5.</strong> “Levine 13” dataset embeddings</p>
+</div>
+<p>We report persistence and context metrics separately, since biological labels, local neighborhoods, and topological summaries need not agree perfectly.</p>
+<p>More benchmarking information is available in Appendix Levine 13: Dataset Metrics.</p>
+</section>
+<section id="dataset-levine-32">
+<h2>Dataset: Levine 32<a class="headerlink" href="#dataset-levine-32" title="Link to this heading">¶</a></h2>
+<p>The Levine 32 CyTOF dataset is handled with particular care because patient, batch, or other metadata columns can dominate an embedding if they are inadvertently included as numerical features. The same preprocessing protocol is used as for Levine 13: expression channels are arcsinh-transformed with cofactor 5, label and individual metadata columns are excluded from the feature matrix, and unassigned cells are removed.</p>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id21">
+<a class="reference internal image-reference" href="_images/levine32-dire-rapids.png"><img alt="_images/levine32-dire-rapids.png" src="_images/levine32-dire-rapids.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DiRe-RAPIDS</span><a class="headerlink" href="#id21" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id22">
+<a class="reference internal image-reference" href="_images/levine32-tsne.png"><img alt="_images/levine32-tsne.png" src="_images/levine32-tsne.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML tSNE</span><a class="headerlink" href="#id22" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id23">
+<a class="reference internal image-reference" href="_images/levine32-cuml-umap.png"><img alt="_images/levine32-cuml-umap.png" src="_images/levine32-cuml-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">cuML UMAP</span><a class="headerlink" href="#id23" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id24">
+<a class="reference internal image-reference" href="_images/levine32-umap.png"><img alt="_images/levine32-umap.png" src="_images/levine32-umap.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Original UMAP</span><a class="headerlink" href="#id24" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 6.</strong> “Levine 32” dataset embeddings</p>
+</div>
+<p>More benchmarking data is available in Appendix Levine 32: Dataset Metrics.</p>
+</section>
+</section>
+<section id="conclusions">
+<h1>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">¶</a></h1>
+<p>A new dimensionality reduction framework, called <code class="docutils literal notranslate"><span class="pre">DiRe</span></code>, has been developed with an explicit emphasis on preserving and measuring the dataset’s homological structure. The latter is quantified by persistent homology and expressed via persistence diagrams or Betti curves. The benchmarks and metrics provided give evidence that DiRe can preserve global structure in cases where purely local criteria are insufficient, while also showing that no single metric captures every scientifically relevant aspect of an embedding.</p>
+<p>The numerical experiments in this manuscript use DiRe-RAPIDS [dire-rapids]; the earlier DiRe-JAX implementation remains available from GitHub [dire-github] and is described in the JOSS publication [dire-joss].</p>
+<p>The benchmark logs, archived embedding images, plotting scripts, manuscript build scripts, and Sphinx version of this manuscript are available in a separate reproducibility repository [homological-stability-repro]. The DiRe implementation used by those scripts is DiRe-RAPIDS [dire-rapids]. GPU acceleration is recommended for rerunning the largest datasets and for runtime comparisons against cuML baselines.</p>
+</section>
+<section id="funding">
+<h1>Funding<a class="headerlink" href="#funding" title="Link to this heading">¶</a></h1>
+<p>This work is supported by the Google Cloud Research Award number GCP19980904. The computational benchmarks were run in part on Lambda Labs GPU infrastructure; we thank Lambda Labs for supporting this work with access to GPU computing resources.</p>
+</section>
+<section id="author-contributions">
+<h1>Author Contributions<a class="headerlink" href="#author-contributions" title="Link to this heading">¶</a></h1>
+<p>A.K. and I.R. developed the necessary theoretical background and main algorithm. A.K. produced and prepared figures. All authors reviewed the manuscript.</p>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>[kobak2019art] Kobak, Dmitry and Berens, Philipp. <em>The art of using t-SNE for single-cell transcriptomics</em>. Nature Communications. 2019. DOI: 10.1038/s41467-019-13056-x. URL: <a class="reference external" href="https://doi.org/10.1038/s41467-019-13056-x">https://doi.org/10.1038/s41467-019-13056-x</a></p></li>
+<li><p>[pachter] Chari, Tara and Pachter, Lior. <em>The specious art of single-cell genomics</em>. PLoS Computational Biology. 2023. DOI: 10.1371/journal.pcbi.1011288. URL: <a class="reference external" href="https://doi.org/10.1371/journal.pcbi.1011288">https://doi.org/10.1371/journal.pcbi.1011288</a></p></li>
+<li><p>[dire-joss] Kolpakov, Alexander and Rivin, Igor. <em>DiRe- JAX: A JAX based Dimensionality Reduction Algorithm for Large-scale Data</em>. Journal of Open Source Software. 2025. URL: <a class="reference external" href="https://doi.org/10.21105/joss.08264">https://doi.org/10.21105/joss.08264</a></p></li>
+<li><p>[faiss] Matthijs Douze and Alexandr Guzhva and Chengqi Deng and Jeff Johnson and Gergely Szilvasy and Pierre-Emmanuel Mazaré and Maria Lomeli and Lucas Hosseini and Hervé Jégou. <em>The {FAISS} library</em>. 2024</p></li>
+<li><p>[Giusti-et-al] Giusti, Chad and Ghrist, Robert and Bassett, Danielle S.. <em>Two’s company, three (or more) is a simplex</em>. Journal of Computational Neuroscience. 2016. DOI: 10.1007/s10827-016-0608-6. URL: <a class="reference external" href="https://doi.org/10.1007/s10827-016-0608-6">https://doi.org/10.1007/s10827-016-0608-6</a></p></li>
+<li><p>[cuml] {R}apids.ai cu{ML} {D}evelopers. <em>cu{ML} - {GPU} {M}achine {L}earning {A}lgorithms</em>. GitHub Repository. 2025</p></li>
+<li><p>[umap-git] {UMAP} Developers. <em>Uniform Manifold Approximation and Projection {(UMAP)}</em>. GitHub Repository. 2025</p></li>
+<li><p>[persim-docs] {Persim Developers}. <em>Persim: Distances and representations of persistence diagrams</em>. GitHub Repository. 2024</p></li>
+<li><p>[pytwed-docs] Marcus Vo and Jonathan Zumer. <em>PyTWED: Python wrapper for Time Warped Edit Distance</em>. GitHub Repository. 2021</p></li>
+<li><p>[marteau-twed] Marteau, Pierre-François. <em>Time Warp Edit Distance with Stiffness Adjustment for Time Series Matching</em>. IEEE Transactions on Pattern Analysis and Machine Intelligence. 2009. DOI: 10.1109/TPAMI.2008.76. URL: <a class="reference external" href="https://doi.org/10.1109/TPAMI.2008.76">https://doi.org/10.1109/TPAMI.2008.76</a></p></li>
+<li><p>[dire-github] Alexander Kolpakov and Igor Rivin. <em>DiRe: Dimensionality Reducer</em>. GitHub Repository. 2025</p></li>
+<li><p>[dire-rapids] Alexander Kolpakov and Igor Rivin. <em>DiRe-RAPIDS: PyTorch and RAPIDS accelerated dimensionality reduction</em>. GitHub Repository. 2026</p></li>
+<li><p>[homological-stability-repro] Alexander Kolpakov and Igor Rivin. <em>Homological stability reproducibility package</em>. GitHub Repository. 2026</p></li>
+<li><p>[dire-arxiv] Alexander Kolpakov and Igor Rivin. <em>{DiRe-JAX: A JAX based Dimensionality Reduction Algorithm for Large-scale Data}</em>. 2025</p></li>
+<li><p>[flamary-pot] Flamary, R{'e}mi and Courty, Nicolas and Gramfort, Alexandre and Alaya, Mokhtar Z. and Boisbunon, Aur{'e}lie and Chambon, Stanislas and Chapel, Laetitia and Corenflos, Adrien and Fatras, Kilian and Fournier, Nemo and Gautheron, Loris and Gayraud, Nathalie T.H. and Janati, Hicham and Rakotomamonjy, Alain and Redko, Ievgen and Rolet, Antoine and Schutz, Antony and Seguy, Vivien and Sutherland, Danica J. and Tavenard, Romain and Tong, Alexander and Vayer, Titouan. <em>POT: Python Optimal Transport</em>. Journal of Machine Learning Research. 2021. URL: <a class="reference external" href="http://jmlr.org/papers/v22/20-451.html">http://jmlr.org/papers/v22/20-451.html</a></p></li>
+<li><p>[ot-docs] {POT Developers}. <em>POT: Python Optimal Transport</em>. GitHub Repository. 2025</p></li>
+<li><p>[ZC] Zomorodian, Afra and Carlsson, Gunnar. <em>Computing Persistent Homology</em>. Discrete &amp; Computational Geometry. 2005. DOI: 10.1007/s00454-004-1146-y. URL: <a class="reference external" href="https://doi.org/10.1007/s00454-004-1146-y">https://doi.org/10.1007/s00454-004-1146-y</a></p></li>
+<li><p>[zomorodian2005topology] Zomorodian, Afra J.. <em>Topology for Computing</em>. Cambridge University Press. 2005. DOI: 10.1017/CBO9780511546945. URL: <a class="reference external" href="https://doi.org/10.1017/CBO9780511546945">https://doi.org/10.1017/CBO9780511546945</a></p></li>
+<li><p>[salvador-fastdtw] Salvador, Stan and Chan, Philip. <em>Toward Accurate Dynamic Time Warping in Linear Time and Space</em>. Intelligent Data Analysis. 2007. URL: <a class="reference external" href="https://doi.org/10.3233/IDA-2007-11508">https://doi.org/10.3233/IDA-2007-11508</a></p></li>
+<li><p>[fastdtw-docs] FastDTW Developers. <em>FastDTW: A Python Implementation of Fast Dynamic Time Warping</em>. GitHub Repository. 2023</p></li>
+<li><p>[JL] Johnson, William B. and Lindenstrauss, Joram. <em>Extensions of Lipschitz mappings into a Hilbert space</em>. Contemporary Mathematics. 1984. DOI: 10.1090/conm/026. URL: <a class="reference external" href="https://doi.org/10.1090/conm/026">https://doi.org/10.1090/conm/026</a></p></li>
+<li><p>[annax] Annax Developers. <em>Annax: Approximate Nearest Neighbor Search with JAX</em>. GitHub Repository. 2023</p></li>
+<li><p>[umap] McInnes, Leland and Healy, John and Melville, James. <em>UMAP: Uniform Manifold Approximation and Projection</em>. Journal of Open Source Software. 2018. DOI: 10.21105/joss.00861. URL: <a class="reference external" href="https://doi.org/10.21105/joss.00861">https://doi.org/10.21105/joss.00861</a></p></li>
+<li><p>[pytorch] Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith. <em>PyTorch: An Imperative Style, High-Performance Deep Learning Library</em>. 2019</p></li>
+<li><p>[pykeops] Charlier, Benjamin and Feydy, Jean and Glaun{`e}s, Joan Alexis and Collin, Fran{{c}}ois-David and Durif, Ghislain. <em>Kernel operations on the GPU, with autodiff, without memory overflows</em>. Journal of Machine Learning Research. 2021. URL: <a class="reference external" href="http://jmlr.org/papers/v22/20-275.html">http://jmlr.org/papers/v22/20-275.html</a></p></li>
+<li><p>[cuvs] {RAPIDS cuVS Developers}. <em>cuVS: Vector search and clustering on the GPU</em>. GitHub Repository. 2026</p></li>
+<li><p>[chazal-persistence] Chazal, Fr{'e}d{'e}ric and de Silva, Vin and Oudot, Steve. <em>Persistence stability for geometric complexes</em>. Geometriae Dedicata. 2014. DOI: 10.1007/s10711-013-9937-z. URL: <a class="reference external" href="https://doi.org/10.1007/s10711-013-9937-z">https://doi.org/10.1007/s10711-013-9937-z</a></p></li>
+<li><p>[vandermaaten-tsne] van der Maaten, Laurens and Hinton, Geoffrey. <em>Visualizing data using t-SNE</em>. Journal of Machine Learning Research. 2008. URL: <a class="reference external" href="https://www.jmlr.org/papers/v9/vandermaaten08a.html">https://www.jmlr.org/papers/v9/vandermaaten08a.html</a></p></li>
+<li><p>[belkin-niyogi-laplacian] Belkin, Mikhail and Niyogi, Partha. <em>Laplacian Eigenmaps for dimensionality reduction and data representation</em>. Neural Computation. 2003. DOI: 10.1162/089976603321780317. URL: <a class="reference external" href="https://doi.org/10.1162/089976603321780317">https://doi.org/10.1162/089976603321780317</a></p></li>
+<li><p>[coifman-lafon-diffusion] Coifman, Ronald R. and Lafon, St{'e}phane. <em>Diffusion maps</em>. Applied and Computational Harmonic Analysis. 2006. DOI: 10.1016/j.acha.2006.04.006. URL: <a class="reference external" href="https://doi.org/10.1016/j.acha.2006.04.006">https://doi.org/10.1016/j.acha.2006.04.006</a></p></li>
+<li><p>[tenenbaum-isomap] Tenenbaum, Joshua B. and de Silva, Vin and Langford, John C.. <em>A global geometric framework for nonlinear dimensionality reduction</em>. Science. 2000. DOI: 10.1126/science.290.5500.2319. URL: <a class="reference external" href="https://doi.org/10.1126/science.290.5500.2319">https://doi.org/10.1126/science.290.5500.2319</a></p></li>
+<li><p>[optuna] Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori. <em>Optuna: A Next-generation Hyperparameter Optimization Framework</em>. 2019. DOI: 10.1145/3292500.3330701. URL: <a class="reference external" href="https://doi.org/10.1145/3292500.3330701">https://doi.org/10.1145/3292500.3330701</a></p></li>
+<li><p>[hyperopt] Bergstra, James and Yamins, Daniel and Cox, David D.. <em>Making a Science of Model Search: Hyperparameter Optimization in Hundreds of Dimensions for Vision Architectures</em>. 2013. URL: <a class="reference external" href="https://proceedings.mlr.press/v28/bergstra13.html">https://proceedings.mlr.press/v28/bergstra13.html</a></p></li>
+</ul>
+</section>
+<section id="blobs-dataset-metrics">
+<h1>Blobs: Dataset Metrics<a class="headerlink" href="#blobs-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id25">
+<a class="reference internal image-reference" href="_images/blobs-time.png"><img alt="_images/blobs-time.png" src="_images/blobs-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id25" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id26">
+<a class="reference internal image-reference" href="_images/blobs-stress.png"><img alt="_images/blobs-stress.png" src="_images/blobs-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id26" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id27">
+<a class="reference internal image-reference" href="_images/blobs-neighborhood.png"><img alt="_images/blobs-neighborhood.png" src="_images/blobs-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id27" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id28">
+<a class="reference internal image-reference" href="_images/blobs-context.png"><img alt="_images/blobs-context.png" src="_images/blobs-context.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">SVM context score</span><a class="headerlink" href="#id28" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id29">
+<a class="reference internal image-reference" href="_images/blobs-persistence-dim-0.png"><img alt="_images/blobs-persistence-dim-0.png" src="_images/blobs-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id29" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id30">
+<a class="reference internal image-reference" href="_images/blobs-persistence-dim-1.png"><img alt="_images/blobs-persistence-dim-1.png" src="_images/blobs-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id30" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 7.</strong> “Blobs” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+<section id="mnist-digits-dataset-metrics">
+<h1>MNIST Digits: Dataset Metrics<a class="headerlink" href="#mnist-digits-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id31">
+<a class="reference internal image-reference" href="_images/mnist-time.png"><img alt="_images/mnist-time.png" src="_images/mnist-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id31" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id32">
+<a class="reference internal image-reference" href="_images/mnist-stress.png"><img alt="_images/mnist-stress.png" src="_images/mnist-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id32" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id33">
+<a class="reference internal image-reference" href="_images/mnist-neighborhood.png"><img alt="_images/mnist-neighborhood.png" src="_images/mnist-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id33" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id34">
+<a class="reference internal image-reference" href="_images/mnist-context.png"><img alt="_images/mnist-context.png" src="_images/mnist-context.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">SVM context score</span><a class="headerlink" href="#id34" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id35">
+<a class="reference internal image-reference" href="_images/mnist-persistence-dim-0.png"><img alt="_images/mnist-persistence-dim-0.png" src="_images/mnist-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id35" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id36">
+<a class="reference internal image-reference" href="_images/mnist-persistence-dim-1.png"><img alt="_images/mnist-persistence-dim-1.png" src="_images/mnist-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id36" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 8.</strong> “MNIST Digits” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+<section id="disk-uniform-dataset-metrics">
+<h1>Disk Uniform: Dataset Metrics<a class="headerlink" href="#disk-uniform-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id37">
+<a class="reference internal image-reference" href="_images/disk-time.png"><img alt="_images/disk-time.png" src="_images/disk-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id37" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id38">
+<a class="reference internal image-reference" href="_images/disk-stress.png"><img alt="_images/disk-stress.png" src="_images/disk-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id38" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id39">
+<a class="reference internal image-reference" href="_images/disk-neighborhood.png"><img alt="_images/disk-neighborhood.png" src="_images/disk-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id39" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id40">
+<a class="reference internal image-reference" href="_images/disk-persistence-dim-0.png"><img alt="_images/disk-persistence-dim-0.png" src="_images/disk-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id40" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id41">
+<a class="reference internal image-reference" href="_images/disk-persistence-dim-1.png"><img alt="_images/disk-persistence-dim-1.png" src="_images/disk-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id41" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 9.</strong> “Disk Uniform” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+<section id="half-moons-dataset-metrics">
+<h1>Half-moons: Dataset Metrics<a class="headerlink" href="#half-moons-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id42">
+<a class="reference internal image-reference" href="_images/moons-time.png"><img alt="_images/moons-time.png" src="_images/moons-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id42" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id43">
+<a class="reference internal image-reference" href="_images/moons-stress.png"><img alt="_images/moons-stress.png" src="_images/moons-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id43" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id44">
+<a class="reference internal image-reference" href="_images/moons-neighborhood.png"><img alt="_images/moons-neighborhood.png" src="_images/moons-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id44" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id45">
+<a class="reference internal image-reference" href="_images/moons-context.png"><img alt="_images/moons-context.png" src="_images/moons-context.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">SVM context score</span><a class="headerlink" href="#id45" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id46">
+<a class="reference internal image-reference" href="_images/moons-persistence-dim-0.png"><img alt="_images/moons-persistence-dim-0.png" src="_images/moons-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id46" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id47">
+<a class="reference internal image-reference" href="_images/moons-persistence-dim-1.png"><img alt="_images/moons-persistence-dim-1.png" src="_images/moons-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id47" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 10.</strong> “Half-moons” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+<section id="levine-13-dataset-metrics">
+<h1>Levine 13: Dataset Metrics<a class="headerlink" href="#levine-13-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id48">
+<a class="reference internal image-reference" href="_images/levine13-time.png"><img alt="_images/levine13-time.png" src="_images/levine13-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id48" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id49">
+<a class="reference internal image-reference" href="_images/levine13-stress.png"><img alt="_images/levine13-stress.png" src="_images/levine13-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id49" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id50">
+<a class="reference internal image-reference" href="_images/levine13-neighborhood.png"><img alt="_images/levine13-neighborhood.png" src="_images/levine13-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id50" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id51">
+<a class="reference internal image-reference" href="_images/levine13-context.png"><img alt="_images/levine13-context.png" src="_images/levine13-context.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">SVM context score</span><a class="headerlink" href="#id51" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id52">
+<a class="reference internal image-reference" href="_images/levine13-persistence-dim-0.png"><img alt="_images/levine13-persistence-dim-0.png" src="_images/levine13-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id52" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id53">
+<a class="reference internal image-reference" href="_images/levine13-persistence-dim-1.png"><img alt="_images/levine13-persistence-dim-1.png" src="_images/levine13-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id53" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 11.</strong> “Levine 13” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+<section id="levine-32-dataset-metrics">
+<h1>Levine 32: Dataset Metrics<a class="headerlink" href="#levine-32-dataset-metrics" title="Link to this heading">¶</a></h1>
+<div class="manuscript-figure docutils container">
+<figure class="align-default" id="id54">
+<a class="reference internal image-reference" href="_images/levine32-time.png"><img alt="_images/levine32-time.png" src="_images/levine32-time.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Runtime (seconds)</span><a class="headerlink" href="#id54" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id55">
+<a class="reference internal image-reference" href="_images/levine32-stress.png"><img alt="_images/levine32-stress.png" src="_images/levine32-stress.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Embedding stress</span><a class="headerlink" href="#id55" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id56">
+<a class="reference internal image-reference" href="_images/levine32-neighborhood.png"><img alt="_images/levine32-neighborhood.png" src="_images/levine32-neighborhood.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Neighborhood preservation</span><a class="headerlink" href="#id56" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id57">
+<a class="reference internal image-reference" href="_images/levine32-context.png"><img alt="_images/levine32-context.png" src="_images/levine32-context.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">SVM context score</span><a class="headerlink" href="#id57" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id58">
+<a class="reference internal image-reference" href="_images/levine32-persistence-dim-0.png"><img alt="_images/levine32-persistence-dim-0.png" src="_images/levine32-persistence-dim-0.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(0\)</span></span><a class="headerlink" href="#id58" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id59">
+<a class="reference internal image-reference" href="_images/levine32-persistence-dim-1.png"><img alt="_images/levine32-persistence-dim-1.png" src="_images/levine32-persistence-dim-1.png" style="width: 48%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">DTW Betti discrepancy: dimension <span class="math notranslate nohighlight">\(1\)</span></span><a class="headerlink" href="#id59" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Figure 12.</strong> “Levine 32” dataset metrics comparison. Error bars show sample standard deviations.</p>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Homological Stability Reproducibility</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dimensionality reduction for homological stability and global structure preservation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#main-methods">Main methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#quantitative-measures">Quantitative measures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#general-workflow">General workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#benchmarking">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#conclusions">Conclusions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#funding">Funding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#author-contributions">Author Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#blobs-dataset-metrics">Blobs: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#mnist-digits-dataset-metrics">MNIST Digits: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#disk-uniform-dataset-metrics">Disk Uniform: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#half-moons-dataset-metrics">Half-moons: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#levine-13-dataset-metrics">Levine 13: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#levine-32-dataset-metrics">Levine 32: Dataset Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Figure Gallery</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Homological Stability Reproducibility</a></li>
+      <li>Next: <a href="figures.html" title="next chapter">Figure Gallery</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/paper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

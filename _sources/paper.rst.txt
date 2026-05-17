@@ -1,0 +1,789 @@
+Dimensionality reduction for homological stability and global structure preservation
+====================================================================================
+
+Alexander Kolpakov; Igor Rivin
+
+University of Austin, Austin TX, USA; ``akolpakov@uaustin.org``
+
+Temple University, Philadelphia PA, USA; ``rivin@temple.edu``
+
+Abstract
+--------
+
+We propose DiRe, a force-directed dimensionality reduction framework designed to preserve global structure and homological features while remaining practical on modern hardware. The computations in this paper use DiRe-RAPIDS, while DiRe-JAX is the earlier implementation associated with the JOSS publication. The method combines an initial embedding with a graph-based layout optimization and evaluates the resulting low-dimensional representation using local distortion, context preservation, and persistent homology measures. Across the benchmark suite considered here, DiRe provides a complementary tradeoff to UMAP and tSNE: it is designed less as a purely local visualization heuristic and more as a framework for embeddings whose large-scale geometry can be quantified through Betti curves and persistence diagrams.
+
+Introduction
+============
+
+Traditional dimensionality reduction techniques such as UMAP and tSNE [umap, vandermaaten-tsne] are widely used for visualizing high-dimensional data in lower-dimensional spaces, usually 2D and sometimes 3D. Other uses include dimensionality reduction to other, possibly higher and thus non-visual dimensions, for the subsequent use of classifiers such as SVMs.
+
+However, these methods often struggle with scalability, interpretability, and preservation of global data structures. UMAP, while fast and scalable, may overemphasize local structures at the expense of global data relationships [pachter]. And tSNE, while known for producing high-quality visualizations, may be computationally expensive and sensitive to hyperparameter tuning [kobak2019art].
+
+DiRe addresses these challenges by combining an initial low-dimensional embedding with a force-directed layout driven by the :math:`k`-nearest-neighbor graph of the original data. The goal is not to replace every use of UMAP or tSNE, but to provide an alternative whose optimization and diagnostics are explicitly tied to preservation of large-scale and homological structure.
+
+The computational results in this manuscript use DiRe-RAPIDS [dire-rapids]. Its GPU stack includes PyTorch [pytorch], optional PyKeOps acceleration [pykeops], and RAPIDS/cuVS components [cuml, cuvs]; DiRe-JAX is the earlier implementation described in [dire-joss].
+
+The contribution of this paper is therefore twofold. First, it describes the algorithmic framework and the homological stability motivation behind DiRe. Second, it evaluates the framework with metrics that measure local distortion, classification context, and persistent homology of the original data and its embedding.
+
+Relation to existing methods
+----------------------------
+
+tSNE and UMAP both build low-dimensional embeddings by matching neighborhood information, but they differ in objective functions, kernels, and optimization details [vandermaaten-tsne, kobak2019art, umap]. DiRe uses the :math:`k`\ NN graph in a different role: it supplies the attraction graph for a force-directed layout after an explicit initial embedding. PCA and random projections provide analytical reference points because their distortion can be bounded directly in terms of variance or Johnson-Lindenstrauss distortion, while spectral methods use graph operators related to the same neighborhood graph [belkin-niyogi-laplacian, coifman-lafon-diffusion]. DiRe is closest in spirit to graph layout methods, but the evaluation criterion emphasized here is topological: we compare persistence diagrams and Betti curves of the high-dimensional point cloud with those of the resulting embedding.
+
+Main methods
+============
+
+Let :math:`X = \{x_1,\ldots,x_n\} \subset \mathbb{R}^D` be the input point cloud, represented in practice as an :math:`n \times D` numerical array. DiRe performs the following main steps:
+
+#. **Capturing dataset topology:** Create the kNN graph of :math:`X`, say :math:`\Gamma`, for a given number of neighbors :math:`k` (:math:`=` ``n_neighbors``). DiRe-RAPIDS can use PyTorch, PyKeOps, or RAPIDS/cuVS backends for this step, depending on data size and available hardware. Other libraries like FAISS [faiss] may also be used for nearest-neighbor search.
+#. **Initial dimension reduction:** Produce :math:`Y \subset \mathbb{R}^d`, the initial embedding of :math:`X`, with :math:`d \ll D` (usually :math:`d=2` or :math:`3`) specified by ``dimension``. The available initial embedding methods include ``random`` (random projections from the Johnson-Lindenstrauss lemma), ``spectral`` (using the kNN graph :math:`\Gamma` to construct a weighted Laplacian, optionally with a similarity kernel), and ``pca`` (classical or kernel-based).
+#. **Layout optimization:** Adjust the lower-dimensional embedding :math:`Y` to conform to the similarity structure of the higher-dimensional data :math:`X`. This is done by using a force layout in which the role of "forces" is played by probability kernels; their scale is controlled by parameters such as ``min_dist`` and ``spread``.
+
+In DiRe-RAPIDS, users can instantiate PyTorch, memory-efficient PyTorch/PyKeOps, or cuVS backends directly; alternatively, ``create_dire`` selects an implementation according to available dependencies and hardware. The initial embedding and optimized layout are exposed by the software so that the effect of the layout step can be studied separately.
+
+The initial embedding can be one of the following three choices, each of which we discuss in more detail.
+
+Random Projection embedding
+---------------------------
+
+This embedding is based on the Johnson-Lindenstrauss lemma [JL].
+
+**Johnson-Lindenstrauss Lemma (Probabilistic Form)**
+
+Given :math:`0 < \epsilon < 1` and an integer :math:`n`, let :math:`X` be a set of :math:`n` points in :math:`\mathbb{R}^d`. For a random linear map :math:`f: \mathbb{R}^d \to \mathbb{R}^k` where :math:`k = O\left(\frac{\log n}{\epsilon^2}\right)`, with high probability, for all :math:`u, v \in X`,
+
+.. math::
+
+   (1 - \epsilon) \|u - v\|^2 \leq \|f(u) - f(v)\|^2 \leq (1 + \epsilon) \|u - v\|^2.
+
+The value
+
+.. math::
+
+   \text{dist}(f) = \frac{\|f(u) - f(v)\|}{\|u - v\|}
+
+is called the *distortion* of :math:`f`, and is expected to be close to :math:`1.0` for a good quality embedding.
+
+The Johnson-Lindenstrauss lemma says that a random projection from :math:`\mathbb{R}^d` to :math:`\mathbb{R}^k` has, with high probability, distortion close to :math:`1` when :math:`k` is sufficiently large relative to :math:`\log n`. This guarantee does not imply small distortion when :math:`k` is restricted to the visualization range (:math:`k=1, 2, 3`). The method is nevertheless simple and computationally inexpensive.
+
+The image of a projection :math:`p: \mathbb{R}^d \rightarrow \mathbb{R}^k` may be cluttered when :math:`k \ll d`. Indeed, the total variance of :math:`Y = p(X) \in \mathbb{R}^{n\times k}` may be much lower than the total variance of :math:`X \in \mathbb{R}^{n\times d}` unless the projection captures the dominant variance directions.
+
+Principal Component Analysis embedding
+--------------------------------------
+
+The discussion above motivates projections that preserve as much variance as possible. The classical method for this purpose is Principal Component Analysis.
+
+Assume that :math:`X` is centered, so that each column of :math:`X` has zero mean. Let its covariance matrix be :math:`\text{Cov}(X) = \frac{1}{n-1} X^t X`. PCA is computed from the singular value decomposition
+
+.. math::
+
+   X = U \, \Sigma \, W^t,
+
+where :math:`\Sigma` has :math:`k \ll d` dominant singular values :math:`\Sigma_k = \langle \sigma_1, \ldots, \sigma_k \rangle` with
+
+.. math::
+
+   \sum^k_{i=1} \sigma^2_i = (1 - \varepsilon)^2 \|X\|^2_F.
+
+Let :math:`\Sigma_k` be the rank :math:`k` truncation of :math:`\Sigma` preserving the dominant singular values above, and let :math:`U_k` and :math:`W_k` be the respective truncations of :math:`U` and :math:`W`. Then the rank :math:`k` approximation of :math:`X` is
+
+.. math::
+
+   \widehat{X} =  U_k\, \Sigma_k\, W^t_k
+
+and the PCA embedding of :math:`X` is
+
+.. math::
+
+   X_k = X\, W_k.
+
+If the dominant topological features of :math:`X` are represented in the leading :math:`k` principal directions, then the persistence diagrams of :math:`X` can be compared with those of the projected point cloud :math:`X_k`. This equality is exact when :math:`X` lies in an affine :math:`k`-dimensional subspace of :math:`\mathbb{R}^d`. More generally, stability of persistence diagrams gives the following bound [chazal-persistence]:
+
+.. math::
+
+   d_b(D(X), D(X_k)) = d_b(D(\widehat{X}W_k), D(XW_k)) \leq \|\widehat{X}W_k - XW_k\|_F = \|\widehat{X} - X\|_F = \varepsilon \|X\|_F.
+
+In this sense, PCA gives a useful reference case: the homological distortion is controlled by the low-rank approximation error when the retained coordinates capture the relevant geometry.
+
+Spectral Laplacian embedding
+----------------------------
+
+Spectral Laplacian embeddings are commonly used for manifold learning from local graph structure [tenenbaum-isomap, belkin-niyogi-laplacian]. Diffusion maps use related graph operators to organize data by diffusion geometry [coifman-lafon-diffusion]. Since the :math:`kNN`-graph :math:`\Gamma` of :math:`X` is already available in DiRe, a Laplacian embedding can be computed with standard graph methods.
+
+Force-directed layout
+---------------------
+
+After the initial embedding, DiRe applies an iterative force-directed layout in order to correlate the local structure of the embedding :math:`Y` with the local structure of the high-dimensional dataset :math:`X`. The forces of attraction and repulsion are given by simple distributions modeled after the :math:`t`-distributions of UMAP and tSNE.
+
+Namely, a simple density function
+
+.. math::
+
+   \varphi(x) = \frac{1}{1 + a\, \|x\|^{2b}}
+
+is fit to ``min_dist`` :math:`=\delta` and ``spread`` :math:`=\sigma` parameters, so that
+
+.. math::
+
+   \varphi(x) \approx 1.0
+
+within :math:`\|x\| < \delta`, and then decays exponentially as
+
+.. math::
+
+   \varphi(x) \approx \exp( - (\|x\| - \delta)/\sigma )
+
+outside of the :math:`\delta`-ball.
+
+Attraction forces are defined between points in :math:`Y` corresponding to :math:`kNN`-neighbors in :math:`\Gamma`, with magnitude
+
+.. math::
+
+   \varphi\left( \frac{1}{\|y_i - y_j\|} \right), \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \in \Gamma.
+
+All other pairs of points experience a repulsion force of magnitude
+
+.. math::
+
+   \varphi\left( \|y_i - y_j\| \right) \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \notin \Gamma.
+
+The layout is run for a prescribed iteration budget. Parameters such as ``n_neighbors``, ``min_dist``, ``spread``, backend choice, random seed, and floating-point precision affect the final embedding and are part of any reproducible specification. In applications these parameters can be tuned against a chosen validation criterion, for example by Bayesian optimization packages such as Hyperopt [hyperopt] or Optuna [optuna]. In the benchmarks below we instead use fixed, reported protocol choices so that the comparison is reproducible and not dataset-specific hyperparameter search.
+
+Quantitative measures
+=====================
+
+We use several quantitative measures to assess the quality of DiRe embeddings, and to compare the algorithmic framework to other embedding techniques available, such as tSNE in its cuML implementation, as well as UMAP in both its original and cuML implementations.
+
+Measuring the global structure
+------------------------------
+
+We use several types of measures for persistence homology. One type is related to *persistence diagrams*, and the other is related to the *Betti curves* derived from them. Although basically equivalent, these two types of persistence homology representation happen to be useful in different ways.
+
+Persistence diagrams
+~~~~~~~~~~~~~~~~~~~~
+
+Persistence diagrams are classical representations of the "birth-death" pairs in persistence homology. The reader may find more information in [ZC, zomorodian2005topology], while we give a brief description below.
+
+The *Vietoris–-Rips complex* at scale :math:`t \geq 0`, denoted :math:`\operatorname{VR}_t(X)`, is the simplicial complex defined as
+
+.. math::
+
+   \operatorname{VR}_t(X) = \left\{ \sigma \subseteq X \mid \|x_i - x_j\| \leq t \text{ for all } x_i, x_j \in \sigma \right\},
+
+which means a simplex :math:`\sigma` is contained in :math:`\operatorname{VR}_t(X)` if all its vertices are pairwise within distance :math:`t`.
+
+Consider a non-decreasing sequence of scales :math:`\{t_i\}_{i \in I}`, where :math:`I` is an index set (often :math:`I = \mathbb{R}_{\geq 0}`), generating a *filtration* of Rips complexes:
+
+.. math::
+
+   \operatorname{VR}_{t_0}(X) \subseteq \operatorname{VR}_{t_1}(X) \subseteq \operatorname{VR}_{t_2}(X) \subseteq \cdots.
+
+For each :math:`k \geq 0` and scale :math:`t_i`, compute the :math:`k`-th homology group :math:`H_k\left( \operatorname{VR}_{t_i}(X); \mathbb{F} \right)` with coefficients in a field :math:`\mathbb{F}` (commonly :math:`\mathbb{F} = \mathbb{Z}/2\mathbb{Z}`, or another finite field). The inclusion maps induce homomorphisms between homology groups:
+
+.. math::
+
+   f_{s,t}^k: H_k\left( \operatorname{VR}_{s}(X); \mathbb{F} \right) \rightarrow H_k\left( \operatorname{VR}_{t}(X); \mathbb{F} \right), \quad \text{for } s \leq t.
+
+A persistent :math:`k`-dimensional homology class :math:`\alpha` is an element of :math:`H_k\left( \operatorname{VR}_{s}(X); \mathbb{F} \right)` that persists across multiple scales. The *birth time* :math:`b_\alpha` and *death time* :math:`d_\alpha` of :math:`\alpha` are defined as
+
+* :math:`b_\alpha`: the smallest :math:`t` where :math:`\alpha \neq 0` appears in :math:`H_k\left( \operatorname{VR}_{t}(X); \mathbb{F} \right)`;
+* :math:`d_\alpha`: the smallest :math:`t > b_\alpha` where :math:`f_{b_\alpha, t}^k(\alpha) = 0`.
+
+For homology classes that persist indefinitely, we set their death time to infinity: :math:`d_\alpha = \infty`.
+
+The *persistence diagram* :math:`D_k` is the (multi-)set of points :math:`(b_\alpha, d_\alpha)` in the extended plane :math:`\mathbb{R}^2 \cup \{\infty\}`:
+
+.. math::
+
+   D_k(X) = \left\{ (b_\alpha, d_\alpha) \in (\mathbb{R} \times (\mathbb{R} \cup \{\infty\})) \mid \alpha \in H_k(X) \text{ with birth } b_\alpha \text{ and death } d_\alpha \right\},
+
+where we use :math:`H_k(X)` to denote the :math:`k`-dimensional persistence homology group defined above.
+
+Features with longer lifespans :math:`d_\alpha - b_\alpha` are considered topologically significant. In particular, features with :math:`d_\alpha = \infty` represent persistent homological features that never disappear within the considered scale range, indicating essential topological structures of the space.
+
+The usual metrics between two diagrams :math:`D = D_k(X)` and :math:`D' = D_k(Y)` are the bottleneck and Wasserstein distances, cf. [persim-docs].
+
+Betti curves
+~~~~~~~~~~~~
+
+Betti curves mark the progression of the persistence Betti numbers with the filtration level increase. This representation was first studied in detail in [Giusti-et-al]. Let :math:`X` be a point cloud and :math:`\mathrm{Rips}_t(X)` be its Rips complex of level :math:`t \geq 0`. Then the :math:`k`-th Betti curve is
+
+.. math::
+
+   \beta_k(t) = \mathrm{rank}\, H_k(\mathrm{VR}_t(X)).
+
+Several metrics can be used to compare two Betti curves. We include distances that are insensitive to moderate reparametrisations of the filtration scale :math:`t`.
+
+The most common are the Dynamic Time Warp (DTW) distance [salvador-fastdtw, fastdtw-docs], Time Warp Edit Distance (TWED) [marteau-twed, pytwed-docs], and Earth Mover's Distance (EMD) [flamary-pot, ot-docs].
+
+Global structure preservation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let :math:`X \in \mathbb{R}^{n\times d}` be a set of :math:`n` vectors in :math:`\mathbb{R}^d` with :math:`kNN`-graph :math:`\Gamma`. Let :math:`Y = f(X) \in \mathbb{R}^{n\times k}` be its embedding. We measure standard distances between the corresponding persistence diagrams :math:`D^H_k = D_k(X)` and :math:`D^L_k = D_k(Y)` of higher-dimensional data and its lower-dimensional embedding, respectively. In particular, we use the bottleneck distance :math:`d_b(D^H_k, D^L_k)` and Wasserstein distance :math:`d_W(D^H_k, D^L_k)` for :math:`k=0, 1`, since the reported embeddings are :math:`2`-dimensional.
+
+We use the normalized version of :math:`d_b` and :math:`d_W`, where the distance is averaged over paired subsamples of points from :math:`X` and :math:`Y` for computational feasibility. The subsampling seed and sample size are part of the benchmark configuration.
+
+We also employ the Betti curves :math:`\beta^H(t)` for the higher-dimensional data and :math:`\beta^L(t)` for the lower-dimensional embedding. The distances computed between :math:`\beta^H(t)` and :math:`\beta^L(t)` are DTW, TWED, and EMD.
+
+We compute normalized versions by averaging over subsamples. For EMD, the curves are first normalized to unit mass and the distance is then rescaled. If :math:`\tau` is the normalizing factor, we compute :math:`\max\{\tau, \tau^{-1}\} \cdot d_{EMD}(\beta^H, \tau\cdot\beta^L)`.
+
+Measuring the local structure
+-----------------------------
+
+We use two local measures: embedding stress and neighborhood preservation ratio.
+
+Embedding stress
+~~~~~~~~~~~~~~~~
+
+Let :math:`X \in \mathbb{R}^{n\times d}` be a set of :math:`n` vectors in :math:`\mathbb{R}^d` with :math:`kNN`-graph :math:`\Gamma`. Let :math:`Y = f(X) \in \mathbb{R}^{n\times k}` be its embedding. For each edge :math:`e = (x,y)` in :math:`\Gamma` we have its local embedding stress measured by
+
+.. math::
+
+   \lambda(e) = \left| 1 - \frac{\|x-y\|_2}{\|f(x) - f(y)\|_2}  \right|
+
+Let :math:`\Lambda = \Lambda(f, \Gamma) = (\lambda(e))_{e \in \text{edges}(\Gamma)}` be the sequence of local edge stresses. The total embedding stress of :math:`\Gamma` under :math:`f` is then computed as
+
+.. math::
+
+   \sigma(f, \Gamma) = \frac{\sqrt{\mathrm{Var}[ \Lambda]}}{\mathbb{E}[\Lambda]}.
+
+Note that :math:`\sigma` is scale-invariant in the sense that if all edge lengths of :math:`\Gamma` are being rescaled under :math:`f`, then :math:`\sigma(f, \Gamma) = 0`, as there is no *relative* change of the internal metric of :math:`\Gamma`.
+
+Neighborhood preservation
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Given :math:`X` and its :math:`kNN` graph :math:`\Gamma_X := \Gamma`, let us consider :math:`Y = f(X)` and the :math:`kNN` graph :math:`\Gamma_Y` of :math:`Y`. The neighborhood preservation measure counts how many neighbours of a vertex :math:`x` in :math:`\Gamma_X` are mapped to neighbours of :math:`f(x)` in :math:`\Gamma_Y`. That is, let :math:`N_X(x)` be the neighbor indices for a vertex :math:`x` of :math:`\Gamma_X`. Let the vertex indices in :math:`Y` be inherited from :math:`X`, that is :math:`y_i = f(x_i)`, for :math:`x_i` a vertex in :math:`\Gamma_X`. Let :math:`N_Y(f(x))` be the neighbor indices for the embedded point :math:`f(x)` in :math:`\Gamma_Y`.
+
+Then the neighborhood preservation sequence of :math:`f` is given by
+
+.. math::
+
+   N(X, f) = \left( \frac{\# \bigl(N_X(x)\cap N_Y(f(x))\bigr)}{\# N_X(x)} \right)_{x \in X}.
+
+The neighborhood preservation index is then the pair
+
+.. math::
+
+   \nu(X, f) = \left( \mathbb{E}[N(X,f)], \sqrt{\mathrm{Var}[N(X,f)]} \right).
+
+We intentionally compute both the mean and standard deviation in order to see not only how well neighborhoods are preserved, but also how variable the loss of local structure is.
+
+In our numerical experiments, this quantity is interpreted together with stress and persistence metrics, since local nearest-neighbour agreement and global topological agreement need not rank the methods in the same way.
+
+Measuring context loss
+----------------------
+
+If :math:`X` is a labeled set of data points, then its *context* is the mutual position, both geometric and topological, of its labeled subsets. A useful lower-dimensional embedding should preserve enough of this context to remain informative about the high-dimensional relationships in :math:`X`.
+
+Linear SVM classifier accuracy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If :math:`X` is labeled, we compare the accuracy of a linear Support Vector Machine trained and tested on :math:`X` with the corresponding accuracy for :math:`Y`. This provides a simple measure of whether the embedding changes the linear separability of labeled subsets.
+
+Thus, we expect the accuracy :math:`\alpha_X` of an SVM classifier trained and tested on :math:`X` to be close to that of one trained and tested on :math:`Y`, denoted :math:`\alpha_Y`. The SVM context loss is defined by
+
+.. math::
+
+   \kappa_{SVM} = \log \min\left\{ \frac{\alpha_X}{\alpha_Y}, \frac{\alpha_Y}{\alpha_X} \right\}
+
+A substantial change in accuracy indicates that the embedding has changed the linear separability of labeled subsets.
+
+:math:`kNN` classifier accuracy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We also compare the accuracy of a :math:`kNN` classifier trained and tested on :math:`X` to that of one trained and tested on :math:`Y`. This measures whether local class neighborhoods are preserved by the embedding.
+
+Let :math:`\alpha_X` be the accuracy of a :math:`kNN` classifier trained and tested on :math:`X`, and let :math:`\alpha_Y` be the accuracy of a :math:`kNN` classifier trained and tested on :math:`Y`. The :math:`kNN` context loss is then defined as
+
+.. math::
+
+   \kappa_{kNN} = \log \frac{\alpha_Y}{\alpha_X}.
+
+General workflow
+================
+
+DiRe follows a streamlined workflow that is designed for ease of use and integration into existing data analysis pipelines.
+
+#. **Data Preprocessing:** DiRe does not prescribe a universal preprocessing pipeline. Whether the data has to be normalized, standardized, or processed via some transformation for variance reduction (e.g. :math:`\log`- or :math:`\sinh^{-1}`-transform) depends on the dataset and scientific question. The benchmark suite reports preprocessing choices explicitly; for single-cell datasets, metadata columns are treated as labels or covariates rather than expression features unless stated otherwise.
+#. **Data embedding:** Performed according to the steps described in the previous section (cf. Methods).
+#. **Integration and Export:** DiRe-RAPIDS is designed to be integrated into larger machine learning workflows. It exposes a ``fit_transform`` interface, backend selection utilities, memory-efficient variants, and metric utilities for comparing embeddings.
+#. **Embedding metrics:** The metrics described above make the final embedding quantitatively comparable across methods and parameter choices, and can also be used as objectives for hyperparameter optimization.
+
+Benchmarking
+============
+
+A collection of benchmarks is available in the DiRe-RAPIDS repository [dire-rapids], some of which are given below. We concentrate on the main differences between DiRe, tSNE, and UMAP. The benchmark protocol uses DiRe-RAPIDS for DiRe, cuML implementations of tSNE and UMAP for GPU baselines [cuml], and the original UMAP implementation by McInnes et al. as a CPU reference implementation [umap-git, umap]. Runtime comparisons therefore report backend and hardware explicitly; original ``umap-learn`` runtimes are not interpreted as GPU performance.
+
+Benchmark protocol
+------------------
+
+All benchmark figures in this manuscript are regenerated from the same benchmark runner and archived run logs. For each dataset and method we record the dataset source, number of points, ambient dimension, preprocessing, random seed, backend, wall-clock ``fit_transform`` runtime, and the local, context, and persistence metrics used below. The scatter plots use a single canonical seed, while non-topological metric plots report the mean over seeded runs, with error bars equal to the sample standard deviation. Persistent homology metrics are computed on paired subsamples of the high-dimensional data and embedding; the subsample seed and fraction are part of the benchmark configuration and are implemented in the released benchmark runner. The number of repeats contributing to each plotted metric is recorded in the JSON logs. The Lambda Labs instance used for these calculations is an NVIDIA A10 instance in the ``gpu_1x_a10`` class; the exact driver, CUDA, and package versions are recorded at runtime.
+
+Dataset: Blobs
+--------------
+
+The 2D embeddings of the blobs dataset are given in Fig. 1. The dataset has :math:`10`\ K points, 12 Gaussian clusters, and ambient dimension :math:`1000`. It is primarily a sanity check: under appropriate parameters, all methods should recover the cluster structure.
+
+The key metrics are given in Appendix Blobs: Dataset Metrics. We compare the visual embedding, local metrics, and persistence metrics, since these criteria capture different aspects of the output.
+
+The local metrics can rank the methods differently from the global metrics, which is expected because stress and neighborhood preservation measure local metric distortion rather than cluster-level topology.
+
+The average neighborhood preservation score should not be interpreted as a complete quality measure. Even simple dimension reductions can change nearest-neighbor identities while preserving larger clusters or connected components. For example, the planar point cloud :math:`X_k = \{x_n = (1/n, n) : n=1,\ldots,k\}` has :math:`x_k` as the point farthest from the origin, while its projection to the horizontal axis is closest to :math:`0`.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/blobs-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/blobs-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/blobs-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/blobs-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 1.** "Blobs" dataset embeddings
+
+Dataset: MNIST Digits
+---------------------
+
+MNIST Digits provides a labeled image benchmark with well known class structure. This benchmark compares whether the methods preserve digit classes, transitions between visually similar digits, and the persistent homology summaries of the high-dimensional data.
+
+The key metrics are given in Appendix MNIST Digits: Dataset Metrics. In this dataset, visual cluster separation, classifier context, and persistence distances need not induce the same ranking, so these criteria are reported separately.
+
+Even when all methods reasonably preserve labeled context, the SVM and kNN context scores can distinguish linear separability from local class consistency.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/mnist-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/mnist-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/mnist-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/mnist-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 2.** "MNIST Digits" dataset embeddings
+
+Dataset: Disk Uniform
+---------------------
+
+Here we embed a 2D disk with points uniformly distributed in it. Since the input already has a simple low-dimensional geometry, this benchmark tests whether a method unnecessarily distorts connectedness, density, or boundary shape.
+
+A similar family of tests can be run on a sphere and an ellipsoid in 3D with uniformly distributed points. See the DiRe-RAPIDS repository for additional datasets [dire-rapids].
+
+The metrics are given in Appendix Disk Uniform: Dataset Metrics. We treat persistence metrics and local distortion metrics as complementary: a method may preserve nearest neighbors while changing the global shape of this simple input.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/disk-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/disk-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/disk-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/disk-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 3.** "Disk Uniform" dataset embeddings
+
+Dataset: Half-moons
+-------------------
+
+The half-moons dataset tests whether a method preserves the non-linear relation between two labeled components. Since the input classes are not linearly separable, a two-dimensional embedding that makes them linearly separable may improve a downstream classifier while changing the original context. The context preservation score is reported in Appendix Half-moons: Dataset Metrics.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/moons-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/moons-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/moons-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/moons-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 4.** "Two Half-Moons" dataset embeddings
+
+We compare the embeddings against both context metrics and persistence metrics, rather than relying on visual inspection alone.
+
+Dataset: Levine 13
+------------------
+
+The Levine 13 CyTOF single-cell dataset serves as a biological benchmark in which preprocessing choices matter. In this benchmark, the expression channels are transformed with an inverse hyperbolic sine transform with cofactor 5; label and individual metadata columns are excluded from the feature matrix, and unassigned cells are removed.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/levine13-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/levine13-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/levine13-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/levine13-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 5.** "Levine 13" dataset embeddings
+
+We report persistence and context metrics separately, since biological labels, local neighborhoods, and topological summaries need not agree perfectly.
+
+More benchmarking information is available in Appendix Levine 13: Dataset Metrics.
+
+Dataset: Levine 32
+------------------
+
+The Levine 32 CyTOF dataset is handled with particular care because patient, batch, or other metadata columns can dominate an embedding if they are inadvertently included as numerical features. The same preprocessing protocol is used as for Levine 13: expression channels are arcsinh-transformed with cofactor 5, label and individual metadata columns are excluded from the feature matrix, and unassigned cells are removed.
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/embeddings/levine32-dire-rapids.png
+      :width: 48%
+
+      DiRe-RAPIDS
+
+   .. figure:: _static/paper/pics/embeddings/levine32-tsne.png
+      :width: 48%
+
+      cuML tSNE
+
+   .. figure:: _static/paper/pics/embeddings/levine32-cuml-umap.png
+      :width: 48%
+
+      cuML UMAP
+
+   .. figure:: _static/paper/pics/embeddings/levine32-umap.png
+      :width: 48%
+
+      Original UMAP
+
+   **Figure 6.** "Levine 32" dataset embeddings
+
+More benchmarking data is available in Appendix Levine 32: Dataset Metrics.
+
+Conclusions
+===========
+
+A new dimensionality reduction framework, called ``DiRe``, has been developed with an explicit emphasis on preserving and measuring the dataset's homological structure. The latter is quantified by persistent homology and expressed via persistence diagrams or Betti curves. The benchmarks and metrics provided give evidence that DiRe can preserve global structure in cases where purely local criteria are insufficient, while also showing that no single metric captures every scientifically relevant aspect of an embedding.
+
+The numerical experiments in this manuscript use DiRe-RAPIDS [dire-rapids]; the earlier DiRe-JAX implementation remains available from GitHub [dire-github] and is described in the JOSS publication [dire-joss].
+
+The benchmark logs, archived embedding images, plotting scripts, manuscript build scripts, and Sphinx version of this manuscript are available in a separate reproducibility repository [homological-stability-repro]. The DiRe implementation used by those scripts is DiRe-RAPIDS [dire-rapids]. GPU acceleration is recommended for rerunning the largest datasets and for runtime comparisons against cuML baselines.
+
+Funding
+=======
+
+This work is supported by the Google Cloud Research Award number GCP19980904. The computational benchmarks were run in part on Lambda Labs GPU infrastructure; we thank Lambda Labs for supporting this work with access to GPU computing resources.
+
+Author Contributions
+====================
+
+A.K. and I.R. developed the necessary theoretical background and main algorithm. A.K. produced and prepared figures. All authors reviewed the manuscript.
+
+References
+==========
+
+* [kobak2019art] Kobak, Dmitry and Berens, Philipp. *The art of using t-SNE for single-cell transcriptomics*. Nature Communications. 2019. DOI: 10.1038/s41467-019-13056-x. URL: https://doi.org/10.1038/s41467-019-13056-x
+* [pachter] Chari, Tara and Pachter, Lior. *The specious art of single-cell genomics*. PLoS Computational Biology. 2023. DOI: 10.1371/journal.pcbi.1011288. URL: https://doi.org/10.1371/journal.pcbi.1011288
+* [dire-joss] Kolpakov, Alexander and Rivin, Igor. *DiRe- JAX: A JAX based Dimensionality Reduction Algorithm for Large-scale Data*. Journal of Open Source Software. 2025. URL: https://doi.org/10.21105/joss.08264
+* [faiss] Matthijs Douze and Alexandr Guzhva and Chengqi Deng and Jeff Johnson and Gergely Szilvasy and Pierre-Emmanuel Mazaré and Maria Lomeli and Lucas Hosseini and Hervé Jégou. *The {FAISS} library*. 2024
+* [Giusti-et-al] Giusti, Chad and Ghrist, Robert and Bassett, Danielle S.. *Two’s company, three (or more) is a simplex*. Journal of Computational Neuroscience. 2016. DOI: 10.1007/s10827-016-0608-6. URL: https://doi.org/10.1007/s10827-016-0608-6
+* [cuml] {R}apids.ai cu{ML} {D}evelopers. *cu{ML} - {GPU} {M}achine {L}earning {A}lgorithms*. GitHub Repository. 2025
+* [umap-git] {UMAP} Developers. *Uniform Manifold Approximation and Projection {(UMAP)}*. GitHub Repository. 2025
+* [persim-docs] {Persim Developers}. *Persim: Distances and representations of persistence diagrams*. GitHub Repository. 2024
+* [pytwed-docs] Marcus Vo and Jonathan Zumer. *PyTWED: Python wrapper for Time Warped Edit Distance*. GitHub Repository. 2021
+* [marteau-twed] Marteau, Pierre-François. *Time Warp Edit Distance with Stiffness Adjustment for Time Series Matching*. IEEE Transactions on Pattern Analysis and Machine Intelligence. 2009. DOI: 10.1109/TPAMI.2008.76. URL: https://doi.org/10.1109/TPAMI.2008.76
+* [dire-github] Alexander Kolpakov and Igor Rivin. *DiRe: Dimensionality Reducer*. GitHub Repository. 2025
+* [dire-rapids] Alexander Kolpakov and Igor Rivin. *DiRe-RAPIDS: PyTorch and RAPIDS accelerated dimensionality reduction*. GitHub Repository. 2026
+* [homological-stability-repro] Alexander Kolpakov and Igor Rivin. *Homological stability reproducibility package*. GitHub Repository. 2026
+* [dire-arxiv] Alexander Kolpakov and Igor Rivin. *{DiRe-JAX: A JAX based Dimensionality Reduction Algorithm for Large-scale Data}*. 2025
+* [flamary-pot] Flamary, R{\'e}mi and Courty, Nicolas and Gramfort, Alexandre and Alaya, Mokhtar Z. and Boisbunon, Aur{\'e}lie and Chambon, Stanislas and Chapel, Laetitia and Corenflos, Adrien and Fatras, Kilian and Fournier, Nemo and Gautheron, Loris and Gayraud, Nathalie T.H. and Janati, Hicham and Rakotomamonjy, Alain and Redko, Ievgen and Rolet, Antoine and Schutz, Antony and Seguy, Vivien and Sutherland, Danica J. and Tavenard, Romain and Tong, Alexander and Vayer, Titouan. *POT: Python Optimal Transport*. Journal of Machine Learning Research. 2021. URL: http://jmlr.org/papers/v22/20-451.html
+* [ot-docs] {POT Developers}. *POT: Python Optimal Transport*. GitHub Repository. 2025
+* [ZC] Zomorodian, Afra and Carlsson, Gunnar. *Computing Persistent Homology*. Discrete & Computational Geometry. 2005. DOI: 10.1007/s00454-004-1146-y. URL: https://doi.org/10.1007/s00454-004-1146-y
+* [zomorodian2005topology] Zomorodian, Afra J.. *Topology for Computing*. Cambridge University Press. 2005. DOI: 10.1017/CBO9780511546945. URL: https://doi.org/10.1017/CBO9780511546945
+* [salvador-fastdtw] Salvador, Stan and Chan, Philip. *Toward Accurate Dynamic Time Warping in Linear Time and Space*. Intelligent Data Analysis. 2007. URL: https://doi.org/10.3233/IDA-2007-11508
+* [fastdtw-docs] FastDTW Developers. *FastDTW: A Python Implementation of Fast Dynamic Time Warping*. GitHub Repository. 2023
+* [JL] Johnson, William B. and Lindenstrauss, Joram. *Extensions of Lipschitz mappings into a Hilbert space*. Contemporary Mathematics. 1984. DOI: 10.1090/conm/026. URL: https://doi.org/10.1090/conm/026
+* [annax] Annax Developers. *Annax: Approximate Nearest Neighbor Search with JAX*. GitHub Repository. 2023
+* [umap] McInnes, Leland and Healy, John and Melville, James. *UMAP: Uniform Manifold Approximation and Projection*. Journal of Open Source Software. 2018. DOI: 10.21105/joss.00861. URL: https://doi.org/10.21105/joss.00861
+* [pytorch] Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith. *PyTorch: An Imperative Style, High-Performance Deep Learning Library*. 2019
+* [pykeops] Charlier, Benjamin and Feydy, Jean and Glaun{\`e}s, Joan Alexis and Collin, Fran{{c}}ois-David and Durif, Ghislain. *Kernel operations on the GPU, with autodiff, without memory overflows*. Journal of Machine Learning Research. 2021. URL: http://jmlr.org/papers/v22/20-275.html
+* [cuvs] {RAPIDS cuVS Developers}. *cuVS: Vector search and clustering on the GPU*. GitHub Repository. 2026
+* [chazal-persistence] Chazal, Fr{\'e}d{\'e}ric and de Silva, Vin and Oudot, Steve. *Persistence stability for geometric complexes*. Geometriae Dedicata. 2014. DOI: 10.1007/s10711-013-9937-z. URL: https://doi.org/10.1007/s10711-013-9937-z
+* [vandermaaten-tsne] van der Maaten, Laurens and Hinton, Geoffrey. *Visualizing data using t-SNE*. Journal of Machine Learning Research. 2008. URL: https://www.jmlr.org/papers/v9/vandermaaten08a.html
+* [belkin-niyogi-laplacian] Belkin, Mikhail and Niyogi, Partha. *Laplacian Eigenmaps for dimensionality reduction and data representation*. Neural Computation. 2003. DOI: 10.1162/089976603321780317. URL: https://doi.org/10.1162/089976603321780317
+* [coifman-lafon-diffusion] Coifman, Ronald R. and Lafon, St{\'e}phane. *Diffusion maps*. Applied and Computational Harmonic Analysis. 2006. DOI: 10.1016/j.acha.2006.04.006. URL: https://doi.org/10.1016/j.acha.2006.04.006
+* [tenenbaum-isomap] Tenenbaum, Joshua B. and de Silva, Vin and Langford, John C.. *A global geometric framework for nonlinear dimensionality reduction*. Science. 2000. DOI: 10.1126/science.290.5500.2319. URL: https://doi.org/10.1126/science.290.5500.2319
+* [optuna] Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori. *Optuna: A Next-generation Hyperparameter Optimization Framework*. 2019. DOI: 10.1145/3292500.3330701. URL: https://doi.org/10.1145/3292500.3330701
+* [hyperopt] Bergstra, James and Yamins, Daniel and Cox, David D.. *Making a Science of Model Search: Hyperparameter Optimization in Hundreds of Dimensions for Vision Architectures*. 2013. URL: https://proceedings.mlr.press/v28/bergstra13.html
+
+Blobs: Dataset Metrics
+======================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-context.png
+      :width: 48%
+
+      SVM context score
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/blobs_comparison/blobs-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 7.** "Blobs" dataset metrics comparison. Error bars show sample standard deviations.
+
+MNIST Digits: Dataset Metrics
+=============================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-context.png
+      :width: 48%
+
+      SVM context score
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/mnist_comparison/mnist-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 8.** "MNIST Digits" dataset metrics comparison. Error bars show sample standard deviations.
+
+Disk Uniform: Dataset Metrics
+=============================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/disk_comparison/disk-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/disk_comparison/disk-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/disk_comparison/disk-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/disk_comparison/disk-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/disk_comparison/disk-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 9.** "Disk Uniform" dataset metrics comparison. Error bars show sample standard deviations.
+
+Half-moons: Dataset Metrics
+===========================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-context.png
+      :width: 48%
+
+      SVM context score
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/moons_comparison/moons-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 10.** "Half-moons" dataset metrics comparison. Error bars show sample standard deviations.
+
+Levine 13: Dataset Metrics
+==========================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-context.png
+      :width: 48%
+
+      SVM context score
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/levine13_comparison/levine13-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 11.** "Levine 13" dataset metrics comparison. Error bars show sample standard deviations.
+
+Levine 32: Dataset Metrics
+==========================
+
+.. container:: manuscript-figure
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-time.png
+      :width: 48%
+
+      Runtime (seconds)
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-stress.png
+      :width: 48%
+
+      Embedding stress
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-neighborhood.png
+      :width: 48%
+
+      Neighborhood preservation
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-context.png
+      :width: 48%
+
+      SVM context score
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-persistence-dim-0.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`0`
+
+   .. figure:: _static/paper/pics/levine32_comparison/levine32-persistence-dim-1.png
+      :width: 48%
+
+      DTW Betti discrepancy: dimension :math:`1`
+
+   **Figure 12.** "Levine 32" dataset metrics comparison. Error bars show sample standard deviations.

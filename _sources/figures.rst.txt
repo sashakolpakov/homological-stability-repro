@@ -1,0 +1,233 @@
+Figure Gallery
+==============
+
+Embedding Figures
+-----------------
+
+blobs
+~~~~~
+
+.. image:: _static/paper/pics/embeddings/blobs-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/blobs-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/blobs-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/blobs-umap.png
+   :width: 48%
+
+
+mnist
+~~~~~
+
+.. image:: _static/paper/pics/embeddings/mnist-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/mnist-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/mnist-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/mnist-umap.png
+   :width: 48%
+
+
+disk
+~~~~
+
+.. image:: _static/paper/pics/embeddings/disk-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/disk-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/disk-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/disk-umap.png
+   :width: 48%
+
+
+moons
+~~~~~
+
+.. image:: _static/paper/pics/embeddings/moons-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/moons-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/moons-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/moons-umap.png
+   :width: 48%
+
+
+levine13
+~~~~~~~~
+
+.. image:: _static/paper/pics/embeddings/levine13-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine13-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine13-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine13-umap.png
+   :width: 48%
+
+
+levine32
+~~~~~~~~
+
+.. image:: _static/paper/pics/embeddings/levine32-dire-rapids.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine32-tsne.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine32-cuml-umap.png
+   :width: 48%
+
+.. image:: _static/paper/pics/embeddings/levine32-umap.png
+   :width: 48%
+
+
+Metric Figures
+--------------
+
+blobs
+~~~~~
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-context.png
+   :width: 32%
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/blobs_comparison/blobs-persistence-dim-1.png
+   :width: 32%
+
+
+mnist
+~~~~~
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-context.png
+   :width: 32%
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/mnist_comparison/mnist-persistence-dim-1.png
+   :width: 32%
+
+
+disk
+~~~~
+
+.. image:: _static/paper/pics/disk_comparison/disk-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/disk_comparison/disk-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/disk_comparison/disk-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/disk_comparison/disk-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/disk_comparison/disk-persistence-dim-1.png
+   :width: 32%
+
+
+moons
+~~~~~
+
+.. image:: _static/paper/pics/moons_comparison/moons-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/moons_comparison/moons-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/moons_comparison/moons-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/moons_comparison/moons-context.png
+   :width: 32%
+
+.. image:: _static/paper/pics/moons_comparison/moons-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/moons_comparison/moons-persistence-dim-1.png
+   :width: 32%
+
+
+levine13
+~~~~~~~~
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-context.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine13_comparison/levine13-persistence-dim-1.png
+   :width: 32%
+
+
+levine32
+~~~~~~~~
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-time.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-stress.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-neighborhood.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-context.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-persistence-dim-0.png
+   :width: 32%
+
+.. image:: _static/paper/pics/levine32_comparison/levine32-persistence-dim-1.png
+   :width: 32%
+
