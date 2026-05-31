@@ -103,6 +103,8 @@ make docker-benchmarks
 
 Fresh benchmark outputs are written to `data/fresh_benchmark_results` and packed into self-contained JSON logs in `data/fresh_json_logs` by default. The benchmark script uses one canonical seed for embedding pictures and repeated seeded runs for metric means and standard-deviation error bars. The default is `REPEATS=10`; override it on the `make` command if needed. Persistent-homology metrics are more expensive and default to `TOPOLOGY_REPEATS=1`; increase this only if you explicitly want repeated topology computations. Local and context metrics use `METRIC_SUBSAMPLE=0.1`. The topology pass is separate, uses the ripser backend, and uses `TOPOLOGY_SAMPLE_FRACTION=0.05` by default, recorded in each JSON log. The runner rejects topology sample fractions below `0.05`.
 
+MNIST loading first attempts OpenML (`mnist_784`). If OpenML times out or has another network failure, the benchmark loader automatically falls back to Hugging Face (`ylecun/mnist`, then `mnist`) and records the effective source in the JSON log.
+
 To render figures from those fresh JSON logs:
 
 ```bash

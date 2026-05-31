@@ -8,6 +8,7 @@ pillow>=10
 umap-learn>=0.5.9
 flowio>=1.4
 fastdtw>=0.3.4
+datasets>=3.0
 torch==2.11.0+cu128
 cuml-cu12>=26.2,<27
 cudf-cu12>=26.2,<27

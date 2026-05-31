@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import socket
 import subprocess
 import time
+import urllib.error
 import warnings
 from pathlib import Path
 
@@ -124,6 +126,29 @@ def take_subset(X, y, max_points, seed):
     return X[idx], None if y is None else y[idx]
 
 
+def fetch_mnist_openml():
+    ds = fetch_openml("mnist_784", version=1, as_frame=False, parser="auto")
+    X = ds.data.astype(np.float32) / 255.0
+    y = ds.target.astype(np.int32)
+    return X, y, "openml:mnist_784"
+
+
+def fetch_mnist_hf():
+    from datasets import load_dataset  # lazy import; optional fallback dependency
+
+    last_exc = None
+    # `mnist` can fail on some datasets/huggingface_hub combinations; prefer explicit namespace ids.
+    for repo in ("ylecun/mnist", "mnist"):
+        try:
+            hf = load_dataset(repo, split="train")
+            X = np.asarray(hf["image"], dtype=np.float32).reshape(-1, 28 * 28) / 255.0
+            y = np.asarray(hf["label"], dtype=np.int32)
+            return X, y, f"huggingface:{repo}(train)"
+        except Exception as exc:  # pylint: disable=broad-exception-caught
+            last_exc = exc
+    raise RuntimeError(f"Hugging Face MNIST fetch failed for all known repo ids: {last_exc}") from last_exc
+
+
 def load_dataset(name, max_points, seed):
     label_metadata = load_label_metadata()
     if name == "blobs":
@@ -147,12 +172,17 @@ def load_dataset(name, max_points, seed):
             "label_metadata": label_metadata.get(name, {}),
         }
     if name == "mnist":
-        ds = fetch_openml("mnist_784", version=1, as_frame=False, parser="auto")
-        X = ds.data.astype(np.float32) / 255.0
-        y = ds.target.astype(np.int32)
+        try:
+            X, y, source = fetch_mnist_openml()
+        except (urllib.error.URLError, TimeoutError, socket.timeout, OSError) as exc:
+            warnings.warn(
+                f"OpenML mnist_784 fetch failed ({type(exc).__name__}: {exc}); falling back to Hugging Face.",
+                RuntimeWarning,
+            )
+            X, y, source = fetch_mnist_hf()
         X, y = take_subset(X, y, max_points or 10_000, seed)
         return X, y, {
-            "source": "openml:mnist_784",
+            "source": source,
             "n_samples": len(X),
             "n_features": X.shape[1],
             "preprocessing": "scaled to [0,1]",
