@@ -26,4 +26,6 @@ RUN python3 -m pip install --upgrade pip \
     && python3 -m pip install --no-cache-dir -r /tmp/requirements-bench.txt \
     && python3 -m pip install --no-cache-dir sphinx alabaster
 
+RUN python3 -m pip install --no-cache-dir pytest
+
 CMD ["bash"]
