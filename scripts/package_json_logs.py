@@ -73,9 +73,12 @@ def pack_dataset(raw_root: Path, output: Path, dataset: str) -> None:
         if method_result is None:
             continue
         embedding_path = dataset_dir / f"{method}_embedding.npy"
+        method_labels_path = dataset_dir / f"{method}_labels.npy"
         method_payload = dict(method_result)
         if embedding_path.exists():
             method_payload["embedding"] = json_ready(np.load(embedding_path))
+        if method_labels_path.exists():
+            method_payload["labels"] = json_ready(np.load(method_labels_path, allow_pickle=True))
         payload["methods"][method] = json_ready(method_payload)
 
     output.mkdir(parents=True, exist_ok=True)

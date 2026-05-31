@@ -287,19 +287,22 @@ def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -
         for method in METHODS:
             if method not in results or "embedding" not in results[method]:
                 continue
+            method_labels = np.asarray(results[method].get("labels", labels))
             suffix = EMBEDDING_FILENAMES[method]
             output_path = pics / "embeddings" / f"{dataset}-{suffix}.png"
             archived_png = None
             if embedding_png_root is not None:
                 archived_png = embedding_png_root / f"{dataset}-{ARCHIVED_EMBEDDING_FILENAMES[method]}.png"
             if archived_png is not None and archived_png.exists():
-                render_embedding_png_with_legend(output_path, archived_png, labels, label_map, legend_title)
+                render_embedding_png_with_legend(output_path, archived_png, method_labels, label_map, legend_title)
             else:
                 embedding = np.asarray(results[method]["embedding"], dtype=np.float32)
+                if method_labels.size != embedding.shape[0]:
+                    method_labels = np.asarray([])
                 render_embedding(
                     output_path,
                     embedding,
-                    labels,
+                    method_labels,
                     f"{dataset}: {DISPLAY[method]}",
                     label_map,
                     legend_title,

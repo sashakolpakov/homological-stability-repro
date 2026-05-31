@@ -14,7 +14,7 @@ Artifacts
 Reproducibility
 ---------------
 
-The repository stores self-contained JSON benchmark logs under ``data/archived/json_logs``. The command ``make figures`` regenerates manuscript figures from those logs. The Docker workflow can rerun the full benchmark suite on an NVIDIA GPU and produce fresh JSON logs.
+The repository stores self-contained JSON benchmark logs under ``data/archived/json_logs``. The command ``make figures`` regenerates manuscript figures from those logs. The Docker workflow can rerun the full benchmark suite on an NVIDIA GPU and produce fresh JSON logs. Downloaded remote benchmark logs and canonical embedding PNGs, for example ``data/remote_json_logs_full`` and ``data/remote_embedding_pngs_full``, can also be used as GPU-free inputs to ``scripts/run_pipeline.sh all``.
 
 Funding
 -------

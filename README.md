@@ -103,7 +103,7 @@ make docker-benchmarks
 
 Fresh benchmark outputs are written to `data/fresh_benchmark_results` and packed into self-contained JSON logs in `data/fresh_json_logs` by default. The benchmark script uses one canonical seed for embedding pictures and repeated seeded runs for metric means and standard-deviation error bars. The default is `REPEATS=10`; override it on the `make` command if needed. Persistent-homology metrics are more expensive and default to `TOPOLOGY_REPEATS=1`; increase this only if you explicitly want repeated topology computations. Local and context metrics use `METRIC_SUBSAMPLE=0.1`. The topology pass is separate, uses the ripser backend, and uses `TOPOLOGY_SAMPLE_FRACTION=0.05` by default, recorded in each JSON log. The runner rejects topology sample fractions below `0.05`.
 
-MNIST loading first attempts OpenML (`mnist_784`). If OpenML times out or has another network failure, the benchmark loader automatically falls back to Hugging Face (`ylecun/mnist`, then `mnist`) and records the effective source in the JSON log.
+MNIST loading first attempts OpenML (`mnist_784`). If OpenML times out or has another network failure, the benchmark loader automatically falls back to Hugging Face (`ylecun/mnist`, then `mnist`) and records the effective source in the JSON log. The Hugging Face fallback concatenates the `train` and `test` splits before any benchmark row cap is applied, matching the combined OpenML source. Set `FULL_DATASETS=1` to disable the row cap for fixed external datasets such as MNIST and Levine. The original CPU `umap-learn` baseline has a separate `UMAP_MAX_POINTS=10000` cap by default so full-dataset GPU runs do not force vanilla UMAP onto the full input; set `UMAP_MAX_POINTS=0` only if you explicitly want to disable that cap.
 
 To render figures from those fresh JSON logs:
 
@@ -173,6 +173,12 @@ DATA_ROOT=data/remote_json_logs EMBEDDING_DATA_ROOT=data/remote_embedding_pngs s
 
 This regenerates metric diagrams, combines the embedding PNGs with legends inferred from JSON labels, compiles LaTeX, and builds the Sphinx site.
 
+If the remote benchmark was run with custom local output roots, use those roots instead. For example, a full external-dataset run downloaded to `data/remote_json_logs_full` and `data/remote_embedding_pngs_full` can be rendered without GPU access by running:
+
+```bash
+DATA_ROOT=data/remote_json_logs_full EMBEDDING_DATA_ROOT=data/remote_embedding_pngs_full scripts/run_pipeline.sh all
+```
+
 The second task is `topology-sweep`. It runs a short blobs-only sweep over topology sample fractions and downloads:
 
 - `data/topology_sampling_sweep`
@@ -199,7 +205,7 @@ Useful generic overrides:
 - `REPEATS=10`: metric repeats for the full benchmark suite.
 - `TOPOLOGY_REPEATS=1`: topology repeats for full benchmarks and topology calls per sweep repeat.
 - `TOPOLOGY_SAMPLE_FRACTION=0.1`: topology sample fraction for full benchmarks.
-- `MAX_POINTS=10000`, `METRIC_SUBSAMPLE=0.1`, `TOPOLOGY_STEPS=100`: benchmark sizing knobs.
+- `MAX_POINTS=10000`, `FULL_DATASETS=0`, `UMAP_MAX_POINTS=10000`, `METRIC_SUBSAMPLE=0.1`, `TOPOLOGY_STEPS=100`: benchmark sizing knobs.
 
 Lambda Cloud also provides an optional [Guest Agent](https://docs.lambda.ai/public-cloud/guest-agent/) for console-side observability. It is not required by this repository or by Docker, but it is useful on Lambda instances if you want GPU, VRAM, and system metrics to appear in the Lambda Cloud console:
 

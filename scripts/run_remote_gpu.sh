@@ -11,6 +11,8 @@ GPU_TASK="${GPU_TASK:-benchmarks}"
 REPEATS="${REPEATS:-10}"
 TOPOLOGY_REPEATS="${TOPOLOGY_REPEATS:-1}"
 MAX_POINTS="${MAX_POINTS:-10000}"
+FULL_DATASETS="${FULL_DATASETS:-0}"
+UMAP_MAX_POINTS="${UMAP_MAX_POINTS:-10000}"
 METRIC_SUBSAMPLE="${METRIC_SUBSAMPLE:-0.1}"
 TOPOLOGY_SAMPLE_FRACTION="${TOPOLOGY_SAMPLE_FRACTION:-0.05}"
 TOPOLOGY_STEPS="${TOPOLOGY_STEPS:-100}"
@@ -38,6 +40,8 @@ Optional environment variables:
   REPEATS=10
   TOPOLOGY_REPEATS=1
   MAX_POINTS=10000
+  FULL_DATASETS=0
+  UMAP_MAX_POINTS=10000
   METRIC_SUBSAMPLE=0.1
   TOPOLOGY_SAMPLE_FRACTION=0.05
   TOPOLOGY_STEPS=100
@@ -138,6 +142,7 @@ COPYFILE_DISABLE=1 tar \
   --exclude data/fresh_benchmark_results \
   --exclude data/fresh_json_logs \
   --exclude data/fresh_embedding_pngs \
+  --exclude data/remote_benchmark_results \
   --exclude data/remote_json_logs \
   --exclude data/remote_embedding_pngs \
   -czf - . | "${SSH[@]}" "mkdir -p $REMOTE_DIR && tar -xzf - -C $REMOTE_DIR"
@@ -148,7 +153,7 @@ echo "[3/6] Building benchmark Docker image on remote GPU host"
 case "$GPU_TASK" in
   benchmarks)
     echo "[4/6] Running full benchmark suite in Docker"
-    "${SSH[@]}" "cd $REMOTE_DIR && REMOTE_UID=\$(id -u) && REMOTE_GID=\$(id -g) && $REMOTE_DOCKER run --rm --gpus all --user \$REMOTE_UID:\$REMOTE_GID -e HOME=/tmp -v \$(pwd):/work -w /work $IMAGE make benchmarks OUTPUT_ROOT=$REMOTE_OUTPUT_ROOT JSON_LOG_ROOT=$REMOTE_JSON_ROOT EMBEDDING_PNG_ROOT=$REMOTE_EMBEDDING_ROOT REPEATS=$REPEATS TOPOLOGY_REPEATS=$TOPOLOGY_REPEATS MAX_POINTS=$MAX_POINTS METRIC_SUBSAMPLE=$METRIC_SUBSAMPLE TOPOLOGY_SAMPLE_FRACTION=$TOPOLOGY_SAMPLE_FRACTION TOPOLOGY_STEPS=$TOPOLOGY_STEPS"
+    "${SSH[@]}" "cd $REMOTE_DIR && REMOTE_UID=\$(id -u) && REMOTE_GID=\$(id -g) && $REMOTE_DOCKER run --rm --gpus all --user \$REMOTE_UID:\$REMOTE_GID -e HOME=/tmp -v \$(pwd):/work -w /work $IMAGE make benchmarks OUTPUT_ROOT=$REMOTE_OUTPUT_ROOT JSON_LOG_ROOT=$REMOTE_JSON_ROOT EMBEDDING_PNG_ROOT=$REMOTE_EMBEDDING_ROOT REPEATS=$REPEATS TOPOLOGY_REPEATS=$TOPOLOGY_REPEATS MAX_POINTS=$MAX_POINTS FULL_DATASETS=$FULL_DATASETS UMAP_MAX_POINTS=$UMAP_MAX_POINTS METRIC_SUBSAMPLE=$METRIC_SUBSAMPLE TOPOLOGY_SAMPLE_FRACTION=$TOPOLOGY_SAMPLE_FRACTION TOPOLOGY_STEPS=$TOPOLOGY_STEPS"
 
     echo "[5/6] Downloading benchmark JSON logs and canonical embedding PNGs"
     rm -rf "$LOCAL_JSON_ROOT" "$LOCAL_EMBEDDING_ROOT"

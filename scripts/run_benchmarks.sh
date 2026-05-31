@@ -3,6 +3,8 @@ set -euo pipefail
 
 OUTPUT_ROOT="${1:-data/fresh_benchmark_results}"
 MAX_POINTS="${MAX_POINTS:-10000}"
+FULL_DATASETS="${FULL_DATASETS:-0}"
+UMAP_MAX_POINTS="${UMAP_MAX_POINTS:-10000}"
 METRIC_SUBSAMPLE="${METRIC_SUBSAMPLE:-0.1}"
 TOPOLOGY_SAMPLE_FRACTION="${TOPOLOGY_SAMPLE_FRACTION:-0.05}"
 TOPOLOGY_STEPS="${TOPOLOGY_STEPS:-100}"
@@ -16,6 +18,11 @@ if [[ "${TOPOLOGY:-1}" == "1" ]]; then
 else
   TOPOLOGY_ARG="--no-topology"
 fi
+if [[ "$FULL_DATASETS" == "1" ]]; then
+  FULL_DATASETS_ARG="--full-datasets"
+else
+  FULL_DATASETS_ARG="--no-full-datasets"
+fi
 
 mkdir -p "$OUTPUT_ROOT"
 
@@ -23,6 +30,8 @@ mkdir -p "$OUTPUT_ROOT"
   --output "$OUTPUT_ROOT/article_benchmark_results" \
   --datasets blobs disk moons \
   --max-points "$MAX_POINTS" \
+  "$FULL_DATASETS_ARG" \
+  --umap-max-points "$UMAP_MAX_POINTS" \
   --metric-subsample "$METRIC_SUBSAMPLE" \
   --topology-sample-fraction "$TOPOLOGY_SAMPLE_FRACTION" \
   --topology-steps "$TOPOLOGY_STEPS" \
@@ -35,6 +44,8 @@ mkdir -p "$OUTPUT_ROOT"
   --output "$OUTPUT_ROOT/article_benchmark_results_mnist" \
   --datasets mnist \
   --max-points "$MAX_POINTS" \
+  "$FULL_DATASETS_ARG" \
+  --umap-max-points "$UMAP_MAX_POINTS" \
   --metric-subsample "$METRIC_SUBSAMPLE" \
   --topology-sample-fraction "$TOPOLOGY_SAMPLE_FRACTION" \
   --topology-steps "$TOPOLOGY_STEPS" \
@@ -47,6 +58,8 @@ mkdir -p "$OUTPUT_ROOT"
   --output "$OUTPUT_ROOT/article_benchmark_results_levine" \
   --datasets levine13 levine32 \
   --max-points "$MAX_POINTS" \
+  "$FULL_DATASETS_ARG" \
+  --umap-max-points "$UMAP_MAX_POINTS" \
   --metric-subsample "$METRIC_SUBSAMPLE" \
   --topology-sample-fraction "$TOPOLOGY_SAMPLE_FRACTION" \
   --topology-steps "$TOPOLOGY_STEPS" \

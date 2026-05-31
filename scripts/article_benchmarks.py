@@ -140,17 +140,21 @@ def fetch_mnist_hf():
     # `mnist` can fail on some datasets/huggingface_hub combinations; prefer explicit namespace ids.
     for repo in ("ylecun/mnist", "mnist"):
         try:
-            hf = load_dataset(repo, split="train")
-            X = np.asarray(hf["image"], dtype=np.float32).reshape(-1, 28 * 28) / 255.0
-            y = np.asarray(hf["label"], dtype=np.int32)
-            return X, y, f"huggingface:{repo}(train)"
+            splits = [load_dataset(repo, split=split) for split in ("train", "test")]
+            X = np.concatenate(
+                [np.asarray(split["image"], dtype=np.float32).reshape(-1, 28 * 28) for split in splits],
+                axis=0,
+            ) / 255.0
+            y = np.concatenate([np.asarray(split["label"], dtype=np.int32) for split in splits], axis=0)
+            return X, y, f"huggingface:{repo}(train+test)"
         except Exception as exc:  # pylint: disable=broad-exception-caught
             last_exc = exc
     raise RuntimeError(f"Hugging Face MNIST fetch failed for all known repo ids: {last_exc}") from last_exc
 
 
-def load_dataset(name, max_points, seed):
+def load_dataset(name, max_points, seed, full_datasets):
     label_metadata = load_label_metadata()
+    row_cap = None if full_datasets else max_points
     if name == "blobs":
         X, y = make_blobs(n_samples=10_000, centers=12, n_features=1000, random_state=seed)
         X = X.astype(np.float32)
@@ -180,7 +184,7 @@ def load_dataset(name, max_points, seed):
                 RuntimeWarning,
             )
             X, y, source = fetch_mnist_hf()
-        X, y = take_subset(X, y, max_points or 10_000, seed)
+        X, y = take_subset(X, y, row_cap, seed)
         return X, y, {
             "source": source,
             "n_samples": len(X),
@@ -195,7 +199,7 @@ def load_dataset(name, max_points, seed):
             arcsinh_cofactor=5,
             drop_unassigned=True,
         )
-        X, y = take_subset(X.astype(np.float32), y, max_points or 10_000, seed)
+        X, y = take_subset(X.astype(np.float32), y, row_cap, seed)
         return X, y, {
             "source": f"cytof:{name}",
             "n_samples": len(X),
@@ -231,6 +235,21 @@ def to_numpy(embedding):
     except Exception:  # pylint: disable=broad-exception-caught
         pass
     return np.asarray(embedding, dtype=np.float32)
+
+
+def method_dataset(X, y, method, args):
+    cap = args.umap_max_points if method == "umap" else None
+    if cap is None or len(X) <= cap:
+        return X, y, None
+    rng = np.random.default_rng(args.seed)
+    idx = np.sort(rng.choice(len(X), size=cap, replace=False))
+    return X[idx], None if y is None else y[idx], {
+        "source_n_samples": int(len(X)),
+        "n_samples": int(len(idx)),
+        "sample_policy": "uniform without replacement",
+        "sample_seed": int(args.seed),
+        "reason": "method cap for CPU umap-learn",
+    }
 
 
 def plot_embedding(path, embedding, labels, title):
@@ -438,11 +457,12 @@ def run_dataset(name, args):
     emb_dir.mkdir(parents=True, exist_ok=True)
     cmp_dir.mkdir(parents=True, exist_ok=True)
 
-    X, y, info = load_dataset(name, args.max_points, args.seed)
+    X, y, info = load_dataset(name, args.max_points, args.seed, args.full_datasets)
     results = {"dataset": info, "methods": {}}
     np.save(dataset_dir / "labels.npy", np.asarray([] if y is None else y))
 
     for method in METHODS:
+        X_method, y_method, input_sample = method_dataset(X, y, method, args)
         records = []
         method_result = {
             "display": DISPLAY[method],
@@ -454,9 +474,18 @@ def run_dataset(name, args):
             "topology_sample_fraction": args.topology_sample_fraction if args.topology else None,
             "topology_sample_size": args.topology_sample_size if args.topology else None,
             "topology_steps": args.topology_steps if args.topology else None,
+            "input_n_samples": int(len(X_method)),
+            "input_sample": input_sample,
         }
+        if y_method is not None and len(y_method) != len(y):
+            np.save(dataset_dir / f"{method}_labels.npy", np.asarray(y_method))
         try:
             print(f"\nDataset {name}, method {method}", flush=True)
+            if input_sample is not None:
+                print(
+                    f"  using {len(X_method)}/{len(X)} input points for {method}",
+                    flush=True,
+                )
             for repeat_index in range(args.repeats):
                 repeat_seed = args.seed + repeat_index
                 compute_topology = args.topology and repeat_index < args.topology_repeats
@@ -465,7 +494,9 @@ def run_dataset(name, args):
                     f"{' with topology' if compute_topology else ''}",
                     flush=True,
                 )
-                embedding, record = run_method_once(X, y, method, repeat_seed, args, compute_topology)
+                embedding, record = run_method_once(X_method, y_method, method, repeat_seed, args, compute_topology)
+                record["input_n_samples"] = int(len(X_method))
+                record["input_sample"] = input_sample
                 record["topology_computed"] = bool(compute_topology)
                 records.append(record)
                 if repeat_index == 0:
@@ -473,7 +504,7 @@ def run_dataset(name, args):
                     plot_embedding(
                         emb_dir / f"{name}-{method.replace('_', '-')}.png",
                         embedding,
-                        y,
+                        y_method,
                         f"{name}: {DISPLAY[method]}",
                     )
                     method_result["seed"] = repeat_seed
@@ -505,6 +536,18 @@ def main():
     parser.add_argument("--datasets", nargs="+", default=["blobs", "disk", "moons", "mnist", "levine13", "levine32"])
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-points", type=int, default=10_000)
+    parser.add_argument(
+        "--full-datasets",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="load all available rows for datasets with fixed external sources; synthetic datasets keep their configured size",
+    )
+    parser.add_argument(
+        "--umap-max-points",
+        type=int,
+        default=10_000,
+        help="maximum input points for original CPU umap-learn; use 0 to disable this method-specific cap",
+    )
     parser.add_argument("--metric-subsample", type=float, default=0.05)
     parser.add_argument(
         "--topology-sample-fraction",
@@ -530,6 +573,12 @@ def main():
     args = parser.parse_args()
     if args.metric_subsample < 0.05:
         raise ValueError("metric_subsample must be at least 0.05")
+    if args.max_points < 1:
+        raise ValueError("max_points must be positive")
+    if args.umap_max_points < 0:
+        raise ValueError("umap_max_points must be non-negative")
+    if args.umap_max_points == 0:
+        args.umap_max_points = None
     if args.topology_sample_fraction < 0.05:
         raise ValueError("topology_sample_fraction must be at least 0.05")
     if args.topology_sample_size is not None and args.topology_sample_size < 1:
