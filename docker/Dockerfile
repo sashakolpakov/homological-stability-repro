@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04@sha256:ad6d59a3bbf3e82c1c849c9ac09cfc2a3e0bbb8655042fd899be6681b3fe2a85
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV MPLCONFIGDIR=/tmp/matplotlib
@@ -23,9 +23,6 @@ WORKDIR /work
 
 COPY requirements/bench.txt /tmp/requirements-bench.txt
 RUN python3 -m pip install --upgrade pip \
-    && python3 -m pip install --no-cache-dir -r /tmp/requirements-bench.txt \
-    && python3 -m pip install --no-cache-dir sphinx alabaster
-
-RUN python3 -m pip install --no-cache-dir pytest
+    && python3 -m pip install --no-cache-dir -r /tmp/requirements-bench.txt
 
 CMD ["bash"]

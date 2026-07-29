@@ -1,0 +1,107 @@
+\documentclass[10pt]{letter}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{hyperref}
+\setlength{\emergencystretch}{2em}
+\input{generated/revision3/revision3-results-macros.tex}
+
+\signature{Alexander Kolpakov\\on behalf of the authors}
+\address{}
+
+\begin{document}
+
+\begin{letter}{Dr.\ Zhihong Tian\\Editorial Board Member\\Scientific Reports}
+
+\opening{Dear Dr.\ Tian,}
+
+Thank you for inviting a revision of our manuscript,
+\emph{Dimensionality reduction for homological stability and global structure
+preservation}
+(submission 76c16c04-103b-46e3-b1ba-f3842ac73254).
+
+We have made a substantial evidence-based revision while retaining the exact
+submitted title and the manuscript's pre--Reviewer~3 general framing. DiRe is a
+dimensionality-reduction framework for a user-specified target dimension $d$,
+including non-visual dimensions used in subsequent analysis. The value $d=2$
+describes the visual benchmark configuration in this paper; it does not
+redefine the method. We therefore did not accept Reviewer~3's proposed
+visualization-only framing. The revision also corrects its discussion of
+initialization and modern tSNE, delineates DiRe from the broader
+attraction--repulsion family, states the sampled layout algorithm and
+complexity, engages prior dimensionality-reduction evaluation literature,
+separates CPU and GPU timing panels, and adds PCA and openTSNE references.
+
+Most significantly, we added full public tests on 1,306,127 10x mouse-brain
+cells and 723,457 arXiv paper embeddings. A version-pinned push-button suite
+records end-to-end cold and steady timings, peak incremental GPU-memory use,
+parameters, versions, fixed diagnostic row-index subsets, metrics, and
+failures. A second command
+retrieves a compact checksummed bundle and regenerates all figures and tables
+locally without a GPU.
+
+The new results establish a concrete reason for DiRe's existence without
+claiming universal superiority. In the six-dataset direct-atlas audit, default
+DiRe has lower mean topology discrepancy than cuML UMAP in
+\SmallAtlasDireLowerVsUmapCount{} of
+\SmallAtlasUmapComparisonCount{} dataset--homology comparisons; in
+\SmallAtlasDireFivePctLowerVsUmapCount{} the relative gap exceeds five
+percent. The tSNE comparison splits
+\SmallAtlasDireLowerVsTsneCount{}--\SmallAtlasTsneLowerVsDireCount{},
+including tSNE's strength on MNIST and DiRe's strength on Disk and
+Half--moons. At full scale, production-policy DiRe is the fastest nonlinear
+GPU method on both public datasets. On arXiv it also reduces mean
+unit-diameter Betti--DTW discrepancy relative to UMAP and tSNE by
+\ArxivDireBetaZeroDtwReductionVsUmapPct\% and
+\ArxivDireBetaZeroDtwReductionVsTsnePct\% in $H_0$, and by
+\ArxivDireBetaOneDtwReductionVsUmapPct\% and
+\ArxivDireBetaOneDtwReductionVsTsnePct\% in $H_1$. The manuscript reports the
+counter-results and normalization sensitivity equally explicitly.
+
+The topology analysis now reports exact diameter-normalised bottleneck
+distances alongside the retained Betti--DTW score and a separately labelled
+robust-scale sensitivity calculation. Default DiRe is separated from a
+spectral-initialisation control and the source-predeclared topology preset.
+DiRe and every newly executed baseline are fitted to all observations; the
+separately labelled Cell Ranger tSNE is a released full-cell reference, not a
+same-input or runtime baseline. Only the intrinsically combinatorial
+persistence diagnostic uses controlled fixed, shared row--index subsets. Those coordinates
+and diagrams are included in the bundle, and a CPU audit command independently
+recomputes every underlying topology score. We executed that audit with no GPU
+exposed: all \TopologyAuditComparisonCount{} recomputed scalar scores matched
+the packaged values, with maximum absolute difference
+\TopologyAuditMaximumAbsoluteDelta{}. The revised protocol uses
+\TopologySubsetCount{} independently seeded, fixed 4,000--row index subsets,
+each applied identically to the high--dimensional input and every embedding.
+Three independently seeded full layouts are evaluated separately on one fixed
+subset. It also adds nested $m\in\{1000,2000,4000\}$ checks and paired
+effect-size/variability records, without converting the descriptive subset
+audit into a conventional significance claim.
+
+The production DiRe benchmark uses the package's automatic cuVS policy. A
+separate fresh forced-IVF--Flat control records the effective index,
+synchronized graph/initialisation/layout times, force-fallback status, and
+fixed-query graph overlap without overwriting the earlier run. Runtime claims
+are made only alongside the full local/global/context/topology comparison.
+
+We have answered Reviewer~3 point by point and accepted every supportable
+request. We also identify, with code and measured records, where that report is
+incorrect or overstates what the evidence establishes. In particular, default
+DiRe does not compute all-pairs repulsion; its fixed-parameter layout is linear
+in the number of points. The report's contrary statement is a central factual
+premise of its rejection recommendation and cannot survive inspection of the
+released implementation.
+
+We ask you also to consider the review sequence. Reviewer~2 had raised
+overlapping concerns in the prior round and now states that those comments were
+``adequately addressed.'' Introducing a new rejection recommendation on
+substantially overlapping grounds after that revision created considerable
+additional work. We respectfully ask the journal to avoid what would amount to
+the shameful practice of moving the goalposts by repeatedly resetting matters
+already addressed and accepted whenever a new reviewer is introduced. We have
+nevertheless responded with stronger experiments rather than procedural
+objection alone. We request that the present revision be assessed on its
+actual code, stated claims, and measured evidence.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

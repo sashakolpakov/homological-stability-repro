@@ -4,7 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import math
+import re
+import shutil
 import textwrap
 from pathlib import Path
 
@@ -15,24 +19,39 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from runtime_protocol import summarize_fit_times
 
-METHODS = ("dire", "cuml_tsne", "cuml_umap", "umap")
+
+METHODS = (
+    "dire",
+    "dire_topology",
+    "cuml_tsne",
+    "cuml_umap",
+    "opentsne",
+    "umap",
+)
 DISPLAY = {
     "dire": "DiRe-RAPIDS",
+    "dire_topology": "DiRe (topology preset)",
     "cuml_tsne": "cuML tSNE",
     "cuml_umap": "cuML UMAP",
+    "opentsne": "openTSNE",
     "umap": "Original UMAP",
 }
 EMBEDDING_FILENAMES = {
     "dire": "dire-rapids",
+    "dire_topology": "dire-topology",
     "cuml_tsne": "tsne",
     "cuml_umap": "cuml-umap",
+    "opentsne": "opentsne",
     "umap": "umap",
 }
 ARCHIVED_EMBEDDING_FILENAMES = {
     "dire": "dire",
+    "dire_topology": "dire-topology",
     "cuml_tsne": "cuml-tsne",
     "cuml_umap": "cuml-umap",
+    "opentsne": "opentsne",
     "umap": "umap",
 }
 DATASETS = ("blobs", "disk", "moons", "mnist", "levine13", "levine32")
@@ -44,6 +63,97 @@ METRICS = (
     ("persistence-dim-0", "DTW Betti discrepancy: dimension 0"),
     ("persistence-dim-1", "DTW Betti discrepancy: dimension 1"),
 )
+GPU_METHODS = ("dire", "dire_topology", "cuml_tsne", "cuml_umap")
+CPU_METHODS = ("opentsne", "umap")
+METHOD_COLORS = {
+    "dire": "#1b9e77",
+    "dire_topology": "#006d5b",
+    "cuml_umap": "#d95f02",
+    "cuml_tsne": "#7570b3",
+    "opentsne": "#1f78b4",
+    "umap": "#e6ab02",
+}
+QUALITY_METRICS = METRICS[1:]
+REVISION3_BUNDLE_PATTERN = re.compile(
+    r"^revision3-results-[A-Za-z0-9._-]+$"
+)
+DETERMINISTIC_PDF_METADATA = {
+    "CreationDate": None,
+    "ModDate": None,
+}
+
+
+def save_deterministic_pdf(fig: object, path: Path, **kwargs: object) -> None:
+    """Write a Matplotlib PDF without wall-clock metadata."""
+
+    fig.savefig(path, metadata=DETERMINISTIC_PDF_METADATA, **kwargs)
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        while chunk := handle.read(8 * 1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def prepare_pics_root(path: Path) -> None:
+    if path.is_symlink():
+        raise RuntimeError(f"refusing to replace linked picture root: {path}")
+    if path.exists():
+        shutil.rmtree(path)
+    path.mkdir(parents=True)
+
+
+def source_bundle_name(data_root: Path) -> str | None:
+    resolved = data_root.resolve()
+    for candidate in (resolved, *resolved.parents):
+        if REVISION3_BUNDLE_PATTERN.fullmatch(candidate.name):
+            return candidate.name
+    return None
+
+
+def file_records(root: Path, *, exclude: set[str] | None = None) -> list[dict]:
+    excluded = exclude or set()
+    return [
+        {
+            "path": path.relative_to(root).as_posix(),
+            "bytes": path.stat().st_size,
+            "sha256": sha256_file(path),
+        }
+        for path in sorted(root.rglob("*"))
+        if path.is_file()
+        and not path.is_symlink()
+        and path.relative_to(root).as_posix() not in excluded
+    ]
+
+
+def write_pics_manifest(
+    pics: Path,
+    data_root: Path,
+    embedding_png_root: Path | None,
+) -> None:
+    bundle_name = source_bundle_name(data_root)
+    manifest = {
+        "schema_version": 1,
+        "source_bundle": bundle_name,
+        "source_mode": (
+            "verified-revision3-bundle-small-suite"
+            if bundle_name
+            else "archived-or-custom-small-suite"
+        ),
+        "source_json": file_records(data_root),
+        "source_embedding_pngs": (
+            file_records(embedding_png_root)
+            if embedding_png_root is not None and embedding_png_root.is_dir()
+            else []
+        ),
+        "outputs": file_records(pics, exclude={"render_manifest.json"}),
+    }
+    (pics / "render_manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def load_label_metadata(data_root: Path) -> dict:
@@ -198,13 +308,38 @@ def render_embedding_png_with_legend(
     plt.close(fig)
 
 
+def steady_runtime_statistics(result: dict) -> dict:
+    """Read explicit steady timing or derive it from historical repeat records."""
+    timing = result.get("timing", {})
+    steady = timing.get("steady", {}) if isinstance(timing, dict) else {}
+    if steady.get("n", 0) > 0 and steady.get("mean") is not None:
+        return steady
+
+    derived = summarize_fit_times(result.get("repeats", []))
+    steady = derived["steady"]
+    if steady["n"] > 0:
+        return steady
+
+    aggregate = result.get("aggregate", {}).get("time", {})
+    if aggregate.get("mean") is not None:
+        return aggregate
+    fit_time = result.get("fit_time_sec")
+    return {
+        "mean": fit_time,
+        "std": 0.0 if fit_time is not None else None,
+        "min": fit_time,
+        "max": fit_time,
+        "n": 1 if fit_time is not None else 0,
+    }
+
+
 def metric_value(result: dict, key: str):
+    if key == "time":
+        return steady_runtime_statistics(result).get("mean")
     aggregate = result.get("aggregate", {})
     if key in aggregate and "mean" in aggregate[key]:
         return aggregate[key]["mean"]
     metrics = result.get("metrics", {})
-    if key == "time":
-        return result.get("fit_time_sec")
     if key == "stress":
         return metrics.get("local", {}).get("stress")
     if key == "neighborhood":
@@ -231,6 +366,8 @@ def metric_value(result: dict, key: str):
 
 
 def metric_error(result: dict, key: str):
+    if key == "time":
+        return steady_runtime_statistics(result).get("std")
     aggregate = result.get("aggregate", {})
     if key in aggregate and "std" in aggregate[key]:
         return aggregate[key]["std"]
@@ -273,9 +410,197 @@ def render_metric(path: Path, dataset: str, results: dict, key: str, title: str)
     return True
 
 
+def direction_adjusted_log2_ratio(
+    key: str,
+    method_value: float,
+    dire_value: float,
+) -> float:
+    """Return comparator-versus-DiRe effect size with positive meaning better.
+
+    For a higher-is-better metric, the effect is
+    ``log2(method / DiRe)``. For a lower-is-better discrepancy, it is
+    ``log2(DiRe / method)``. Context is evaluated by absolute loss. Exact
+    zero-versus-zero ties map to zero; a perfect zero loss versus a nonzero
+    loss maps to the appropriate signed infinity.
+    """
+
+    method = abs(float(method_value)) if key == "context" else float(method_value)
+    dire = abs(float(dire_value)) if key == "context" else float(dire_value)
+    if method < 0 or dire < 0:
+        raise ValueError(f"{key} values must be nonnegative after orientation")
+    if np.isclose(method, 0.0, rtol=0.0, atol=1e-15) and np.isclose(
+        dire,
+        0.0,
+        rtol=0.0,
+        atol=1e-15,
+    ):
+        return 0.0
+    numerator, denominator = (
+        (method, dire) if key == "neighborhood" else (dire, method)
+    )
+    if denominator == 0:
+        return math.inf
+    if numerator == 0:
+        return -math.inf
+    return float(np.log2(numerator / denominator))
+
+
+def format_log2_effect(value: float) -> str:
+    if np.isposinf(value):
+        return "+∞"
+    if np.isneginf(value):
+        return "−∞"
+    return f"{value:+.2f}"
+
+
+def render_quality_summary(data_root: Path, path: Path) -> None:
+    """Render continuous comparator-versus-DiRe effects and exact raw means."""
+    logs = {dataset: load_log(data_root, dataset) for dataset in DATASETS}
+    available_methods = [
+        method
+        for method in METHODS
+        if any(method in log.get("methods", {}) for log in logs.values())
+    ]
+    fig, axes = plt.subplots(2, 3, figsize=(14.2, 8.4), constrained_layout=True)
+    cmap = plt.get_cmap("RdBu").copy()
+    cmap.set_bad(color="#f2f2f2")
+
+    for ax, dataset in zip(axes.flat, DATASETS):
+        results = logs[dataset].get("methods", {})
+        effect_matrix = np.full(
+            (len(available_methods), len(QUALITY_METRICS)),
+            np.nan,
+        )
+        raw_matrix: list[list[float | None]] = []
+        for method in available_methods:
+            raw_matrix.append(
+                [
+                    metric_value(results[method], key) if method in results else None
+                    for key, _title in QUALITY_METRICS
+                ]
+            )
+        dire_index = available_methods.index("dire")
+        for metric_index, (key, _title) in enumerate(QUALITY_METRICS):
+            dire_value = raw_matrix[dire_index][metric_index]
+            if dire_value is None:
+                continue
+            for method_index, row in enumerate(raw_matrix):
+                value = row[metric_index]
+                if value is None:
+                    continue
+                effect_matrix[method_index, metric_index] = (
+                    direction_adjusted_log2_ratio(
+                        key,
+                        value,
+                        dire_value,
+                    )
+                )
+
+        displayed_effects = np.clip(effect_matrix, -1.0, 1.0)
+        image = ax.imshow(
+            displayed_effects,
+            vmin=-1.0,
+            vmax=1.0,
+            cmap=cmap,
+            aspect="auto",
+        )
+        ax.set_title(dataset)
+        ax.set_xticks(range(len(QUALITY_METRICS)))
+        ax.set_xticklabels(
+            ["stress", "neighbors", "|context|", r"DTW $\beta_0$", r"DTW $\beta_1$"],
+            rotation=28,
+            ha="right",
+            fontsize=8,
+        )
+        ax.set_yticks(range(len(available_methods)))
+        ax.set_yticklabels([DISPLAY[method] for method in available_methods], fontsize=8)
+        for row_index, row in enumerate(raw_matrix):
+            for column_index, value in enumerate(row):
+                effect = effect_matrix[row_index, column_index]
+                if value is None or np.isnan(effect):
+                    label = "--"
+                else:
+                    label = f"{format_log2_effect(effect)}\nraw {value:.3g}"
+                ax.text(column_index, row_index, label, ha="center", va="center", fontsize=6.5)
+        ax.set_xticks(np.arange(-0.5, len(QUALITY_METRICS), 1), minor=True)
+        ax.set_yticks(np.arange(-0.5, len(available_methods), 1), minor=True)
+        ax.grid(which="minor", color="white", linewidth=1.2)
+        ax.tick_params(which="minor", bottom=False, left=False)
+
+    colorbar = fig.colorbar(image, ax=axes, shrink=0.72, pad=0.015)
+    colorbar.set_ticks((-1.0, 0.0, 1.0))
+    colorbar.set_ticklabels(
+        ("DiRe 2× better", "equal", "comparator 2× better")
+    )
+    colorbar.set_label("direction-adjusted log₂ ratio vs DiRe (clipped at ±1)")
+    fig.suptitle(
+        "Embedding-quality summary: effect size versus DiRe and raw mean",
+        fontsize=13,
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    save_deterministic_pdf(fig, path)
+    fig.savefig(path.with_suffix(".png"), dpi=220)
+    plt.close(fig)
+
+
+def render_runtime_summary(data_root: Path, path: Path) -> None:
+    """Keep CPU and GPU timings in separate panels to avoid cross-device claims."""
+    logs = {dataset: load_log(data_root, dataset) for dataset in DATASETS}
+    fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.6), constrained_layout=True)
+    x = np.arange(len(DATASETS))
+
+    for ax, methods, title in (
+        (axes[0], GPU_METHODS, "GPU implementations"),
+        (axes[1], CPU_METHODS, "CPU implementations"),
+    ):
+        plotted = False
+        width = 0.8 / len(methods)
+        for method_index, method in enumerate(methods):
+            values = []
+            errors = []
+            for dataset in DATASETS:
+                result = logs[dataset].get("methods", {}).get(method)
+                values.append(metric_value(result, "time") if result is not None else np.nan)
+                error = metric_error(result, "time") if result is not None else None
+                errors.append(0.0 if error is None else error)
+            if np.all(np.isnan(values)):
+                continue
+            plotted = True
+            positions = x - 0.4 + width / 2.0 + method_index * width
+            ax.bar(
+                positions,
+                values,
+                width,
+                yerr=errors,
+                capsize=2,
+                color=METHOD_COLORS[method],
+                label=DISPLAY[method],
+            )
+        ax.set_title(title)
+        ax.set_xticks(x)
+        ax.set_xticklabels(DATASETS, rotation=30, ha="right")
+        ax.set_ylabel("steady fit_transform time (s)")
+        ax.set_yscale("log")
+        ax.grid(axis="y", alpha=0.25)
+        if plotted:
+            ax.legend(fontsize=8)
+        else:
+            ax.text(0.5, 0.5, "not present in archived run", ha="center", va="center", transform=ax.transAxes)
+
+    fig.suptitle(
+        "Steady-state runtime (cold first fit excluded; mean $\\pm$ sample SD)",
+        fontsize=13,
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    save_deterministic_pdf(fig, path)
+    fig.savefig(path.with_suffix(".png"), dpi=220)
+    plt.close(fig)
+
+
 def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -> None:
     label_metadata = load_label_metadata(data_root)
     pics = output / "pics"
+    prepare_pics_root(pics)
     for dataset in DATASETS:
         log = load_log(data_root, dataset)
         labels = np.asarray(log.get("labels", []))
@@ -285,7 +610,7 @@ def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -
         results = log.get("methods", {})
 
         for method in METHODS:
-            if method not in results or "embedding" not in results[method]:
+            if method not in results:
                 continue
             method_labels = np.asarray(results[method].get("labels", labels))
             suffix = EMBEDDING_FILENAMES[method]
@@ -293,9 +618,7 @@ def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -
             archived_png = None
             if embedding_png_root is not None:
                 archived_png = embedding_png_root / f"{dataset}-{ARCHIVED_EMBEDDING_FILENAMES[method]}.png"
-            if archived_png is not None and archived_png.exists():
-                render_embedding_png_with_legend(output_path, archived_png, method_labels, label_map, legend_title)
-            else:
+            if "embedding" in results[method]:
                 embedding = np.asarray(results[method]["embedding"], dtype=np.float32)
                 if method_labels.size != embedding.shape[0]:
                     method_labels = np.asarray([])
@@ -304,6 +627,14 @@ def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -
                     embedding,
                     method_labels,
                     f"{dataset}: {DISPLAY[method]}",
+                    label_map,
+                    legend_title,
+                )
+            elif archived_png is not None and archived_png.exists():
+                render_embedding_png_with_legend(
+                    output_path,
+                    archived_png,
+                    method_labels,
                     label_map,
                     legend_title,
                 )
@@ -316,6 +647,9 @@ def render_all(data_root: Path, output: Path, embedding_png_root: Path | None) -
                 key,
                 title,
             )
+    render_quality_summary(data_root, pics / "metrics-summary.pdf")
+    render_runtime_summary(data_root, pics / "runtime-summary.pdf")
+    write_pics_manifest(pics, data_root, embedding_png_root)
 
 
 def main() -> None:

@@ -1,0 +1,35 @@
+\begin{tabular}{@{}lllrrrrr@{}}
+\toprule
+Dataset & Initialization & Stage & Stress & Neighborhood & Context & DTW $\beta_0$ & DTW $\beta_1$ \\
+\midrule
+Blobs & PCA & initial & 1.402 & 0.426 & 0.000 & 4.849 & 8.321 \\
+Blobs & PCA & refined & 1.584 & 0.403 & 0.000 & 4.739 & 7.820 \\
+Blobs & Spectral & initial & 5.419 & 0.322 & -0.142 & 7.195 & 6.233 \\
+Blobs & Spectral & refined & 1.498 & 0.403 & 0.000 & 4.728 & 8.050 \\
+\addlinespace
+Disk & PCA & initial & 0.009 & 0.989 & -- & 0.027 & 0.073 \\
+Disk & PCA & refined & 0.490 & 0.895 & -- & 0.318 & 0.576 \\
+Disk & Spectral & initial & 3.008 & 0.779 & -- & 0.288 & 0.923 \\
+Disk & Spectral & refined & 0.710 & 0.893 & -- & 0.323 & 0.525 \\
+\addlinespace
+Moons & PCA & initial & 0.401 & 0.847 & 0.000 & 0.180 & 0.113 \\
+Moons & PCA & refined & 1.630 & 0.875 & -0.134 & 0.318 & 0.455 \\
+Moons & Spectral & initial & 4.960 & 0.644 & -0.132 & 0.569 & 0.742 \\
+Moons & Spectral & refined & 1.428 & 0.795 & -0.120 & 0.370 & 0.585 \\
+\addlinespace
+MNIST & PCA & initial & 1.365 & 0.231 & -0.606 & 1.143 & 27.526 \\
+MNIST & PCA & refined & 1.902 & 0.470 & -0.129 & 1.338 & 29.792 \\
+MNIST & Spectral & initial & 1.553 & 0.259 & -0.353 & 1.212 & 29.400 \\
+MNIST & Spectral & refined & 2.336 & 0.467 & -0.142 & 1.331 & 30.174 \\
+\addlinespace
+Levine13 & PCA & initial & 3.599 & 0.256 & -0.484 & 0.338 & 10.953 \\
+Levine13 & PCA & refined & 1.674 & 0.482 & -0.054 & 0.495 & 13.743 \\
+Levine13 & Spectral & initial & 7.480 & 0.130 & -0.647 & 0.513 & 15.498 \\
+Levine13 & Spectral & refined & 6.514 & 0.472 & -0.062 & 0.536 & 13.564 \\
+\addlinespace
+Levine32 & PCA & initial & 2.046 & 0.470 & -0.604 & 0.344 & 4.626 \\
+Levine32 & PCA & refined & 2.198 & 0.607 & -0.420 & 0.437 & 6.473 \\
+Levine32 & Spectral & initial & 7.376 & 0.261 & -0.591 & 0.630 & 7.033 \\
+Levine32 & Spectral & refined & 2.545 & 0.594 & -0.360 & 0.430 & 5.724 \\
+\bottomrule
+\end{tabular}

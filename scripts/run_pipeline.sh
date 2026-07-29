@@ -26,6 +26,7 @@ case "$MODE" in
     "$PYTHON_BIN" scripts/prepare_docs.py
     rm -rf docs/_build/html
     "$PYTHON_BIN" -m sphinx -b html docs docs/_build/html
+    "$PYTHON_BIN" scripts/check_authorial_invariants.py --require-generated
     ;;
   all)
     "$0" figures

@@ -1,0 +1,2544 @@
+{
+  "cluster_cell_counts": {
+    "1": 331960,
+    "10": 49421,
+    "11": 20993,
+    "12": 19814,
+    "13": 15269,
+    "14": 11697,
+    "15": 11137,
+    "16": 5525,
+    "17": 5038,
+    "18": 589,
+    "19": 123,
+    "2": 196425,
+    "20": 51,
+    "3": 118140,
+    "4": 110356,
+    "5": 105158,
+    "6": 88009,
+    "7": 84088,
+    "8": 80672,
+    "9": 51662
+  },
+  "code_to_official_cluster": {
+    "0": 1,
+    "1": 2,
+    "2": 3,
+    "3": 4,
+    "4": 5,
+    "5": 6,
+    "6": 7,
+    "7": 8,
+    "8": 9,
+    "9": 10,
+    "10": 11,
+    "11": 12,
+    "12": 13,
+    "13": 14,
+    "14": 15,
+    "15": 16,
+    "16": 17,
+    "17": 18,
+    "18": 19,
+    "19": 20
+  },
+  "interpretation": "Directed nearest-centroid relationships in each layout compared with the same relationships in the common 20-D Cell Ranger PCA input. Marker genes are released 10x differential-expression annotations, not inferred from a layout. The headline table retains the declared k=3 metric; the sensitivity records independently recompute full-layout centroids for k=1 through min(10, number of clusters minus 1).",
+  "k": 3,
+  "methods": [
+    {
+      "display": "PCA (2D)",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 34,
+      "mean_recall": 0.43333333333333335,
+      "method": "pca2",
+      "preserved_directed_edges": 26,
+      "source_cell_weighted_recall": 0.4011809979682935
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 43,
+      "mean_recall": 0.2833333333333333,
+      "method": "dire_auto",
+      "preserved_directed_edges": 17,
+      "source_cell_weighted_recall": 0.31489331946025667
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 43,
+      "mean_recall": 0.2833333333333333,
+      "method": "dire",
+      "preserved_directed_edges": 17,
+      "source_cell_weighted_recall": 0.31489331946025667
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 34,
+      "mean_recall": 0.43333333333333335,
+      "method": "dire_spectral",
+      "preserved_directed_edges": 26,
+      "source_cell_weighted_recall": 0.6907651399902154
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 39,
+      "mean_recall": 0.35,
+      "method": "dire_topology",
+      "preserved_directed_edges": 21,
+      "source_cell_weighted_recall": 0.5956391172782841
+    },
+    {
+      "display": "cuML UMAP",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 31,
+      "mean_recall": 0.48333333333333334,
+      "method": "cuml_umap",
+      "preserved_directed_edges": 29,
+      "source_cell_weighted_recall": 0.7194558160628075
+    },
+    {
+      "display": "cuML t-SNE",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 40,
+      "mean_recall": 0.3333333333333333,
+      "method": "cuml_tsne",
+      "preserved_directed_edges": 20,
+      "source_cell_weighted_recall": 0.39173730170700594
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "input_directed_edges": 60,
+      "introduced_directed_edges": 39,
+      "mean_recall": 0.35,
+      "method": "cellranger_tsne",
+      "preserved_directed_edges": 21,
+      "source_cell_weighted_recall": 0.4085710399269494
+    }
+  ],
+  "sensitivity": [
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.19245754815573066
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.29411764705882354,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.19207975706393007
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.3333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.19364674571613708
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.425,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3471672356516633
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.38235294117647056,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3468798741194027
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.4,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3477642510316257
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.4333333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4011809979682935
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.41176470588235287,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.40105722746043754
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.4444444444444444,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.40303207468432084
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.55,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6383422132763507
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.5588235294117647,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6383338287251679
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.5833333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6406231536738078
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.62,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.8269154530914681
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6352941176470589,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.8269955353449304
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6666666666666666,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.8306294171845711
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6083333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7550146348708817
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6176470588235294,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7549694950986852
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6444444444444444,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7578860895741252
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6214285714285713,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.765832112803732
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6386554621848739,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7658572080825183
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6666666666666665,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7687162517086188
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6125,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7166286279971243
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.625,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7166096008469668
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.65,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7190041172350037
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.65,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7595130063496462
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6732026143790849,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7595572320568567
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.7037037037037037,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7622115075770117
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.6900000000000001,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "pca2",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.8075578408531483
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.711764705882353,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "pca2",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.8076116700016243
+    },
+    {
+      "display": "PCA (2D)",
+      "equal_cluster_weight_recall": 0.7466666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "pca2",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.810623099611446
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.25,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.335443643688554
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.23529411764705882,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3356006447243834
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.33444753286412354
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.275,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3193464341522685
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.20588235294117646,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.31922130532173404
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3198800433425677
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2833333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.31489331946025667
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2352941176470588,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3147191128298314
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.24444444444444446,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3159896128182374
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3344979087025994
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.23529411764705882,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.33442472750895536
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.25,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.33618023155681837
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.31,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3871949664925386
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.29411764705882354,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3871985132116406
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3066666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3888009045405433
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3166666666666666,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3491092366975033
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.2941176470588235,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3491054347037812
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.31111111111111106,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3506564586630172
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3357142857142857,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3942467200465848
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3277310924369748,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.39429899574809346
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3428571428571428,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.39579441165090223
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.35625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.41089907413291354
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4109784703730147
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.36666666666666664,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4122917344055187
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.38333333333333325,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.41203437508161334
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.3856209150326797,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.41208216422562766
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.4,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4131987163364186
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.40499999999999997,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "dire_auto",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.440007824660236
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.39999999999999997,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "dire_auto",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.44003281843225345
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.41333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4411752076187768
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.3,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.33213156147909045
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.17647058823529413,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.33174118483426845
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.33444753286412354
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.25,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.29956964368702277
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.17647058823529413,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.2994329550991141
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.16666666666666666,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.2999302595533985
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.2833333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.31489331946025667
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.2352941176470588,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3147191128298314
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.24444444444444446,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3159896128182374
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.25,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.325038453381639
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.22058823529411764,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.32495974302953046
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.23333333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.32663803163574945
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.31000000000000005,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.36937051297461887
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.28235294117647064,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.36934479578110013
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.2800000000000001,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.3699481233023453
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.29999999999999993,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.32793352662745145
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.2745098039215686,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3279173471920475
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.27777777777777773,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.32858434101713957
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4186698536972284
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.3445378151260504,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4187364049961762
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.36190476190476184,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4204311815373284
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.3625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.42831918335659547
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4283523599547712
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.375,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.43034074348104456
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.37777777777777777,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.42063903433586475
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.3790849673202614,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4206918530003891
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.39999999999999997,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.42231097030869347
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.41000000000000003,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "dire",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.47269584045043095
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.40588235294117647,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "dire",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4727399407368367
+    },
+    {
+      "display": "DiRe (IVF-Flat control)",
+      "equal_cluster_weight_recall": 0.42000000000000004,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "dire",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4741491549666704
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6007723598088088
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6010292914466769
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6059324946458954
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5302240900004364
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5304673638923703
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.36666666666666664,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.532849449452078
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4333333333333334,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6907651399902154
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.45098039215686275,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6909740629178273
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4666666666666666,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6940170728938269
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.425,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6186507897011546
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4264705882352941,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6187436990755069
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.43333333333333335,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6208732075430896
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.43999999999999995,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6820770108879152
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4588235294117647,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6822607334046289
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4666666666666668,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6847138672274737
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4833333333333334,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.741426624924937
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4901960784313726,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.74151475501597
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.5,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7442588989865365
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4428571428571429,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6481980695598514
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.45378151260504196,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6482810268137579
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4571428571428572,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6501271513647934
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4375,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.597204176929196
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4411764705882353,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5972776558875532
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.45,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5991380142585617
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4444444444444445,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5746762076820333
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4509803921568627,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5747170052865629
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4592592592592592,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.576253888521179
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.42000000000000004,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.531589883678999
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4235294117647059,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5316255848943282
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.43333333333333335,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5331260942801249
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.3,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4108704589982444
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.23529411764705882,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.41097732126824393
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.26666666666666666,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.41433007852171877
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.325,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5730568313801032
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.3235294117647059,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5733251414931008
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.36666666666666664,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5780023339493868
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5956391172782841
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5959298198305862
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.39999999999999986,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6007914214874203
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.425,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6632683881429601
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.4411764705882353,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.663500180792484
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.48333333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6679402858045368
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.4800000000000001,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7359841730551471
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.49411764705882355,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.736180559598702
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.5200000000000001,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7397765370894833
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.4750000000000001,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.71824128383636
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.48039215686274517,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7183158618336852
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.49999999999999994,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.721519239893492
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.45000000000000007,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.653888393482629
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.46218487394957986,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6539746767951314
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.4857142857142857,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6570326802563262
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.45625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6165618848703074
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.47058823529411764,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6166069387542479
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.48333333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6186249856155502
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.47222222222222215,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6038859756959146
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.4901960784313725,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6039481878021933
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.5037037037037038,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6057235393272359
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.48999999999999994,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "dire_topology",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6202097498941525
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.5117647058823529,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "dire_topology",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.620301157378325
+    },
+    {
+      "display": "DiRe (topology preset)",
+      "equal_cluster_weight_recall": 0.5333333333333332,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "dire_topology",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6225250830050332
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.21055456322394378
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.17647058823529413,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.210638565181819
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.21235695678332037
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.45,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.631506737093713
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.4411764705882353,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6317896770555952
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6369438237999507
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.4833333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7194558160628075
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5098039215686274,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.719818890873861
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5555555555555556,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.724394199057101
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.4625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7177315069667805
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7181079377093286
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7220207970182291
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.48,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.73677536717333
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5294117647058824,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7371715475530197
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5599999999999999,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7408508334485376
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.4583333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7200134443281548
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.7203303701751643
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7242613601111935
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.4642857142857143,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6744292750354949
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5042016806722689,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6746699442782681
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5238095238095238,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6773409306030148
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.50625,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.7076738134959311
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5367647058823529,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.707880043420839
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5666666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.7111760803397588
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5277777777777778,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6949826982113275
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5620915032679739,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6951544209550405
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5925925925925927,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6981479522078425
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5700000000000001,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "cuml_umap",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.688085844638385
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.5941176470588235,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "cuml_umap",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6882091125540462
+    },
+    {
+      "display": "cuML UMAP",
+      "equal_cluster_weight_recall": 0.6266666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "cuml_umap",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6909870319840655
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.35,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6081728652726726
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6084341225895612
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6133977344781167
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.325,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4249640348909409
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.35294117647058826,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.42516531787302236
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.36666666666666664,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4266883482481092
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.3333333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.39173730170700594
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.37254901960784315,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.39193486772016584
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.3777777777777777,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.39241293964606655
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.375,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3938669440261169
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4264705882352941,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.39407360705519684
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.45,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.39524896103725593
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.42000000000000004,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4037605837717158
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.44705882352941184,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4038608388158398
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4533333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.40389233557898085
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4333333333333333,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.41166925829826145
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4509803921568627,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.41171504653108254
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4555555555555556,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.41170599446041
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4928571428571429,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4958628503528808
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5126050420168067,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4959077643148906
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5238095238095238,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.49645709484093914
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.49375,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5099993147680126
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5100100431756965
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5083333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5106250883340374
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5333333333333334,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5650627134012747
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5359477124183007,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5650787400636484
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5555555555555556,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5665369942305163
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.575,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6073904758113108
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.5882352941176471,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6074532467572263
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.6133333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6091456524979515
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.2,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.12230051135915573
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.17647058823529413,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.12227777079803027
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.13333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.11938436871766395
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.275,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.3481889586540972
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.29411764705882354,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3483453657370664
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.3,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.34924169814512035
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.3499999999999999,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 3,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.4085710399269494
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.3725490196078431,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 3,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.4087654222628069
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.39999999999999986,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 3,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4108031530199106
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.3875,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 4,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.48235202242967185
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.4117647058823529,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 4,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.482590871205273
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.4166666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 4,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4836096434896173
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.41000000000000003,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 5,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.506998783426114
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.43529411764705883,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 5,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.507252842885203
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.42666666666666675,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 5,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5075000714395496
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.4749999999999999,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 6,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5521905603360163
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.48039215686274506,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 6,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5523649597609045
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.47777777777777775,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 6,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5529175268374573
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.55,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 7,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6008723282104813
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.5630252100840336,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 7,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6010184570302668
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.5714285714285714,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 7,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6019231637029275
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.56875,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 8,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5756757382704745
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.5735294117647058,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 8,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5757666060960774
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.5833333333333334,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 8,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.5764787407485783
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.6111111111111112,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 9,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6128195973456044
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.6143790849673203,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 9,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6128945217153564
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.6148148148148148,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6129717573931781
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.6449999999999999,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 10,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.6461987999635563
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.6529411764705882,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 10,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.6462313193867764
+    },
+    {
+      "display": "Cell Ranger t-SNE",
+      "equal_cluster_weight_recall": 0.66,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 10,
+      "method": "cellranger_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.6466460869276436
+    }
+  ],
+  "stored_embedding_adjacency_matches_full_layout_recomputation": {
+    "cellranger_tsne": true,
+    "cuml_tsne": true,
+    "cuml_umap": true,
+    "dire": true,
+    "dire_auto": true,
+    "dire_spectral": true,
+    "dire_topology": true,
+    "pca2": true
+  },
+  "stored_reference_adjacency_matches_bundled_input_centroids": {
+    "cellranger_tsne": true,
+    "cuml_tsne": true,
+    "cuml_umap": true,
+    "dire": true,
+    "dire_auto": true,
+    "dire_spectral": true,
+    "dire_topology": true,
+    "pca2": true
+  }
+}

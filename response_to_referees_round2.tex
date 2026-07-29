@@ -1,0 +1,762 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\setstretch{1.08}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=*}
+\definecolor{responseblue}{RGB}{24,72,120}
+
+\newcommand{\reviewcomment}[1]{%
+  \medskip\noindent\textbf{Reviewer comment.} \emph{#1}\par\smallskip}
+\newcommand{\response}{%
+  \noindent\textcolor{responseblue}{\textbf{Response.}}\ }
+\newcommand{\change}{%
+  \noindent\textcolor{responseblue}{\textbf{Change made.}}\ }
+\input{generated/revision3/revision3-results-macros.tex}
+
+\begin{document}
+
+\begin{center}
+{\Large Response to the Editor and Referees}\\[0.5em]
+\emph{Dimensionality reduction for homological stability and global structure
+preservation}\\
+Submission ID: 76c16c04-103b-46e3-b1ba-f3842ac73254
+\end{center}
+
+\section*{Editorial overview}
+
+We thank the editor for inviting a revision rather than adopting Reviewer~3's
+recommendation of rejection. We have treated every technically supportable
+request in that report seriously. The revision is extensive:
+
+\begin{itemize}
+  \item The paper retains its exact submitted title and its pre--Reviewer~3
+  general framing. DiRe is a dimensionality--reduction framework for a
+  user--specified target dimension $d$, including non--visual dimensions used
+  in subsequent analysis. The value $d=2$ identifies the configuration of the
+  visual benchmark figures; it does not redefine the method.
+  \item The introduction now states that global organization in both tSNE and
+  UMAP is initialization--dependent and that modern FFT/interpolation tSNE
+  implementations scale beyond the original exact formulation.
+  \item The relation to tSNE and UMAP is made explicit. We do not claim that
+  PCA initialization, spectral initialization, or the kernel family is new.
+  The revised novelty statement identifies the particular force law, unweighted
+  attraction graph, bounded random point--index repulsion, separately
+  ablatable initialization/refinement stages, and evaluation protocol.
+  \item The implementation and scaling section now states the point that the
+  report gets factually wrong: default DiRe does not compute all--pairs
+  repulsion. With fixed neighbor count, negative ratio, output dimension, and
+  iteration count, the layout cost is linear in the number of points.
+  \item We added PCA, separate same--GPU scaling panels, a separate CPU
+  reference panel containing openTSNE and \texttt{umap-learn}, and a
+  PCA-versus-spectral initialization ablation.
+  \item We added two full public large--data tests: 1,306,127 10x mouse-brain
+  cells and 723,457 arXiv paper embeddings. All reducers receive the same
+  prepared rows, and the suite records cold and synchronized steady timings,
+  peak incremental NVML device--memory use, failures, parameters, package
+  versions, and exact diagnostic row-index subsets.
+  \item We condensed the metric presentation, added a direct results narrative,
+  and engaged the earlier topological and rank--based evaluation literature.
+  The large-data topology analysis now reports exact diameter-normalised
+  bottleneck distances as well as the historical Betti--DTW score, retains
+  \TopologySubsetCount{} independently seeded, fixed 4,000--row topology
+  subsets shared by the input and every embedding, and includes a separately
+  labelled robust-scale sensitivity calculation. DiRe's default
+  \texttt{init="pca"} pathway is shown
+  alongside a one-factor spectral-initialisation control and the
+  source-predeclared topology preset; neither sensitivity variant is
+  substituted for the default. The manuscript now states the backend dispatch:
+  the H100 cuVS path uses cuML PCA at most 100 input features and cuML
+  TruncatedSVD above 100.
+\end{itemize}
+
+These changes should not be read as agreement with the factual accuracy or
+proportionality of the rejection recommendation. Reviewer~3's report combines
+useful requests with overstatements, conjectures presented as findings, and at
+least one central claim that is directly contradicted by the implementation.
+We distinguish those categories below.
+
+\section*{Sequential review and proportionality}
+
+Reviewer~2, who had raised overlapping concerns about contribution and
+benchmark consistency in the preceding round, now states without
+qualification: ``The comments I had were adequately addressed.'' Reviewer~1
+and the editor had separately requested clearer preprocessing, scaling
+evidence, softened claims, and limitations. We are therefore surprised that a
+new report reopens substantial parts of all of those matters as if the prior
+revision and its assessment had not occurred. We answer them again and have
+added experiments far beyond the previous requests, but we ask the editor to
+recognize the procedural problem. A revision process cannot remain
+scientifically efficient if each newly introduced reviewer resets settled
+issues to a new first round without identifying what was defective in the
+preceding response.
+
+Producing a properly qualified answer to a report that mixes valid
+presentational criticisms with inaccurate implementation claims has required
+substantial additional time. In particular, we built and ran a version--pinned,
+million--point, two--domain reproduction suite rather than answer speculation
+with speculation. We respectfully ask the editor to assess the resulting
+evidence and to avoid what would amount to the shameful practice of moving the
+goalposts through a further reset of the same already adjudicated issues.
+
+\subsection*{Review-history crosswalk}
+
+The overlap is specific and verifiable from the preceding reports and our
+first-round response:
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}X
+  p{0.25\textwidth}@{}}
+\toprule
+Earlier concern & Earlier revision and disposition & Resurrected in
+Reviewer~3 \\
+\midrule
+Reviewer~2, Major~1: the theoretical distinction from existing methods was not
+clear &
+We added a relation-to-existing-methods section and an explicit comparison
+with tSNE, UMAP, PCA, random projection, Isomap, diffusion maps, and spectral
+methods. Reviewer~2 now says the concern was adequately addressed. &
+Concerns~1 and 3, and the comparator portion of Concern~6, again question the
+theoretical distinction, novelty, and choice of comparator. \\
+\addlinespace
+Reviewer~2, Major~2: figures, metrics, backend outputs, and repository results
+needed to be mutually consistent &
+We removed the interpretation of the anomalous Blobs result, required an
+independent rerun, audited the Levine feature set, and regenerated figures and
+metrics from one DiRe--RAPIDS pipeline. Reviewer~2 now says the concern was
+adequately addressed. &
+Concerns~5 and 7 again characterize the experimental presentation and runtime
+evidence as unreliable, without identifying a remaining inconsistency in the
+revised records. \\
+\addlinespace
+Reviewer~1, Comment~2: add runtime evidence against GPU UMAP/tSNE and document
+scaling resources &
+The revision documented implementation, hardware, protocol, logs, and
+reproduction scripts and compared the released GPU implementation with cuML
+GPU baselines. &
+Concerns~4, 7, and 8 return to scalability and hardware, now coupled to the
+incorrect premise that default DiRe enumerates all point pairs. \\
+\addlinespace
+Reviewer~1, Comment~4 and the editor: specify preprocessing and persistence
+subsampling; soften broad claims and explain limitations &
+We documented dataset-specific preprocessing, separated expression features
+from metadata, recorded paired row--index-subset sizes/seeds, softened conclusions,
+and expanded limitations. &
+Concerns~1, 5, 6, and 8 again demand scope qualification, experimental
+reporting, and dataset information. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Reviewer~3 is of course entitled to identify a concrete defect that survived
+the first revision. The need to separate the CPU and GPU presentation more
+clearly is one such defect, and we correct it below. For the other resurrected
+issues, however, the report neither identifies which first-round change failed
+nor addresses Reviewer~2's subsequent acceptance. Some new requests---notably a
+million-observation test and an explicit initialization ablation---are
+genuinely new, and we have supplied them. The table above concerns the
+substantial remainder that is presented as a fresh basis for rejection despite
+the documented revision history.
+
+\section*{Reviewer 2}
+
+\reviewcomment{The comments I had were adequately addressed.}
+
+\response We appreciate this clear confirmation. Reviewer~2's earlier major
+comments concerned clarity of the theoretical/methodological contribution and
+consistency of the computational evidence. Those subjects overlap directly
+with Reviewer~3's Concern~3, Concern~5, part of Concern~1, and the comparator
+portion of Concern~6. The present revision nevertheless goes materially
+further by making the implementation and empirical record more explicit,
+adding large public datasets, adding PCA and openTSNE, separating hardware
+classes, adding initialization ablations, and stating the sampled layout
+complexity explicitly.
+
+\section*{Reviewer 3: summary recommendation}
+
+\reviewcomment{I recommend rejection. The manuscript does not provide a clear
+justification for DIRe's existence relative to t-SNE and UMAP \ldots}
+
+\response The recommendation is not supported by the report's own mixture of
+correctable presentation requests and factually disputed premises. Similarity
+to a broad algorithmic family is not nonexistence of a contribution; tSNE and
+UMAP themselves occupy different points in a shared attraction--repulsion
+family. A serious novelty assessment must compare objectives, graph weights,
+sampling rules, force gradients, initialization/refinement interfaces, and
+observed tradeoffs. The phrase ``slightly modified expressions'' does not
+perform that comparison.
+
+More importantly, the recommendation relies on claims that are demonstrably
+incorrect: default DiRe does not perform all--pairs repulsion; UMAP's standard
+optimization is not dominated by enumerating every point pair; and the archived
+same--GPU timings do not show DiRe to be the slowest of all three GPU methods.
+The all--pairs description is, in the literal technical sense relevant here, a
+\emph{hallucinated implementation premise}: it describes an operation that the
+released default kernel does not perform. Those matters are addressed with code
+paths and numbers below. The revised paper also adopts the report's supportable
+requests, eliminating any reasonable basis for rejection on presentation or
+experimental breadth.
+
+\section*{Major concern 1: scope}
+
+\reviewcomment{The paper is inconsistent about what DIRe is meant to be
+\ldots Most of the text---including the extensive comparison to t-SNE and
+UMAP---frames DIRe as a visualization tool, yet the abstract and other passages
+frame it as general-purpose. These are different design and evaluation
+problems, and the manuscript needs to commit to one framing.}
+
+\response The report imposes a false dichotomy by conflating three different
+questions: the mathematical scope of an algorithm, the output dimension chosen
+for a benchmark, and the scope of inference justified by that benchmark. DiRe
+maps to a user--specified target dimension $d$; neither its force law nor its
+implementation fixes $d=2$. The present controlled comparisons instantiate
+$d=2$, but that recorded parameter does not turn a general
+dimensionality--reduction framework into a two--dimensional embedder or confine
+its intended use to visualization.
+Reviewer~3 is, on this point, outright \emph{incompetent}: the report identifies
+the method with the dimension chosen for one benchmark despite both the
+mathematical definition $Y\in\mathbb{R}^{n\times d}$ and the released
+\texttt{n\_components} parameter, which is validated only as a positive
+integer and determines the second axis of the returned array.
+UMAP likewise exposes a user--selected output dimension; neither DiRe nor UMAP
+is defined by the $d=2$ configuration used for the visual comparisons here.
+tSNE is used in this manuscript in its conventional two--dimensional
+visualization role. Grouping the three reported outputs in one figure does not
+erase these method--level distinctions.
+
+The manuscript's original framing is accurate and is retained verbatim in its
+abstract and opening introduction: DiRe is designed less as a purely local
+visualization heuristic and more as a framework for embeddings whose
+large--scale geometry can be quantified, and dimensionality reduction may use
+non--visual dimensions for subsequent analysis. That statement does not assert
+universal superiority. The correct response to one benchmark profile is to
+report its configuration, not to misclassify the algorithm in order to satisfy
+the reviewer's requested binary choice.
+
+\change The exact submitted title and the pre--Reviewer~3 general framing are
+retained. The methods now tie that framing directly to the released
+\texttt{n\_components} API, while $d=2$ is attached only to the particular
+benchmark figures and records that use it. We did not adopt the requested
+visualization--only reframing.
+
+\section*{Major concern 2: characterization of tSNE and UMAP}
+
+\reviewcomment{Both methods share the same global-structure limitation, since
+their global organization is largely a function of initialization \ldots
+modern implementations use fast, linear-scaling approximation schemes.}
+
+\response The initialization and modern-tSNE points are well taken and are now
+stated directly. The earlier sentence was too broad.
+
+The report then overreaches. Evidence that initialization matters for tSNE and
+UMAP does not prove that every force--directed layout has the same sensitivity
+in the same degree, and ``will likely be a problem for DIRe'' is expressly a
+conjecture, not a result. We do not ask the editor to accept an opposite
+conjecture. We measure it. The new ablation reports coordinates from the
+\texttt{init="pca"} and spectral pathways both before and after the identical
+DiRe refinement across six datasets. Initializer--only outputs use the recorded
+\texttt{max\_iter\_layout=0}; refined outputs use the positive iteration
+budget.
+
+\change We cite Kobak--Linderman on initialization, Linderman et al.\ on
+FIt--SNE, and Poličar et al.\ on openTSNE. The introduction no longer uses
+outdated exact-tSNE complexity as a motivation. The new ablation figure and
+machine--readable records isolate initialization from layout refinement.
+
+\section*{Major concern 3: novelty}
+
+\reviewcomment{This is precisely the recipe already used by both t-SNE and
+UMAP \ldots The $\varphi$-density used in DIRe's force-directed layout is very
+similar to the one used in UMAP.}
+
+\response ``Precisely'' is inaccurate. The methods belong to the same broad
+neighbor--embedding family, which the revision now says prominently. PCA and
+spectral initialization are established choices and were never an appropriate
+basis for a novelty claim. Likewise, the low--dimensional kernel family is
+related to UMAP's; we now say so without qualification.
+
+But a common high--level recipe does not make objectives and algorithms
+identical. DiRe uses an unweighted $k$NN attraction graph, the explicit force
+law written in the paper, and bounded uniform sampling from the point--index
+range with an exposed ratio. Initialization and refinement are separate code
+stages; the suite measures initializer--only and refined configurations without
+claiming that one estimator call returns both arrays. tSNE optimizes a
+probability--matching divergence; UMAP optimizes a weighted fuzzy--set cross
+entropy with its own sampling schedule. Reviewer~3 does not derive an
+equivalence between those objectives and DiRe, because no such equivalence is
+supplied. Calling equations ``slightly modified'' is a conclusion, not the
+missing derivation.
+
+\change The related--methods section cites the attraction--repulsion spectrum
+of Böhm et al., disclaims novelty for initialization and the kernel family, and
+states the specific technical distinctions above. We have deliberately removed
+any wording that could imply that ``initial embedding plus graph layout'' alone
+is the contribution.
+
+\section*{Major concern 4: computational scalability}
+
+\reviewcomment{In t-SNE and UMAP, the dominant computational cost is the
+pairwise repulsion between all data points \ldots The manuscript does not
+discuss how (or whether) DIRe addresses this same bottleneck.}
+
+\response This premise is incorrect as a matter of implementation. Standard
+UMAP uses negative sampling; it does not enumerate repulsion between every
+pair. Default DiRe likewise evaluates attraction on the $nk$ directed neighbor
+edges and draws at most $nrk$ random indices per iteration. The benchmarked
+DiRe--cuVS force kernel contains no enumeration of the complement of the
+neighbor graph. At the immutable benchmarked revision, the vectorised kernel
+gathers only the $k$NN and sampled--negative positions; see
+\href{https://github.com/sashakolpakov/dire-rapids/blob/293b622cc79fa8ea6fd5b54009e0930e3385b22f/dire_rapids/dire_pytorch.py\#L111-L154}
+{lines 111--154}. Its driver computes
+$n_{\rm neg}=\min\{rk,n-1\}$ and calls \texttt{torch.randint} with shape
+$(n,n_{\rm neg})$; see
+\href{https://github.com/sashakolpakov/dire-rapids/blob/293b622cc79fa8ea6fd5b54009e0930e3385b22f/dire_rapids/dire_pytorch.py\#L1166-L1203}
+{lines 1166--1203}.
+
+For $T$ iterations, $n$ points, $k$ neighbors, negative ratio $r$, and output
+dimension $d$, the DiRe layout work is
+\[
+  O\!\left(Tnk(1+r)d\right).
+\]
+It is linear in $n$ for fixed $T,k,r,d$. Graph construction is separate. The
+primary large benchmark uses and records the production cuVS automatic index
+policy, while the prior forced IVF--Flat result remains a separately named
+control. A fresh paired profile records the effective index, synchronized
+graph/initialization/layout times, and force--fallback status for both policies.
+End--to--end time is reported, so graph construction and initialization are not
+hidden from the timing.
+
+The report appears to have inferred all--pairs execution from an imprecise
+conceptual sentence about non--neighbor repulsion without checking the released
+default path. We have corrected that sentence so no future reader can make the
+same inference. A categorical rejection argument about an alleged bottleneck
+cannot stand after the alleged operation is shown not to occur.
+
+\change A new computational-scaling subsection gives the literal attraction
+and repulsion coefficients, default $r=8$ sampling rule, asymptotic layout work
+and memory, kNN qualification, and end--to--end measurement policy. The new
+H100 sweep measures
+10k, 50k, 100k, 250k, 500k, and 1,306,127 rows.
+
+\section*{Major concern 5: experimental presentation and literature}
+
+\reviewcomment{Metrics are presented as pages of bar charts \ldots There is no
+discussion of what the results actually show \ldots the manuscript should
+engage with [earlier evaluation] literature.}
+
+\response The prior presentation was too diffuse, and the relevant Rieck--Leitte
+paper should have been cited. We have made both changes. The suggestion that
+the manuscript introduced persistent-homology evaluation wholly ``in
+isolation,'' however, overstates the omission: the paper already cited the
+foundational persistence, stability, diagram-distance, Betti-curve, and
+time-warp literature. The missing directly related dimensionality-reduction
+evaluation paper is now added, as is prior rank--based neighborhood evaluation.
+
+The revision also corrects a genuine methods/results mismatch. The former
+methods discussion listed several possible persistence-diagram and Betti-curve
+distances more broadly than the emitted large-data records supported. The new
+pipeline and text agree exactly: for $H_0$ and $H_1$ we report (i) the
+diameter-normalised bottleneck distance defined for dimension-reduction
+comparisons, computed by the exact sorted zero-birth-bar specialization for
+$H_0$ and the compiled exact GUDHI matcher for $H_1$, and
+(ii) the historical FastDTW approximation to Betti-curve DTW. Because diameter scaling can be
+controlled by one extreme point, we additionally report a clearly labelled
+99th-percentile pairwise-scale sensitivity calculation. The historical score
+has not been discarded or replaced after observing its ranking.
+
+We also separate two sources of variability that the earlier presentation
+merged too easily: \TopologySubsetCount{} independently seeded, fixed topology
+row--index subsets are evaluated on the canonical layout, while three
+independently seeded full layouts are evaluated on one fixed row--index subset.
+Production-policy DiRe, its forced-IVF--Flat and spectral-only controls, the predeclared
+topology preset, UMAP, and tSNE all follow this same seed protocol.
+The preset is not a post hoc parameter search on either new dataset: it was
+\href{https://github.com/sashakolpakov/dire-rapids/blob/9117dc45a3e130fa1d636dfd181f3e97960c5b3b/dire_rapids/presets.py}
+{committed to the DiRe source on 23 April 2026}, before these experiments.
+
+The six--dataset reference suite is now rerun with one consistent topology
+protocol rather than silently changing evaluators between figures. For every
+GPU method it contains 20 seeded fits; the CPU references contain 10. The
+GPU rank--based local--$k$NN atlas evaluator is called directly on every fit
+over an independently seeded, fixed $m=1000$ row--index subset. Each record
+must identify \texttt{backend="atlas"}, the direct atlas implementation, and
+\texttt{prefer\_ripser=False}; a wrapper's Ripser preference cannot silently
+change this protocol. The corresponding method runs use identical indices.
+Default DiRe and the predeclared topology preset are both reported; neither
+replaces the other. The generated table gives the mean, sample standard
+deviation, and minimum:
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+  \input{generated/revision3/revision3-small-atlas-topology-summary.tex}}
+\end{center}
+
+The accompanying paired--effect CSV retains every comparator-minus-DiRe gap,
+its relative magnitude, observed paired standard deviation, and a descriptive
+95\% mean interval. This is the requested answer to ``better or worse'': it
+reports magnitude and variability, not a rank colour or a three-sign tally.
+Default DiRe has lower mean discrepancy than cuML UMAP in
+\SmallAtlasDireLowerVsUmapCount{} of
+\SmallAtlasUmapComparisonCount{} dataset--homology comparisons;
+\SmallAtlasDireFivePctLowerVsUmapCount{} exceed the predeclared five--percent
+practical--difference band and
+\SmallAtlasDireIntervalLowerVsUmapCount{} paired descriptive intervals exclude
+zero in DiRe's direction. Against cuML tSNE, the
+\SmallAtlasTsneComparisonCount{} comparisons split
+\SmallAtlasDireLowerVsTsneCount{}--\SmallAtlasTsneLowerVsDireCount{}:
+tSNE is lower in both dimensions on Blobs and MNIST and in $H_1$ on the two
+Levine sets, whereas DiRe is lower in both dimensions on Disk and Half--moons
+and in $H_0$ on the two Levine sets. This measured, structured tradeoff is
+direct evidence for a distinct useful method. It is incompatible with the
+report's categorical assertion that the experiments provide no justification
+for DiRe's existence.
+
+The report also fails to distinguish the scale of DiRe from the scale of an
+exact Vietoris--Rips diagnostic. DiRe and every newly executed baseline are
+fitted to all 1,306,127 cells. The separately labelled Cell Ranger tSNE
+reference supplies released coordinates for all cells but is not represented
+as a rerun on our common 20--feature input or as a runtime baseline. Exact
+full-data persistence would begin with approximately $8.53\times 10^{11}$
+unordered pairs before higher simplices are considered.
+Accordingly, topology is estimated on \TopologySubsetCount{} independently
+seeded, fixed stratified row--index subsets of $m=4000$ rows. One topology
+subset is one such index set, applied identically to the high--dimensional input
+and every layout. The separate layout--seed audit uses three independently
+seeded full layouts on the first fixed subset. This is not a
+hidden reduction of the DiRe run. It is the necessary and disclosed
+computational protocol for the diagnostic. The bundle publishes those
+coordinates, indices, diagrams, and repeated records, and an independent local
+command recomputes every topology score without either full dataset.
+
+The revision also tests the precise concern raised by our audit of the former
+2,000-row result: every canonical full-data layout is evaluated on nested,
+stratified row--index subsets with $m\in\{1000,2000,4000\}$. This isolates
+diagnostic subset-size sensitivity from both optimizer seeds and independent
+subset draws. The resulting records report every subset--specific
+competitor-minus-DiRe gap, their mean and relative effect, the observed paired
+standard deviation, and every subset-size reversal rather than rank or sign
+counts. We make no
+conventional significance or $p$-value claim from this descriptive audit. This makes it
+impossible to turn one convenient subset size into an undocumented
+method-ranking choice.
+
+The measured differences are reported quantitatively, including the
+counter-result. On 10x, the paired UMAP-minus-DiRe and tSNE-minus-DiRe gaps
+were
+\TenxUmapMinusDireBetaZeroDtwGap{}$\pm$
+\TenxUmapMinusDireBetaZeroDtwGapSd{} and
+\TenxTsneMinusDireBetaZeroDtwGap{}$\pm$
+\TenxTsneMinusDireBetaZeroDtwGapSd{} for $H_0$, and
+\TenxUmapMinusDireBetaOneDtwGap{}$\pm$
+\TenxUmapMinusDireBetaOneDtwGapSd{} and
+\TenxTsneMinusDireBetaOneDtwGap{}$\pm$
+\TenxTsneMinusDireBetaOneDtwGapSd{} for $H_1$. Negative gaps favour the
+comparator, so DiRe is not presented as the 10x topology leader.
+
+On arXiv, by contrast, the $H_0$ gaps were
+\ArxivUmapMinusDireBetaZeroDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaZeroDtwGapSd{} against UMAP and
+\ArxivTsneMinusDireBetaZeroDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaZeroDtwGapSd{} against tSNE. These are respectively
+\ArxivUmapMinusDireBetaZeroDtwGapInObservedSd{} and
+\ArxivTsneMinusDireBetaZeroDtwGapInObservedSd{} times the observed paired
+standard deviation. The revised table lists every underlying subset--specific
+gap in fixed seed order rather than compressing their signs into a count. The $H_1$
+gaps were
+\ArxivUmapMinusDireBetaOneDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaOneDtwGapSd{} and
+\ArxivTsneMinusDireBetaOneDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaOneDtwGapSd{}, respectively
+\ArxivUmapMinusDireBetaOneDtwGapInObservedSd{} and
+\ArxivTsneMinusDireBetaOneDtwGapInObservedSd{} times the observed paired
+standard deviation. PCA remains
+better for arXiv $H_0$: its PCA-minus-DiRe gap is
+\ArxivPcaMinusDireBetaZeroDtwGap{}$\pm$
+\ArxivPcaMinusDireBetaZeroDtwGapSd{}. For $H_1$ the corresponding PCA gap is
+\ArxivPcaMinusDireBetaOneDtwGap{}$\pm$
+\ArxivPcaMinusDireBetaOneDtwGapSd{}, whose magnitude is less than one observed
+paired standard deviation. These are descriptive robustness magnitudes, not
+``statistical sigmas'' or an inferential claim manufactured from three
+replicates.
+
+The scale-normalisation sensitivity is equally explicit. Under Q99 scaling,
+the arXiv $H_0$ UMAP-minus-DiRe gap shrinks to
+\ArxivUmapMinusDireBetaZeroQNinetyNineDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaZeroQNinetyNineDtwGapSd{}; the tSNE
+gap is
+\ArxivTsneMinusDireBetaZeroQNinetyNineDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaZeroQNinetyNineDtwGapSd{}.
+We therefore state that the $H_0$ advantage is not
+normalisation--universal. The mean Q99 $H_1$ gaps are:
+\ArxivUmapMinusDireBetaOneQNinetyNineDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaOneQNinetyNineDtwGapSd{} against UMAP and
+\ArxivTsneMinusDireBetaOneQNinetyNineDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaOneQNinetyNineDtwGapSd{} against tSNE. Reporting both outcomes
+is precisely why the robustness audit was added.
+
+\change The main text now uses a compact quality summary, a raw-value table,
+and an explicit narrative that reports where DiRe is better, worse, or
+intermediate. No method is declared a universal winner. Paired topology effect
+sizes and observed row-subset/layout variability, a topology-sensitivity
+table, per-repeat records, and locally recomputable reference point clouds
+replace an
+unauditable proliferation of bar charts.
+
+\section*{Major concern 6: claims versus experimental scope}
+
+\reviewcomment{The abstract claims general-purpose applicability, but
+experiments only cover 2D visualization use cases. If DIRe is a visualization
+method, it should be framed and evaluated as such. \ldots If it is
+general-purpose, it needs evaluation at higher dimensions against appropriate
+baselines---at minimum PCA, spectral embeddings, diffusion maps, and
+autoencoders.}
+
+\response The conditional rests on the same conflation addressed under
+Concern~1. The observation that these experiments use $d=2$ is true. The
+inference that DiRe is therefore a two--dimensional method is outright
+\emph{incompetent}: it confuses an experimental parameter with the method's
+defined codomain and intended application scope. The manuscript therefore
+retains its pre--Reviewer~3 general framing: DiRe accepts a user--specified
+target dimension, including non--visual dimensions used in subsequent
+analysis, while the visual benchmark figures report the particular value
+$d=2$.
+
+Higher--dimensional comparisons with diffusion maps or autoencoders would test
+additional task--specific questions. They are not logically required to
+establish the target dimension accepted by DiRe, to justify the existence of a
+general dimensionality--reduction framework, or to make the measured $d=2$
+results valid. We nevertheless add PCA as a direct reference and evaluate the
+spectral and \texttt{init="pca"} pathways before and after DiRe refinement.
+
+\change No scope concession was made. The exact title and pre--Reviewer~3
+general framing are retained; $d=2$ is identified only as the configuration of
+the reported visual benchmark. The revision also adds PCA and reports the
+spectral/\texttt{init="pca"} ablations.
+
+\section*{Major concern 7: runtime benchmarking}
+
+\reviewcomment{The authors release a GPU implementation but benchmark it
+against CPU-based UMAP, with no CPU-based t-SNE comparison \ldots what can be
+discerned suggests DIRe is the slowest of the three.}
+
+\response The presentation needed clearer hardware separation, and we have
+added it. The report's factual reading of the GPU timings is nevertheless
+wrong. The regenerated table below reports 20 fresh H100 fits for every GPU
+configuration and 10 for every CPU reference in separate blocks:
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+  \input{generated/revision3/revision3-small-runtime.tex}}
+\end{center}
+
+The table reports the fresh same--H100 small suite. By steady--fit mean,
+default DiRe is fastest among the three default nonlinear GPU methods on
+Half--moons and Levine32 and intermediate on Blobs, Disk, MNIST, and
+Levine13. It is not slowest on any of the six datasets. ``DiRe is the slowest
+of the three'' is therefore not a permissible summary of the fresh controlled
+record. It is a
+\emph{hallucinated characterization} obtained only by discarding the rows that
+contradict it. We have never claimed universal speed superiority.
+
+There are two different questions that must not be conflated:
+
+\begin{itemize}
+  \item A hardware--controlled implementation comparison places DiRe, cuML
+  UMAP, cuML tSNE, and cuML PCA on the \emph{same GPU}. This is the controlled
+  comparison for the released GPU implementation.
+  \item A CPU reference panel shows openTSNE and
+  \texttt{umap-learn}, each explicitly labelled as CPU. It informs readers who
+  use those common packages but is not mixed with the GPU ranking.
+\end{itemize}
+
+DiRe already exposes a separate \texttt{pytorch\_cpu} backend. Treating a
+CPU--to--CPU ranking through that backend as intrinsically more valid would
+still be methodologically mistaken: it would compare distinct backend and
+engineering paths rather than the released cuVS implementation or their
+algorithmic complexity. Reviewer~3 in fact asks that hardware classes be
+separated; we agree and have done exactly that. We reject only the implication
+that a same--GPU comparison is somehow less controlled than a comparison across
+different CPU software stacks.
+
+The million--point H100 records make the reviewer's ``slowest'' inference still
+less tenable. On all \TenxN{} 10x cells, production--policy DiRe took
+\TenxDireAutoSteadySeconds{}\,s steady, versus
+\TenxCumlUmapSteadySeconds{}\,s for cuML UMAP and
+\TenxCumlTsneSteadySeconds{}\,s for cuML tSNE. On all \ArxivN{} arXiv papers it
+took \ArxivDireAutoSteadySeconds{}\,s, versus
+\ArxivCumlUmapSteadySeconds{}\,s and
+\ArxivCumlTsneSteadySeconds{}\,s, respectively. Production--policy DiRe is the
+fastest of the three nonlinear GPU methods at both full--data endpoints.
+
+The arXiv backend discrepancy is also now isolated rather than hidden. In a
+fresh paired profile, the package's automatic policy selected IVF--PQ and took
+\ArxivDireAutoProfileSteadySeconds{}\,s steady, whereas forced IVF--Flat took
+\ArxivDireIvfFlatProfileSteadySeconds{}\,s: a
+\ArxivDireAutoSpeedupVsIvfFlat{}$\times$ difference under identical inputs,
+parameters, seeds, repeats, and H100. Graph construction accounted for
+\ArxivDireAutoKnnGraphSeconds{}\,s; the recorded
+\texttt{init="pca"} pathway uses cuML TruncatedSVD on this 384--feature input
+and is timed separately from layout. The chunked force fallback count was
+\ArxivDireAutoChunkedFallbackCalls{}. The mean fixed-query 16-NN set overlap
+was \ArxivDireBackendGraphOverlap{}. We therefore do not call the approximation
+quality-neutral: the complete local/global/context/topology gate is reported
+beside the timing. The earlier forced-IVF--Flat records remain intact and
+separately labelled.
+
+\change Separate CPU and GPU runtime panels; openTSNE added; cold and
+steady timings, synchronization, hardware, peak incremental NVML
+device--memory use, effective cuVS policy, stage decomposition, graph overlap,
+and full quality-gate records added.
+
+\section*{Major concern 8: dataset scale and practical viability}
+
+\reviewcomment{The datasets used all appear small \ldots contemporary DR use
+cases often involve millions of points.}
+
+\response Dataset statistics should have been tabulated, and the previous suite
+did not by itself establish million--point operation. We have answered this
+with evidence substantially stronger than a textual justification: a canonical
+public 1,306,127--cell 10x mouse--brain dataset and an independent
+723,457--document arXiv embedding corpus. The combination avoids a
+domain--specific demonstration and makes the ``small toy datasets only''
+description inapplicable to the revised manuscript.
+
+The single-cell run is not merely a stopwatch exercise. All layouts are
+rendered on the same stratified display sample; the manuscript tabulates the
+released 10x positive markers for all 20 official clusters; and a pair-level
+audit records which of the 60 directed three-nearest-centroid relationships in
+the common 20-dimensional input are preserved, lost, or introduced by each
+layout. We explicitly do not rename clusters from their visual appearance or
+claim that a separation in a benchmark layout configured with $d=2$ discovers
+a new cell type.
+
+The resulting biological audit is reported without selective interpretation.
+Production--policy DiRe preserves \TenxDireAutoAdjacencyPreserved{} of the 60
+input centroid relations, whereas UMAP preserves
+\TenxCumlUmapAdjacencyPreserved{}. Independent recomputation from every bundled
+1,306,127--row layout reproduces the stored adjacency lists exactly. The
+difference is not caused by three rare source clusters: after excluding those
+with fewer than 1,000 cells, equal--cluster recall is
+\TenxDireAutoAdjacencyFilteredEqual{} for DiRe and
+\TenxCumlUmapAdjacencyFilteredEqual{} for UMAP; source--cell--weighted recall
+is \TenxDireAutoAdjacencyCellWeighted{} and
+\TenxCumlUmapAdjacencyCellWeighted{}, respectively. For $k=1,2,3$,
+respectively, the equal--cluster recalls are
+\TenxDireAutoAdjacencyKOne{}/\TenxCumlUmapAdjacencyKOne{},
+\TenxDireAutoAdjacencyKTwo{}/\TenxCumlUmapAdjacencyKTwo{}, and
+\TenxDireAutoAdjacencyKThree{}/\TenxCumlUmapAdjacencyKThree{} for DiRe/UMAP.
+These checks are published as sensitivity records rather than used to replace
+the predeclared three--centroid result. The audited one--factor controls further
+show that this global relation is sensitive to initialization and configuration
+rather than caused by a broken edge calculation: spectral--initialised DiRe
+preserves \TenxDireSpectralAdjacencyPreserved{} of 60 relationships with
+source--cell--weighted recall \TenxDireSpectralAdjacencyCellWeighted{}, and the
+predeclared topology preset preserves
+\TenxDireTopologyAdjacencyPreserved{} with weighted recall
+\TenxDireTopologyAdjacencyCellWeighted{}. UMAP remains the leader on the
+predeclared equal--cluster score; we do not substitute either control for
+default DiRe. At the same time, DiRe retains interpretable input
+relations including clusters 9$\leftrightarrow$10 (cell--cycle marker
+profiles), 20$\rightarrow$19 (both containing \textit{S100a8}),
+13$\rightarrow$15 (\textit{Cldn5}/\textit{Flt1} to
+\textit{Rgs5}/\textit{Ndufa4l2}), and 19$\rightarrow$16 (myeloid marker
+profiles). These examples establish that the million--cell output supports an
+auditable biological reading; they are not presented as a claim that DiRe
+wins every metric.
+
+The report provides no execution log and no indication that the released
+reproduction suite was run. If access to suitable GPU resources was a
+constraint, that would be understandable and should simply be stated as a
+review limitation. It cannot be converted into a categorical scientific
+opinion that the implementation is not practically viable.
+
+The repository owner reports that historical GitHub Insights records more
+than 20,000 clone events for the DiRe repository as of 28 July 2026. Because
+traffic analytics are private and GitHub's API exposes only a rolling recent
+window, we identify this number explicitly as owner--reported. Nor do we
+misrepresent a clone event as proof that every checkout became a successful
+scientific analysis. It is, however, substantial evidence of distribution
+activity and external interest, and it is incompatible with dismissing the
+implementation's viability without engaging the released code or running the
+tests.
+
+\change A dataset-statistics table, full-scale layouts, scaling curves, memory
+records, and machine--readable manifests have been added. The repository now
+contains one command for the GPU run and a separate local command that fetches
+the compact result bundle, verifies the outer archive and every internal file,
+and regenerates all manuscript figures/tables without a GPU.
+
+\section*{Minor comment: role of topology}
+
+\reviewcomment{A substantial portion of the methods section is devoted to
+topology, but this material does not appear to inform the method itself.}
+
+\response Correct: persistent homology is an evaluation family and motivation,
+not a term in the default DiRe optimization objective. The revision says this
+explicitly. We retain a concise definition because the resulting metrics cannot
+be interpreted responsibly without explaining filtrations, diagrams, and Betti
+curves, but we no longer allow the section placement to suggest that the
+optimizer directly minimizes persistent-homology loss.
+
+\change The distinction between algorithm and evaluation has been stated in the
+abstract, introduction, methods transition, topology section, and limitations.
+
+\section*{Reproduction and auditability}
+
+The revised reproduction repository is
+\url{https://github.com/sashakolpakov/homological-stability-repro}. The large
+profile pins the then-current DiRe mainline source commit
+\nolinkurl{293b622cc79fa8ea6fd5b54009e0930e3385b22f} and public dataset
+revisions; records
+software/hardware provenance, transformations, subset indices, seeds, and
+failures; runs every large method/size in an isolated process; and packages
+the records needed for independent local rendering. A separate backend-policy
+stage compares production auto cuVS with a fresh forced-IVF--Flat control,
+without overwriting the earlier result, and records stage timing, effective
+index, fallback status, and fixed-query graph overlap. Its timing is interpreted
+only after the complete local/global/context/topology quality gate. The topology portion also
+packages the fixed high-dimensional reference point clouds and diagrams. The local
+fetcher
+verifies the archive SHA--256, rejects unsafe archive members, and verifies the
+size and SHA--256 of every file against an internal manifest.
+
+A separate CPU command then re-runs Ripser, the exact sorted zero-birth-bar
+$H_0$ bottleneck specialization, compiled exact GUDHI $H_1$ matching, and
+Betti--DTW from the bundled subsets and full layouts, comparing all
+recomputed values against the checksummed H100 records. Thus the response does
+not ask the reviewer or editor to accept a newly selected topology number on
+trust.
+
+That audit has now been executed with no GPU exposed:
+\TopologyAuditComparisonCount{} scalar topology
+comparisons were recomputed across fixed topology subsets, nested subset sizes, and
+layout seeds. All \TopologyAuditComparisonCount{} matched the packaged values,
+with maximum absolute difference \TopologyAuditMaximumAbsoluteDelta{}. The CPU environment, worker count, script SHA--256, and every
+comparison are retained in the submitted machine--readable record.
+
+This is directly executable evidence. We ask that any further categorical
+claim about runtime, memory, scaling, or output quality be accompanied by the
+corresponding run record or by an identified defect in this protocol.
+
+\section*{Closing request to the editor}
+
+We have adopted the useful parts of Reviewer~3's report and supplied new
+evidence well beyond the prior experimental scope. We have also shown clearly
+where the report overstates the record or asserts a false implementation
+premise. Reviewer~2 confirms that their preceding and overlapping concerns were
+adequately addressed. We respectfully request that the editor assess the
+revision on the actual code, measured results, and stated claims, and not on
+Reviewer~3's unsupported recommendation of rejection.
+
+\end{document}

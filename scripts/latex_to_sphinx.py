@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import unicodedata
 from pathlib import Path
 
 
@@ -14,6 +15,39 @@ UNDERLINES = {
     3: "~",
     4: "^",
 }
+
+
+def replace_latex_accents(text: str) -> str:
+    """Convert common BibTeX accent commands before generic command stripping."""
+
+    combining_marks = {
+        "v": "\u030c",
+        '"': "\u0308",
+        "'": "\u0301",
+        "`": "\u0300",
+        "^": "\u0302",
+        "~": "\u0303",
+        "=": "\u0304",
+        ".": "\u0307",
+        "c": "\u0327",
+        "H": "\u030b",
+        "r": "\u030a",
+        "u": "\u0306",
+    }
+
+    def accented(match: re.Match[str]) -> str:
+        command, letter = match.groups()
+        return unicodedata.normalize("NFC", letter + combining_marks[command])
+
+    command_class = r"""[v"'`^~=\.cHru]"""
+    patterns = (
+        rf"\{{\\({command_class})\s*\{{([A-Za-z])\}}\}}",
+        rf"\{{\\({command_class})\s*([A-Za-z])\}}",
+        rf"\\({command_class})\s*\{{([A-Za-z])\}}",
+    )
+    for pattern in patterns:
+        text = re.sub(pattern, accented, text)
+    return text
 
 
 def strip_comments(text: str) -> str:
@@ -43,6 +77,72 @@ def find_matching_brace(text: str, start: int) -> int:
             if depth == 0:
                 return index
     raise ValueError("unmatched brace")
+
+
+def expand_inputs(
+    text: str,
+    base_dir: Path,
+    active: tuple[Path, ...] = (),
+) -> str:
+    r"""Expand repository-local ``\input{...}`` files before conversion."""
+
+    root = base_dir.resolve()
+    pattern = re.compile(r"\\input\s*\{")
+    position = 0
+    while True:
+        match = pattern.search(text, position)
+        if not match:
+            return text
+        brace = match.end() - 1
+        end = find_matching_brace(text, brace)
+        requested = text[brace + 1 : end].strip()
+        candidate = base_dir / requested
+        if candidate.suffix == "":
+            candidate = candidate.with_suffix(".tex")
+        resolved = candidate.resolve()
+        if resolved != root and root not in resolved.parents:
+            raise ValueError(f"input path leaves manuscript tree: {requested}")
+        if resolved in active:
+            chain = " -> ".join(str(path) for path in (*active, resolved))
+            raise ValueError(f"cyclic LaTeX input: {chain}")
+        if not resolved.is_file():
+            raise FileNotFoundError(f"LaTeX input does not exist: {resolved}")
+        replacement = expand_inputs(
+            resolved.read_text(encoding="utf-8"),
+            base_dir,
+            (*active, resolved),
+        )
+        text = text[: match.start()] + replacement + text[end + 1 :]
+        position = match.start() + len(replacement)
+
+
+def expand_zero_arg_newcommands(text: str) -> str:
+    """Resolve generated zero-argument result macros and remove definitions."""
+
+    definitions: dict[str, str] = {}
+    pattern = re.compile(
+        r"\\(?:newcommand|providecommand)\s*\{\s*\\([A-Za-z@]+)\s*\}\s*\{"
+    )
+    while True:
+        match = pattern.search(text)
+        if not match:
+            break
+        value_start = match.end() - 1
+        value_end = find_matching_brace(text, value_start)
+        definitions[match.group(1)] = text[value_start + 1 : value_end]
+        text = text[: match.start()] + text[value_end + 1 :]
+
+    # Expand longer names first and iterate because one generated macro may
+    # refer to another.
+    for _iteration in range(max(1, len(definitions))):
+        changed = False
+        for name in sorted(definitions, key=len, reverse=True):
+            pattern_for_name = re.compile(rf"\\{re.escape(name)}(?![A-Za-z@])")
+            text, count = pattern_for_name.subn(definitions[name], text)
+            changed = changed or count > 0
+        if not changed:
+            break
+    return text
 
 
 def command_arg(text: str, command: str) -> str:
@@ -117,8 +217,26 @@ def replace_texorpdfstring(text: str) -> str:
     return text
 
 
+def replace_shortstacks(text: str) -> str:
+    r"""Flatten ``\shortstack[...]{...}`` without losing its line contents."""
+
+    pattern = re.compile(r"\\shortstack(?:\[[^\]]*\])?\s*\{")
+    position = 0
+    while True:
+        match = pattern.search(text, position)
+        if not match:
+            return text
+        brace = match.end() - 1
+        end = find_matching_brace(text, brace)
+        content = text[brace + 1 : end].replace(r"\\", " ")
+        text = text[: match.start()] + content + text[end + 1 :]
+        position = match.start() + len(content)
+
+
 def latex_to_text(text: str, figure_refs: dict[str, str], section_refs: dict[str, str]) -> str:
+    text = replace_latex_accents(text)
     text = replace_texorpdfstring(text)
+    text = replace_shortstacks(text)
     text = re.sub(r"``([^']*?)''", r'"\1"', text)
     text = re.sub(r"\\cite\{([^}]+)\}", lambda m: "[" + ", ".join(m.group(1).split(",")) + "]", text)
     text = re.sub(
@@ -144,6 +262,11 @@ def latex_to_text(text: str, figure_refs: dict[str, str], section_refs: dict[str
 
     text = re.sub(r"\\\((.*?)\\\)", lambda m: protect_math(m.group(1)), text)
     text = re.sub(r"\$(.+?)\$", lambda m: protect_math(m.group(1)), text)
+    # Generated zero-argument LaTeX macros are conventionally invoked as
+    # ``\Macro{}`` to delimit the command name.  Macro expansion removes
+    # ``\Macro`` but intentionally leaves the empty group behind.  It has no
+    # textual content and must not leak into the Sphinx manuscript.
+    text = text.replace("{}", "")
     text = re.sub(r"\\url\{([^}]+)\}", r"`\1 <\1>`_", text)
     text = re.sub(r"\\operatorname\{([^}]+)\}", r"\\operatorname{\1}", text)
     replacements = {
@@ -161,6 +284,11 @@ def latex_to_text(text: str, figure_refs: dict[str, str], section_refs: dict[str
     text = re.sub(r"\\[a-zA-Z]+\*?(?:\[[^\]]*\])?", "", text)
     for token, value in math_tokens.items():
         text = text.replace(token, value)
+    # reStructuredText inline roles require markup boundaries.  LaTeX quite
+    # reasonably writes compact expressions such as ``4.7$\pm$0.1`` and
+    # ``20$\rightarrow$19``; add escaped spaces so Sphinx recognises the math
+    # role without introducing visible padding.
+    text = re.sub(r"(?<=[A-Za-z0-9`\]])(?=:math:`)", r"\\ ", text)
     text = re.sub(r"(:math:`[^`]+`)(?=[A-Za-z0-9])", r"\1\\ ", text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
@@ -191,6 +319,18 @@ def build_reference_maps(body: str) -> tuple[dict[str, str], dict[str, str]]:
     for index, match in enumerate(re.finditer(r"\\begin\{figure\}.*?\\end\{figure\}", body, flags=re.S), start=1):
         for label in re.findall(r"\\label\{([^}]+)\}", match.group(0)):
             figure_refs[label] = str(index)
+    for index, match in enumerate(
+        re.finditer(
+            r"\\begin\{(?P<table_environment>table\*?|longtable)\}"
+            r".*?"
+            r"\\end\{(?P=table_environment)\}",
+            body,
+            flags=re.S,
+        ),
+        start=1,
+    ):
+        for label in re.findall(r"\\label\{([^}]+)\}", match.group(0)):
+            figure_refs[label] = str(index)
 
     section_refs = {}
     for match in re.finditer(r"\\(section|subsection|subsubsection)\{", body):
@@ -215,6 +355,8 @@ def protect_blocks(body: str) -> tuple[str, dict[str, tuple[str, str]]]:
         return inner
 
     for kind, pattern in (
+        ("table", r"\\begin\{table\*?\}.*?\\end\{table\*?\}"),
+        ("table", r"\\begin\{longtable\}.*?\\end\{longtable\}"),
         ("figure", r"\\begin\{figure\}.*?\\end\{figure\}"),
         ("enumerate", r"\\begin\{enumerate\}.*?\\end\{enumerate\}"),
         ("itemize", r"\\begin\{itemize\}.*?\\end\{itemize\}"),
@@ -265,18 +407,27 @@ def render_figure(block: str, number: str, figure_refs: dict[str, str], section_
     images = re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", block)
     captions = captions_from_block(block)
     overall_caption = captions[-1] if captions else ""
-    subcaptions = captions[: len(images)]
+    if len(images) == 1 and len(captions) == 1:
+        subcaptions = [""]
+    else:
+        subcaptions = captions[: len(images)]
     lines = [f".. container:: manuscript-figure", ""]
-    for image, caption in zip(images, subcaptions):
+    for index, image in enumerate(images):
+        caption = subcaptions[index] if index < len(subcaptions) else ""
         lines.extend(
             [
                 f"   .. figure:: _static/paper/{image}",
-                "      :width: 48%",
-                "",
-                f"      {latex_to_text(caption, figure_refs, section_refs)}",
+                "      :width: 92%" if len(images) == 1 else "      :width: 48%",
                 "",
             ]
         )
+        if caption:
+            lines.extend(
+                [
+                    f"      {latex_to_text(caption, figure_refs, section_refs)}",
+                    "",
+                ]
+            )
     if overall_caption:
         lines.extend(
             [
@@ -284,6 +435,125 @@ def render_figure(block: str, number: str, figure_refs: dict[str, str], section_
                 "",
             ]
         )
+    return lines
+
+
+def split_top_level_latex(text: str, delimiter: str) -> list[str]:
+    """Split table syntax only outside nested brace groups."""
+
+    if delimiter not in {"row", "cell"}:
+        raise ValueError(f"unsupported LaTeX delimiter: {delimiter}")
+
+    parts: list[str] = []
+    start = 0
+    depth = 0
+    index = 0
+    while index < len(text):
+        character = text[index]
+        if character == "\\":
+            if delimiter == "row" and depth == 0 and text.startswith(r"\\", index):
+                parts.append(text[start:index])
+                index += 2
+                while index < len(text) and text[index].isspace():
+                    index += 1
+                if index < len(text) and text[index] == "[":
+                    closing = text.find("]", index + 1)
+                    if closing >= 0:
+                        index = closing + 1
+                start = index
+                continue
+            # Escaped braces and ampersands are literal table-cell content.
+            if index + 1 < len(text) and text[index + 1] in "{}&":
+                index += 2
+                continue
+            index += 1
+            continue
+        if character == "{":
+            depth += 1
+        elif character == "}":
+            depth = max(0, depth - 1)
+        elif delimiter == "cell" and depth == 0 and character == "&":
+            parts.append(text[start:index])
+            start = index + 1
+        index += 1
+    parts.append(text[start:])
+    return parts
+
+
+def render_table(
+    block: str,
+    number: str,
+    figure_refs: dict[str, str],
+    section_refs: dict[str, str],
+) -> list[str]:
+    begin = re.search(
+        r"\\begin\{(?P<table_environment>tabular\*?|longtable)\}"
+        r"(?:\[[^\]]*\])?\s*\{",
+        block,
+    )
+    if not begin:
+        return [
+            f"**Table {number}.** Table source is available in the LaTeX manuscript.",
+            "",
+        ]
+    table_environment = begin.group("table_environment")
+    specification_start = begin.end() - 1
+    specification_end = find_matching_brace(block, specification_start)
+    end = re.search(
+        rf"\\end\{{{re.escape(table_environment)}\}}",
+        block[specification_end + 1 :],
+    )
+    if not end:
+        raise ValueError(f"{table_environment} environment has no matching end")
+    body_end = specification_end + 1 + end.start()
+    body = block[specification_end + 1 : body_end]
+
+    # A standalone longtable owns its caption and label inside the environment,
+    # unlike a table float containing a tabular.  Remove those metadata commands
+    # before row parsing; their leading row terminator is harmless and is
+    # discarded as an empty row below.
+    for command in ("caption", "label"):
+        pattern = re.compile(rf"\\{command}\s*\{{")
+        while True:
+            match = pattern.search(body)
+            if not match:
+                break
+            argument_start = match.end() - 1
+            argument_end = find_matching_brace(body, argument_start)
+            body = body[: match.start()] + body[argument_end + 1 :]
+
+    body = re.sub(
+        r"\\(?:toprule|midrule|bottomrule|hline|endhead|endfirsthead|"
+        r"endfoot|endlastfoot|addlinespace)\b(?:\[[^\]]*\])?",
+        "",
+        body,
+    )
+    rows = []
+    for raw_row in split_top_level_latex(body, "row"):
+        raw_row = raw_row.strip()
+        if not raw_row:
+            continue
+        cells = [
+            latex_to_text(cell.strip(), figure_refs, section_refs)
+            for cell in split_top_level_latex(raw_row, "cell")
+        ]
+        if any(cells):
+            rows.append(cells)
+    captions = captions_from_block(block)
+    caption = latex_to_text(
+        captions[-1] if captions else "",
+        figure_refs,
+        section_refs,
+    )
+    title = f"Table {number}"
+    if caption:
+        title += f". {caption}"
+    lines = [f".. list-table:: {title}", "   :header-rows: 1", ""]
+    for row in rows:
+        for index, cell in enumerate(row):
+            marker = "*" if index == 0 else " "
+            lines.append(f"   {marker} - {cell}")
+    lines.append("")
     return lines
 
 
@@ -373,6 +643,17 @@ def render_body(body: str, blocks: dict[str, tuple[str, str]], bib_path: Path, f
             kind, block = blocks[line]
             if kind == "math":
                 lines.extend(render_math(block))
+            elif kind == "table":
+                label = next(iter(re.findall(r"\\label\{([^}]+)\}", block)), "")
+                number = figure_refs.get(label, "")
+                lines.extend(
+                    render_table(
+                        block,
+                        number,
+                        figure_refs,
+                        section_refs,
+                    )
+                )
             elif kind == "figure":
                 label = next(iter(re.findall(r"\\label\{([^}]+)\}", block)), "")
                 number = figure_refs.get(label, "")
@@ -409,8 +690,13 @@ def render_body(body: str, blocks: dict[str, tuple[str, str]], bib_path: Path, f
 
 
 def convert(latex_path: Path, bib_path: Path, output_path: Path) -> None:
-    source = strip_comments(latex_path.read_text(encoding="utf-8"))
+    source = expand_inputs(
+        latex_path.read_text(encoding="utf-8"),
+        latex_path.resolve().parent,
+    )
+    source = expand_zero_arg_newcommands(strip_comments(source))
     body = extract_body(source)
+    body = re.sub(r"\\iffalse\b.*?\\fi\b", "", body, flags=re.S)
     figure_refs, section_refs = build_reference_maps(body)
     abstract, body = extract_environment(body, "abstract")
     body = body.replace(r"\maketitle", "")

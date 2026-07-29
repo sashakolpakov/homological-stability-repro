@@ -18,7 +18,14 @@ DATASET_BASES = {
     "levine13": "article_benchmark_results_levine",
     "levine32": "article_benchmark_results_levine",
 }
-METHODS = ("dire", "cuml_tsne", "cuml_umap", "umap")
+METHODS = (
+    "dire",
+    "dire_topology",
+    "cuml_tsne",
+    "cuml_umap",
+    "opentsne",
+    "umap",
+)
 
 
 def load_label_metadata() -> dict:

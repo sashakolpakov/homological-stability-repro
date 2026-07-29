@@ -1,0 +1,3 @@
+dataset,n,d,input,labels,license
+10x embryonic mouse brain,1306127,20,official Cell Ranger PCA scores,official k-means-20 and graph clusters,CC BY 4.0
+arXiv BGE-small corpus,723457,384,mean-pooled BGE-small embeddings,primary arXiv category,CC BY 4.0 / metadata CC0

@@ -11,6 +11,7 @@
 *.nav
 *.out
 *.pdf
+!generated/revision3/*.pdf
 *.ps
 *.run.xml
 *.snm
@@ -18,8 +19,10 @@
 *.toc
 *.vrb
 *.xdv
+*-SAVE-ERROR
 docs/figures.rst
 docs/paper.rst
+docs/revision3.rst
 .DS_Store
 .matplotlib-cache/
 .venv/
@@ -29,9 +32,7 @@ benchmark_logs/
 data/fresh_benchmark_results/
 data/fresh_embedding_pngs/
 data/fresh_json_logs/
-data/remote_embedding_pngs/
-data/remote_json_logs/
-data/topology_sampling_sweep/
+data/revision3/
 docs/_build/
 docs/_static/paper/
 pics/

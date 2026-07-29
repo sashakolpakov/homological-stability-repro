@@ -1,0 +1,9 @@
+method,display,input_directed_edges,preserved_directed_edges,introduced_directed_edges,mean_recall,source_cell_weighted_recall
+pca2,PCA (2D),60,26,34,0.43333333333333335,0.4011809979682935
+dire_auto,DiRe (auto cuVS),60,17,43,0.2833333333333333,0.31489331946025667
+dire,DiRe (IVF-Flat control),60,17,43,0.2833333333333333,0.31489331946025667
+dire_spectral,DiRe (spectral init),60,26,34,0.43333333333333335,0.6907651399902154
+dire_topology,DiRe (topology preset),60,21,39,0.35,0.5956391172782841
+cuml_umap,cuML UMAP,60,29,31,0.48333333333333334,0.7194558160628075
+cuml_tsne,cuML t-SNE,60,20,40,0.3333333333333333,0.39173730170700594
+cellranger_tsne,Cell Ranger t-SNE,60,21,39,0.35,0.4085710399269494

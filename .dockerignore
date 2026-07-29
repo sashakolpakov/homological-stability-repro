@@ -1,25 +1,9 @@
-.git
-.venv
-.matplotlib-cache
-__pycache__
-*/__pycache__
-pics
-docs/_build
-docs/_static/paper
-docs/figures.rst
-docs/paper.rst
-dire_short.aux
-dire_short.bbl
-dire_short.bcf
-dire_short.blg
-dire_short.fdb_latexmk
-dire_short.fls
-dire_short.log
-dire_short.out
-dire_short.pdf
-dire_short.run.xml
-data/fresh_benchmark_results
-data/fresh_json_logs
-data/fresh_embedding_pngs
-data/remote_json_logs
-data/remote_embedding_pngs
+# The image installs only the pinned benchmark environment. Repository source
+# is bind-mounted at runtime, so no benchmark data or derived artifact belongs
+# in the Docker build context.
+**
+!.dockerignore
+!docker/
+!docker/Dockerfile
+!requirements/
+!requirements/bench.txt

@@ -1,0 +1,161 @@
+method,display,source_cluster,source_cells,input_nearest_clusters,embedding_nearest_clusters,preserved,recall
+pca2,PCA (2D),1,331960,"2,3,4","3,7,5",1,0.3333333333333333
+pca2,PCA (2D),2,196425,"1,6,4","7,3,1",1,0.3333333333333333
+pca2,PCA (2D),3,118140,"1,2,4","1,7,5",1,0.3333333333333333
+pca2,PCA (2D),4,110356,"1,7,2","5,3,7",1,0.3333333333333333
+pca2,PCA (2D),5,105158,"7,4,1","4,3,7",2,0.6666666666666666
+pca2,PCA (2D),6,88009,"2,7,4","14,9,2",1,0.3333333333333333
+pca2,PCA (2D),7,84088,"5,4,2","3,5,2",2,0.6666666666666666
+pca2,PCA (2D),8,80672,"6,9,2","9,17,10",1,0.3333333333333333
+pca2,PCA (2D),9,51662,"10,6,2","10,8,14",1,0.3333333333333333
+pca2,PCA (2D),10,49421,"9,6,8","9,8,18",2,0.6666666666666666
+pca2,PCA (2D),11,20993,"3,4,1","7,4,5",1,0.3333333333333333
+pca2,PCA (2D),12,19814,"4,5,7","4,11,5",2,0.6666666666666666
+pca2,PCA (2D),13,15269,"15,8,6","19,15,20",1,0.3333333333333333
+pca2,PCA (2D),14,11697,"6,8,9","6,8,9",3,1.0
+pca2,PCA (2D),15,11137,"8,6,14","16,19,20",0,0.0
+pca2,PCA (2D),16,5525,"6,4,8","15,19,20",0,0.0
+pca2,PCA (2D),17,5038,"8,6,9","18,8,10",1,0.3333333333333333
+pca2,PCA (2D),18,589,"17,8,6","17,8,10",2,0.6666666666666666
+pca2,PCA (2D),19,123,"16,5,4","20,15,16",1,0.3333333333333333
+pca2,PCA (2D),20,51,"19,16,12","19,16,15",2,0.6666666666666666
+dire_auto,DiRe (auto cuVS),1,331960,"2,3,4","2,3,10",2,0.6666666666666666
+dire_auto,DiRe (auto cuVS),2,196425,"1,6,4","10,9,1",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),3,118140,"1,2,4","4,10,20",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),4,110356,"1,7,2","20,19,16",0,0.0
+dire_auto,DiRe (auto cuVS),5,105158,"7,4,1","12,20,13",0,0.0
+dire_auto,DiRe (auto cuVS),6,88009,"2,7,4","9,10,8",0,0.0
+dire_auto,DiRe (auto cuVS),7,84088,"5,4,2","13,17,15",0,0.0
+dire_auto,DiRe (auto cuVS),8,80672,"6,9,2","17,18,14",0,0.0
+dire_auto,DiRe (auto cuVS),9,51662,"10,6,2","10,6,8",2,0.6666666666666666
+dire_auto,DiRe (auto cuVS),10,49421,"9,6,8","9,8,18",2,0.6666666666666666
+dire_auto,DiRe (auto cuVS),11,20993,"3,4,1","7,14,17",0,0.0
+dire_auto,DiRe (auto cuVS),12,19814,"4,5,7","20,19,5",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),13,15269,"15,8,6","16,19,15",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),14,11697,"6,8,9","17,8,18",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),15,11137,"8,6,14","13,16,19",0,0.0
+dire_auto,DiRe (auto cuVS),16,5525,"6,4,8","19,13,20",0,0.0
+dire_auto,DiRe (auto cuVS),17,5038,"8,6,9","8,18,14",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),18,589,"17,8,6","15,17,8",2,0.6666666666666666
+dire_auto,DiRe (auto cuVS),19,123,"16,5,4","20,16,13",1,0.3333333333333333
+dire_auto,DiRe (auto cuVS),20,51,"19,16,12","19,16,13",2,0.6666666666666666
+dire,DiRe (IVF-Flat control),1,331960,"2,3,4","2,3,10",2,0.6666666666666666
+dire,DiRe (IVF-Flat control),2,196425,"1,6,4","10,9,1",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),3,118140,"1,2,4","4,10,20",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),4,110356,"1,7,2","20,19,16",0,0.0
+dire,DiRe (IVF-Flat control),5,105158,"7,4,1","12,13,20",0,0.0
+dire,DiRe (IVF-Flat control),6,88009,"2,7,4","9,10,8",0,0.0
+dire,DiRe (IVF-Flat control),7,84088,"5,4,2","17,13,15",0,0.0
+dire,DiRe (IVF-Flat control),8,80672,"6,9,2","18,17,14",0,0.0
+dire,DiRe (IVF-Flat control),9,51662,"10,6,2","10,8,6",2,0.6666666666666666
+dire,DiRe (IVF-Flat control),10,49421,"9,6,8","9,8,3",2,0.6666666666666666
+dire,DiRe (IVF-Flat control),11,20993,"3,4,1","7,14,17",0,0.0
+dire,DiRe (IVF-Flat control),12,19814,"4,5,7","20,19,5",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),13,15269,"15,8,6","16,19,15",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),14,11697,"6,8,9","17,8,18",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),15,11137,"8,6,14","16,13,19",0,0.0
+dire,DiRe (IVF-Flat control),16,5525,"6,4,8","19,20,13",0,0.0
+dire,DiRe (IVF-Flat control),17,5038,"8,6,9","18,8,15",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),18,589,"17,8,6","17,15,8",2,0.6666666666666666
+dire,DiRe (IVF-Flat control),19,123,"16,5,4","16,20,13",1,0.3333333333333333
+dire,DiRe (IVF-Flat control),20,51,"19,16,12","19,16,13",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),1,331960,"2,3,4","2,3,4",3,1.0
+dire_spectral,DiRe (spectral init),2,196425,"1,6,4","1,3,4",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),3,118140,"1,2,4","4,2,1",3,1.0
+dire_spectral,DiRe (spectral init),4,110356,"1,7,2","3,2,7",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),5,105158,"7,4,1","7,12,4",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),6,88009,"2,7,4","15,4,2",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),7,84088,"5,4,2","5,4,3",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),8,80672,"6,9,2","17,14,10",0,0.0
+dire_spectral,DiRe (spectral init),9,51662,"10,6,2","10,17,8",1,0.3333333333333333
+dire_spectral,DiRe (spectral init),10,49421,"9,6,8","17,9,8",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),11,20993,"3,4,1","18,20,14",0,0.0
+dire_spectral,DiRe (spectral init),12,19814,"4,5,7","13,16,19",0,0.0
+dire_spectral,DiRe (spectral init),13,15269,"15,8,6","15,16,19",1,0.3333333333333333
+dire_spectral,DiRe (spectral init),14,11697,"6,8,9","8,20,18",1,0.3333333333333333
+dire_spectral,DiRe (spectral init),15,11137,"8,6,14","13,16,19",0,0.0
+dire_spectral,DiRe (spectral init),16,5525,"6,4,8","19,13,15",0,0.0
+dire_spectral,DiRe (spectral init),17,5038,"8,6,9","10,8,9",2,0.6666666666666666
+dire_spectral,DiRe (spectral init),18,589,"17,8,6","14,20,8",1,0.3333333333333333
+dire_spectral,DiRe (spectral init),19,123,"16,5,4","16,13,15",1,0.3333333333333333
+dire_spectral,DiRe (spectral init),20,51,"19,16,12","14,19,18",1,0.3333333333333333
+dire_topology,DiRe (topology preset),1,331960,"2,3,4","2,3,4",3,1.0
+dire_topology,DiRe (topology preset),2,196425,"1,6,4","3,1,4",2,0.6666666666666666
+dire_topology,DiRe (topology preset),3,118140,"1,2,4","4,7,2",2,0.6666666666666666
+dire_topology,DiRe (topology preset),4,110356,"1,7,2","3,7,5",1,0.3333333333333333
+dire_topology,DiRe (topology preset),5,105158,"7,4,1","7,4,3",2,0.6666666666666666
+dire_topology,DiRe (topology preset),6,88009,"2,7,4","15,13,9",0,0.0
+dire_topology,DiRe (topology preset),7,84088,"5,4,2","5,4,3",2,0.6666666666666666
+dire_topology,DiRe (topology preset),8,80672,"6,9,2","10,9,17",1,0.3333333333333333
+dire_topology,DiRe (topology preset),9,51662,"10,6,2","8,10,15",1,0.3333333333333333
+dire_topology,DiRe (topology preset),10,49421,"9,6,8","17,8,19",1,0.3333333333333333
+dire_topology,DiRe (topology preset),11,20993,"3,4,1","14,18,8",0,0.0
+dire_topology,DiRe (topology preset),12,19814,"4,5,7","13,15,14",0,0.0
+dire_topology,DiRe (topology preset),13,15269,"15,8,6","15,12,9",1,0.3333333333333333
+dire_topology,DiRe (topology preset),14,11697,"6,8,9","11,18,8",1,0.3333333333333333
+dire_topology,DiRe (topology preset),15,11137,"8,6,14","13,9,8",1,0.3333333333333333
+dire_topology,DiRe (topology preset),16,5525,"6,4,8","19,17,20",0,0.0
+dire_topology,DiRe (topology preset),17,5038,"8,6,9","10,20,19",0,0.0
+dire_topology,DiRe (topology preset),18,589,"17,8,6","14,11,20",0,0.0
+dire_topology,DiRe (topology preset),19,123,"16,5,4","16,20,17",1,0.3333333333333333
+dire_topology,DiRe (topology preset),20,51,"19,16,12","19,17,16",2,0.6666666666666666
+cuml_umap,cuML UMAP,1,331960,"2,3,4","3,2,4",3,1.0
+cuml_umap,cuML UMAP,2,196425,"1,6,4","3,4,1",2,0.6666666666666666
+cuml_umap,cuML UMAP,3,118140,"1,2,4","1,2,4",3,1.0
+cuml_umap,cuML UMAP,4,110356,"1,7,2","7,2,1",3,1.0
+cuml_umap,cuML UMAP,5,105158,"7,4,1","7,4,12",2,0.6666666666666666
+cuml_umap,cuML UMAP,6,88009,"2,7,4","9,10,17",0,0.0
+cuml_umap,cuML UMAP,7,84088,"5,4,2","4,5,14",2,0.6666666666666666
+cuml_umap,cuML UMAP,8,80672,"6,9,2","9,10,14",1,0.3333333333333333
+cuml_umap,cuML UMAP,9,51662,"10,6,2","10,6,8",2,0.6666666666666666
+cuml_umap,cuML UMAP,10,49421,"9,6,8","17,9,6",2,0.6666666666666666
+cuml_umap,cuML UMAP,11,20993,"3,4,1","14,8,9",0,0.0
+cuml_umap,cuML UMAP,12,19814,"4,5,7","7,14,5",2,0.6666666666666666
+cuml_umap,cuML UMAP,13,15269,"15,8,6","17,15,10",1,0.3333333333333333
+cuml_umap,cuML UMAP,14,11697,"6,8,9","11,8,9",2,0.6666666666666666
+cuml_umap,cuML UMAP,15,11137,"8,6,14","18,13,20",0,0.0
+cuml_umap,cuML UMAP,16,5525,"6,4,8","19,20,18",0,0.0
+cuml_umap,cuML UMAP,17,5038,"8,6,9","10,13,9",1,0.3333333333333333
+cuml_umap,cuML UMAP,18,589,"17,8,6","20,19,15",0,0.0
+cuml_umap,cuML UMAP,19,123,"16,5,4","20,16,18",1,0.3333333333333333
+cuml_umap,cuML UMAP,20,51,"19,16,12","19,16,18",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,1,331960,"2,3,4","2,12,13",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,2,196425,"1,6,4","1,17,15",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,3,118140,"1,2,4","4,15,9",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,4,110356,"1,7,2","3,15,7",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,5,105158,"7,4,1","12,7,4",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,6,88009,"2,7,4","17,13,14",0,0.0
+cuml_tsne,cuML t-SNE,7,84088,"5,4,2","5,4,11",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,8,80672,"6,9,2","6,9,15",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,9,51662,"10,6,2","10,3,8",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,10,49421,"9,6,8","9,8,3",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,11,20993,"3,4,1","7,3,4",2,0.6666666666666666
+cuml_tsne,cuML t-SNE,12,19814,"4,5,7","5,1,2",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,13,15269,"15,8,6","14,17,6",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,14,11697,"6,8,9","13,18,17",0,0.0
+cuml_tsne,cuML t-SNE,15,11137,"8,6,14","4,3,2",0,0.0
+cuml_tsne,cuML t-SNE,16,5525,"6,4,8","19,14,6",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,17,5038,"8,6,9","6,13,14",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,18,589,"17,8,6","14,20,13",0,0.0
+cuml_tsne,cuML t-SNE,19,123,"16,5,4","16,18,6",1,0.3333333333333333
+cuml_tsne,cuML t-SNE,20,51,"19,16,12","18,14,13",0,0.0
+cellranger_tsne,Cell Ranger t-SNE,1,331960,"2,3,4","16,2,19",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,2,196425,"1,6,4","6,4,7",2,0.6666666666666666
+cellranger_tsne,Cell Ranger t-SNE,3,118140,"1,2,4","4,11,12",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,4,110356,"1,7,2","3,2,13",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,5,105158,"7,4,1","7,18,15",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,6,88009,"2,7,4","9,10,2",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,7,84088,"5,4,2","18,5,2",2,0.6666666666666666
+cellranger_tsne,Cell Ranger t-SNE,8,80672,"6,9,2","17,10,13",0,0.0
+cellranger_tsne,Cell Ranger t-SNE,9,51662,"10,6,2","14,10,6",2,0.6666666666666666
+cellranger_tsne,Cell Ranger t-SNE,10,49421,"9,6,8","9,6,14",2,0.6666666666666666
+cellranger_tsne,Cell Ranger t-SNE,11,20993,"3,4,1","20,3,19",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,12,19814,"4,5,7","13,3,4",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,13,15269,"15,8,6","12,8,4",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,14,11697,"6,8,9","9,10,15",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,15,11137,"8,6,14","9,14,5",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,16,5525,"6,4,8","19,1,11",0,0.0
+cellranger_tsne,Cell Ranger t-SNE,17,5038,"8,6,9","8,10,14",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,18,589,"17,8,6","7,5,2",0,0.0
+cellranger_tsne,Cell Ranger t-SNE,19,123,"16,5,4","16,11,1",1,0.3333333333333333
+cellranger_tsne,Cell Ranger t-SNE,20,51,"19,16,12","11,3,12",1,0.3333333333333333

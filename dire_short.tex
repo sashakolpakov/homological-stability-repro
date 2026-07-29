@@ -11,6 +11,8 @@
 \usepackage{amssymb}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{longtable}
 
 % Page Layout
 \geometry{margin=1in}
@@ -22,6 +24,7 @@ style=alphabetic,
 sorting=ynt
 ]{biblatex}
 \addbibresource{dire_short.bib}
+\input{generated/revision3/revision3-results-macros.tex}
 
 % Title
 \title{Dimensionality reduction for homological stability \\ and global structure preservation}
@@ -47,9 +50,16 @@ We propose DiRe, a force--directed dimensionality reduction framework designed t
 \section{Introduction}
 Traditional dimensionality reduction techniques such as UMAP and tSNE \cite{umap,vandermaaten-tsne} are widely used for visualizing high--dimensional data in lower--dimensional spaces, usually 2D and sometimes 3D. Other uses include dimensionality reduction to other, possibly higher and thus non--visual dimensions, for the subsequent use of classifiers such as SVMs.
 
-However, these methods often struggle with scalability, interpretability, and preservation of global data structures. UMAP, while fast and scalable, may overemphasize local structures at the expense of global data relationships \cite{pachter}. And tSNE, while known for producing high--quality visualizations, may be computationally expensive and sensitive to hyperparameter tuning \cite{kobak2019art}.
+These methods are designed primarily around local neighbour relations, so
+their large--scale organization must be interpreted with care; runtime and
+sensitivity also depend on the implementation and configuration
+\cite{kobak2019art,pachter}.
+
+Both tSNE and UMAP can change their large--scale organization substantially with initialization \cite{kobak-linderman-initialization}. The original exact tSNE formulation has a quadratic interaction cost, but modern interpolation and FFT--based implementations, including FIt--SNE and openTSNE, remove that formulation as a practical description of current large--scale tSNE software \cite{linderman-fitsne,opentsne}. UMAP is likewise designed around sparse graph optimization and negative sampling rather than explicit evaluation of every non--edge. We therefore do not use ``tSNE is quadratic'' or ``UMAP alone loses global structure'' as premises for DiRe.
 
 DiRe addresses these challenges by combining an initial low--dimensional embedding with a force--directed layout driven by the $k$--nearest--neighbor graph of the original data. The goal is not to replace every use of UMAP or tSNE, but to provide an alternative whose optimization and diagnostics are explicitly tied to preservation of large--scale and homological structure.
+
+DiRe belongs to the broad family of initialized neighbor embeddings. The existence of PCA or spectral initialization is not itself a novelty claim. The object of study is the particular simplified force law, the bounded random--negative approximation used by DiRe, the separation of initialization from refinement, and quantitative evaluation that treats topology as one diagnostic rather than inferring quality from a scatter plot.
 
 The computational results in this manuscript use DiRe--RAPIDS \cite{dire-rapids}. Its GPU stack includes PyTorch \cite{pytorch}, optional PyKeOps acceleration \cite{pykeops}, and RAPIDS/cuVS components \cite{cuml,cuvs}.
 
@@ -57,19 +67,21 @@ The contribution of this paper is therefore twofold. First, it describes the alg
 
 \subsection{Relation to existing methods}
 
-tSNE and UMAP both build low--dimensional embeddings by matching neighborhood information, but they differ in objective functions, kernels, and optimization details \cite{vandermaaten-tsne,kobak2019art,umap}. DiRe uses the $k$NN graph in a different role: it supplies the attraction graph for a force--directed layout after an explicit initial embedding. PCA and random projections provide analytical reference points because their distortion can be bounded directly in terms of variance or Johnson--Lindenstrauss distortion, while spectral methods use graph operators related to the same neighborhood graph \cite{belkin-niyogi-laplacian,coifman-lafon-diffusion}. DiRe is closest in spirit to graph layout methods, but the evaluation criterion emphasized here is topological: we compare persistence diagrams and Betti curves of the high--dimensional point cloud with those of the resulting embedding.
+tSNE, UMAP, and DiRe can all be viewed as neighbor embeddings governed by a balance between attraction and repulsion \cite{vandermaaten-tsne,umap,bohm-attraction-repulsion}. Spectral initialization is the UMAP default, while PCA initialization is common in modern tSNE practice \cite{kobak2019art,kobak-linderman-initialization,opentsne}. DiRe does not claim either initialization as new. Its attraction acts on an unweighted $k$NN graph, and its repulsion uses the explicit kernel below on uniformly sampled point indices. Initialization and refinement are separate implementation stages; the reproduction suite measures initializer--only controls by setting the recorded layout iteration count to zero and compares them with the corresponding refined layouts.
+
+PCA and random projections provide analytical reference points because their distortion can be bounded in terms of variance or Johnson--Lindenstrauss distortion, while spectral methods use graph operators related to the same neighborhood graph \cite{belkin-niyogi-laplacian,coifman-lafon-diffusion}. The topological evaluation is also not presented as having been invented in isolation: persistent homology has previously been used to assess dimensionality--reduction schemes \cite{rieck-leitte-2015}, and rank--based neighborhood criteria have a substantial prior literature \cite{lee-verleysen-quality}. Our contribution is a reproducible application of complementary local, context, centroid, and homological diagnostics to DiRe and its baselines.
 
 \section{Main methods}
 
 Let $X = \{x_1,\ldots,x_n\} \subset \mathbb{R}^D$ be the input point cloud, represented in practice as an $n \times D$ numerical array. DiRe performs the following main steps:
 
 \begin{enumerate}
-    \item \textbf{Capturing dataset topology:} Create the kNN graph of $X$, say $\Gamma$, for a given number of neighbors $k$ ($=$ \texttt{n\_neighbors}). DiRe--RAPIDS can use PyTorch, PyKeOps, or RAPIDS/cuVS backends for this step, depending on data size and available hardware. Other libraries like FAISS \cite{faiss} may also be used for nearest--neighbor search.
-    \item \textbf{Initial dimension reduction:} Produce $Y \subset \mathbb{R}^d$, the initial embedding of $X$, with $d \ll D$ (usually $d=2$ or $3$) specified by \texttt{dimension}. The available initial embedding methods include \texttt{random} (random projections from the Johnson--Lindenstrauss lemma), \texttt{spectral} (using the kNN graph $\Gamma$ to construct a weighted Laplacian, optionally with a similarity kernel), and \texttt{pca} (classical or kernel--based).
+    \item \textbf{Constructing the neighborhood graph:} Create the kNN graph of $X$, say $\Gamma$, for a given number of neighbors $k$ ($=$ \texttt{n\_neighbors}). The released DiRe--RAPIDS implementation can use PyTorch, PyKeOps, or RAPIDS/cuVS for this step, subject to the selected backend, metric, and available hardware. The selected input metric governs this graph construction; forces in the target coordinates remain Euclidean.
+    \item \textbf{Initial dimension reduction:} Produce $Y \subset \mathbb{R}^d$, the initial embedding of $X$, for a positive user--specified \texttt{n\_components}$=d$. The released choices are \texttt{random}, which multiplies $X$ by a Gaussian projection matrix with column--normalised directions; \texttt{spectral}, which uses nontrivial eigenvectors of the normalised adjacency of the symmetrised unweighted kNN graph; and \texttt{pca}, whose implementation is backend dependent. In the cuVS backend used for the H100 profile, the \texttt{pca} pathway dispatches to cuML PCA for at most 100 input features and cuML TruncatedSVD above 100 input features. Each initial coordinate is then centred and standardised.
     \item \textbf{Layout optimization:} Adjust the lower--dimensional embedding $Y$ to conform to the similarity structure of the higher--dimensional data $X$. This is done by using a force layout in which the role of ``forces'' is played by probability kernels; their scale is controlled by parameters such as \texttt{min\_dist} and \texttt{spread}.
 \end{enumerate}
 
-In DiRe--RAPIDS, users can instantiate PyTorch, memory--efficient PyTorch/PyKeOps, or cuVS backends directly; alternatively, \texttt{create\_dire} selects an implementation according to available dependencies and hardware. The initial embedding and optimized layout are exposed by the software so that the effect of the layout step can be studied separately.
+In DiRe--RAPIDS, users can instantiate PyTorch, memory--efficient PyTorch/PyKeOps, or cuVS backends directly; alternatively, \texttt{create\_dire} selects an implementation according to available dependencies and hardware. The initialization and optimization stages are separate in the implementation. The reproduction suite obtains an initializer--only output with \texttt{max\_iter\_layout=0} and a refined output with a positive iteration budget, so the layout step can be studied without claiming that the estimator returns both arrays from one call.
 
 The initial embedding can be one of the following three choices, each of which we discuss in more detail.
 
@@ -96,17 +108,41 @@ The image of a projection $p: \mathbb{R}^d \rightarrow \mathbb{R}^k$ may be clut
 The discussion above motivates projections that preserve as much variance as possible. The classical method for this purpose is Principal Component Analysis.
 
 Assume that $X$ is centered, so that each column of $X$ has zero mean. Let its covariance matrix be $\text{Cov}(X) = \frac{1}{n-1} X^t X$. PCA is computed from the singular value decomposition
-\[ X = U \, \Sigma \, W^t, \]
-where $\Sigma$ has $k \ll d$ dominant singular values $\Sigma_k = \langle \sigma_1, \ldots, \sigma_k \rangle$ with 
-\[ \sum^k_{i=1} \sigma^2_i = (1 - \varepsilon)^2 \|X\|^2_F. \]
+\[ X = U \, \Sigma \, W^t. \]
+For a target relative residual $0<\varepsilon<1$, choose $k\ll d$ so
+that the omitted singular values satisfy
+\[
+  \sum_{i>k}\sigma_i^2\leq\varepsilon^2\|X\|_F^2,
+  \qquad\text{equivalently}\qquad
+  \sum_{i=1}^k\sigma_i^2\geq(1-\varepsilon^2)\|X\|_F^2.
+\]
 
 Let $\Sigma_k$ be the rank $k$ truncation of $\Sigma$ preserving the dominant singular values above, and let $U_k$ and $W_k$ be the respective truncations of $U$ and $W$. Then the rank $k$ approximation of $X$ is
 \[\widehat{X} =  U_k\, \Sigma_k\, W^t_k \]
 and the PCA embedding of $X$ is
 \[ X_k = X\, W_k. \]
 
-If the dominant topological features of $X$ are represented in the leading $k$ principal directions, then the persistence diagrams of $X$ can be compared with those of the projected point cloud $X_k$. This equality is exact when $X$ lies in an affine $k$--dimensional subspace of $\mathbb{R}^d$. More generally, stability of persistence diagrams gives the following bound \cite{chazal-persistence}:
-\[d_b(D(X), D(X_k)) = d_b(D(\widehat{X}W_k), D(XW_k)) \leq \|\widehat{X}W_k - XW_k\|_F = \|\widehat{X} - X\|_F = \varepsilon \|X\|_F. \]
+If the dominant topological features of $X$ are represented in the leading
+$k$ principal directions, then the persistence diagrams of $X$ can be
+compared with those of the projected point cloud $X_k$. This comparison is
+exact when $X$ lies in an affine $k$--dimensional subspace of
+$\mathbb{R}^d$. More generally, $\widehat X$ lies in the leading
+$k$--dimensional subspace and is isometric to $X_k=\widehat XW_k=XW_k$.
+Vietoris--Rips stability therefore gives, for each homological dimension $q$
+\cite{chazal-persistence},
+\[
+\begin{aligned}
+d_b\!\left(D_q(X),D_q(X_k)\right)
+&=d_b\!\left(D_q(X),D_q(\widehat X)\right)\\
+&\leq 2d_H(X,\widehat X)
+\leq 2\max_i\|x_i-\widehat x_i\|_2\\
+&\leq 2\|\widehat X-X\|_F
+\leq2\varepsilon\|X\|_F .
+\end{aligned}
+\]
+The factor two is the standard Vietoris--Rips stability constant; it should
+not be confused with an assertion that PCA preserves arbitrary topology
+exactly.
 
 In this sense, PCA gives a useful reference case: the homological distortion is controlled by the low--rank approximation error when the retained coordinates capture the relevant geometry.
 
@@ -116,7 +152,11 @@ Spectral Laplacian embeddings are commonly used for manifold learning from local
 
 \subsection{Force--directed layout}
 
-After the initial embedding, DiRe applies an iterative force--directed layout in order to correlate the local structure of the embedding $Y$ with the local structure of the high--dimensional dataset $X$. The forces of attraction and repulsion are given by simple distributions modeled after the $t$--distributions of UMAP and tSNE.
+After the initial embedding, DiRe applies an iterative force--directed layout in
+order to correlate the local structure of the embedding $Y$ with the local
+structure of the high--dimensional dataset $X$. Its coefficients use a
+heavy--tailed low--dimensional kernel related to the kernels used by UMAP and
+tSNE; the kernel family itself is not claimed as novel.
 
 Namely, a simple density function 
 \[\varphi(x) = \frac{1}{1 + a\, \|x\|^{2b}}\]
@@ -126,27 +166,75 @@ within $\|x\| < \delta$, and then decays exponentially as
 \[\varphi(x) \approx \exp( - (\|x\| - \delta)/\sigma )\]
 outside of the $\delta$--ball. 
 
-Attraction forces are defined between points in $Y$ corresponding to $kNN$--neighbors in $\Gamma$, with magnitude
-\[\varphi\left( \frac{1}{\|y_i - y_j\|} \right), \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \in \Gamma.\]
+For $r_{ij}=\|y_j-y_i\|$ and unit direction
+$u_{ij}=(y_j-y_i)/(r_{ij}+\varepsilon)$, the released force kernel uses the
+attractive coefficient
+\[
+A(r_{ij})=\varphi(1/r_{ij})
+          =\frac{r_{ij}^{2b}}{r_{ij}^{2b}+a}
+\]
+on the directed $kNN$ edges. Its repulsive coefficient is
+\[
+R(r_{ij})=\varphi(r_{ij})\exp(-r_{ij}/c)
+          =\frac{\exp(-r_{ij}/c)}{1+a r_{ij}^{2b}},
+\]
+where $c$ is the implementation's \texttt{cutoff} parameter. Thus one
+stochastic force update has the form
+\[
+F_i=\sum_{j\in N_X(i)} A(r_{ij})u_{ij}
+    -\sum_{j\in S_i} R(r_{ij})u_{ij},
+\]
+followed by componentwise force clipping and a linearly decreasing step size.
+The final coordinates are recentered and standardized by output coordinate.
 
-All other pairs of points experience a repulsion force of magnitude
-\[\varphi\left( \|y_i - y_j\| \right) \text{ for } y_i, y_j \in Y \text{ such that } (y_i, y_j) \notin \Gamma.\]
+The benchmarked DiRe--cuVS implementation does \emph{not} enumerate all
+non--edge pairs. For each point and iteration it draws
+\[
+q = \min\{r k,n-1\}
+\]
+indices uniformly with replacement from the point-index range, where
+$r=\texttt{neg\_ratio}$ (default $8$), and evaluates repulsion only for that
+bounded sample $S_i$. The random seed is recorded in every benchmark result.
 
 The layout is run for a prescribed iteration budget. Parameters such as \texttt{n\_neighbors}, \texttt{min\_dist}, \texttt{spread}, backend choice, random seed, and floating--point precision affect the final embedding and are part of any reproducible specification. In applications these parameters can be tuned against a chosen validation criterion, for example by Bayesian optimization packages such as Hyperopt~\cite{hyperopt} or Optuna~\cite{optuna}. In the benchmarks below we instead use fixed, reported protocol choices so that the comparison is reproducible and not dataset--specific hyperparameter search.
+
+\subsection{Computational scaling}
+
+Let $n$ be the number of points, $d$ the output dimension, $k$ the neighbor count, $r$ the negative--sample ratio, and $T$ the layout iteration count. Once the neighbor graph and initialization have been constructed, one DiRe layout iteration evaluates $nk$ attractive and at most $nrk$ repulsive interactions. Its layout work is therefore
+\[
+O\!\left(T n k(1+r)d\right),
+\]
+and the graph plus sampled force tensors require memory linear in $n$ when $k$, $r$, and $d$ are fixed. This is a sampled sparse layout, not a hidden all--pairs computation.
+
+Neighbor--graph construction is a separate stage whose cost depends on the
+selected search engine and data dimension. The primary large--data DiRe
+experiment uses the package's production \texttt{cuvs\_index\_type=auto}
+policy and records the effective cuVS index selected at every size. The
+previously measured forced IVF--Flat configuration is retained as a separately
+named control rather than overwritten. A fresh paired backend audit records
+synchronized graph, initialization, and layout times for both policies,
+together with fixed--query neighbor--set overlap and force--fallback status.
+Thus, the linear bound above describes the layout stage; we do not mislabel
+approximate neighbor search as a universal worst--case linear kNN algorithm.
+The scaling experiments report end--to--end \texttt{fit\_transform} time and
+peak incremental device--memory use sampled through NVML, so graph
+construction, initialization, compilation, data transfer, and layout are all
+included in the measured result.
     
 \section{Quantitative measures}
 
 We use several quantitative measures to assess the quality of DiRe embeddings, and to compare the algorithmic framework to other embedding techniques available, such as tSNE in its cuML implementation, as well as UMAP in both its original and cuML implementations.
 
-\subsection{Measuring the global structure}
+\subsection{Global--structure diagnostics}
 
-We use several types of measures for persistence homology. One type is related to \textit{persistence diagrams}, and the other is related to the \textit{Betti curves} derived from them. Although basically equivalent, these two types of persistence homology representation happen to be useful in different ways. 
+We use several types of persistent--homology measures, following earlier work on topological evaluation of dimensionality reduction \cite{rieck-leitte-2015}. One type is related to \textit{persistence diagrams}, and the other is related to the \textit{Betti curves} derived from them. These representations are useful in different ways, but no topological score is treated as a universal embedding-quality criterion.
 
 \subsubsection{Persistence diagrams}
 
-Persistence diagrams are classical representations of the ``birth--death'' pairs in persistence homology. The reader may find more information in \cite{ZC, zomorodian2005topology}, while we give a brief description below. 
+Persistence diagrams are classical representations of the ``birth--death'' pairs in persistent homology. The reader may find more information in \cite{ZC, zomorodian2005topology}, while we give a brief description below.
 
-The \textit{Vietoris–-Rips complex} at scale \(t \geq 0\), denoted \(\operatorname{VR}_t(X)\), is the simplicial complex defined as
+The \textit{Vietoris--Rips complex} at scale \(t \geq 0\), denoted
+\(\operatorname{VR}_t(X)\), is the simplicial complex defined as
 \[
 \operatorname{VR}_t(X) = \left\{ \sigma \subseteq X \mid \|x_i - x_j\| \leq t \text{ for all } x_i, x_j \in \sigma \right\},
 \]
@@ -174,16 +262,47 @@ A persistent \(k\)-dimensional homology class \(\alpha\) is an element of \(H_k\
 
 For homology classes that persist indefinitely, we set their death time to infinity: \(d_\alpha = \infty\).
 
-The \textit{persistence diagram} \(D_k\) is the (multi--)set of points \((b_\alpha, d_\alpha)\) in the extended plane \(\mathbb{R}^2 \cup \{\infty\}\):
+The \textit{persistence diagram} \(D_k\) is the multiset of points \((b_\alpha, d_\alpha)\) in the extended plane \(\mathbb{R}^2 \cup \{\infty\}\):
 
 \[
 D_k(X) = \left\{ (b_\alpha, d_\alpha) \in (\mathbb{R} \times (\mathbb{R} \cup \{\infty\})) \mid \alpha \in H_k(X) \text{ with birth } b_\alpha \text{ and death } d_\alpha \right\},
 \]
-where we use $H_k(X)$ to denote the $k$--dimensional persistence homology group defined above. 
+where we use $H_k(X)$ to denote the $k$--dimensional persistent homology group defined above.
 
 Features with longer lifespans \(d_\alpha - b_\alpha\) are considered topologically significant. In particular, features with \(d_\alpha = \infty\) represent persistent homological features that never disappear within the considered scale range, indicating essential topological structures of the space.
 
-The usual metrics between two diagrams $D = D_k(X)$ and $D' = D_k(Y)$ are the bottleneck and Wasserstein distances, cf. \cite{persim-docs}. 
+The usual metrics between two diagrams $D = D_k(X)$ and $D' = D_k(Y)$
+include the bottleneck and Wasserstein distances, cf.\
+\cite{persim-docs}. Because an arbitrary output scale is inherent to
+visualization algorithms, an unnormalised diagram distance can primarily
+measure dilation rather than homology preservation. We therefore use the
+diameter--normalised bottleneck distance developed specifically for
+dimension--reduction comparisons \cite{may-normalized-bottleneck-2024}:
+\[
+d_N^{(k)}(X,Y)
+=
+d_b\!\left(
+D_k\!\left(X/\operatorname{diam}(X)\right),
+D_k\!\left(Y/\operatorname{diam}(Y)\right)
+\right).
+\]
+The single essential $H_0$ class is common to both diagrams and is excluded
+from the finite--bar matching.
+For the remaining $H_0$ bars, all births are zero. If their sorted finite death
+times are $a_1\leq\cdots\leq a_m$ and
+$b_1\leq\cdots\leq b_m$, we compute the bottleneck distance exactly as
+\[
+\min_{0\leq u\leq m}
+\max\!\left\{
+  \frac{1}{2}\max_{1\leq i\leq u}\{a_i,b_i\},
+  \max_{u<i\leq m}|a_i-b_i|
+\right\},
+\]
+where either maximum over an empty set is zero. Here $u$ is the number of
+shortest bars in each diagram matched to the diagonal; the remaining sorted
+tails are matched in order. This scalar specialization avoids constructing a
+general diagram-matching problem for roughly 4,000 zero-birth bars. The
+$H_1$ bottleneck distance uses the compiled exact GUDHI matcher.
 
 \subsubsection{Betti curves}
 
@@ -192,19 +311,62 @@ Betti curves mark the progression of the persistence Betti numbers with the filt
 \beta_k(t) = \mathrm{rank}\, H_k(\mathrm{VR}_t(X)).
 \]
 
-Several metrics can be used to compare two Betti curves. We include distances that are insensitive to moderate reparametrisations of the filtration scale $t$.
+Several metrics can be used to compare two Betti curves. We retain the
+historical FastDTW approximation to Dynamic Time Warp distance
+\cite{salvador-fastdtw,fastdtw-docs}, normalised by the number of sampled
+points. This provides continuity with the archived experiments, while the
+normalised bottleneck distance above supplies a direct persistence--diagram
+comparison with an established scale--invariant definition.
 
-The most common are the Dynamic Time Warp (DTW) distance \cite{salvador-fastdtw, fastdtw-docs}, Time Warp Edit Distance (TWED) \cite{marteau-twed, pytwed-docs}, and Earth Mover's Distance (EMD) \cite{flamary-pot, ot-docs}. 
+\subsubsection{Reported persistence diagnostics}
 
-\subsubsection{Global structure preservation}
+For the benchmark outputs configured with target dimension $d=2$, let
+$X \in \mathbb{R}^{n\times D}$ be the input and
+$Y=f(X)\in\mathbb{R}^{n\times 2}$ the recorded output. For $k=0,1$, we report
+both $d_N^{(k)}(X,Y)$ and the DTW distance between the corresponding Betti
+curves. Lower values indicate closer homological summaries; neither quantity
+is interpreted as a complete measure of global structure.
 
-Let $X \in \mathbb{R}^{n\times d}$ be a set of $n$ vectors in $\mathbb{R}^d$ with $kNN$--graph $\Gamma$. Let $Y = f(X) \in \mathbb{R}^{n\times k}$ be its embedding. We measure standard distances between the corresponding persistence diagrams $D^H_k = D_k(X)$ and $D^L_k = D_k(Y)$ of higher--dimensional data and its lower--dimensional embedding, respectively. In particular, we use the bottleneck distance $d_b(D^H_k, D^L_k)$ and Wasserstein distance $d_W(D^H_k, D^L_k)$ for $k=0, 1$, since the reported embeddings are $2$--dimensional.
+For the large--data protocol, $N$ denotes the full dataset size and $m$ the
+number of row indices in one topology subset. The primary computation uses
+\TopologySubsetCount{} independently seeded, fixed stratified subsets with
+$m=4000$. Each subset is applied identically to the high--dimensional input and
+every layout; these are paired diagnostic subsets, not reducer fits or
+biological specimens. DiRe and every newly executed baseline are fitted
+to every observation. The separately labelled Cell Ranger tSNE reference was
+released by 10x with coordinates for all cells; it is not presented as a
+reducer rerun on our common 20--feature input and is excluded from runtime
+comparisons. Fixed row-index subsetting is confined to the persistence
+diagnostic: the
+1,306,127--cell input alone has
+approximately $8.53\times 10^{11}$ unordered point pairs before any
+higher--dimensional Vietoris--Rips simplices are considered. The subset
+coordinates, row indices, persistence diagrams, and individual repeated scores
+are included in the checksummed result bundle.
 
-We use the normalized version of $d_b$ and $d_W$, where the distance is averaged over paired subsamples of points from $X$ and $Y$ for computational feasibility. The subsampling seed and sample size are part of the benchmark configuration.
+To test whether the former 2,000-row diagnostic produced a subset-size
+artifact, we additionally evaluate each fixed full-data layout on nested,
+stratified row--index subsets with $m\in\{1000,2000,4000\}$ drawn within the
+first primary subset. The layout and all method parameters are held fixed in
+this calculation. It is reported as subset-size sensitivity rather than pooled
+with the \TopologySubsetCount{} independent primary subsets.
 
-We also employ the Betti curves $\beta^H(t)$ for the higher--dimensional data and $\beta^L(t)$ for the lower--dimensional embedding. The distances computed between $\beta^H(t)$ and $\beta^L(t)$ are DTW, TWED, and EMD.
+We report row--subset and layout--seed variability separately. The canonical
+seed-42 layout is evaluated on all \TopologySubsetCount{} fixed row--index
+subsets. Independently, three full layouts (seeds 42, 43, and 44) are evaluated
+on the first fixed subset for each stochastic nonlinear GPU method. Thus an
+error bar over row--index subsets is not presented as though it measured
+optimizer stochasticity, or vice versa.
 
-We compute normalized versions by averaging over subsamples. For EMD, the curves are first normalized to unit mass and the distance is then rescaled. If $\tau$ is the normalizing factor, we compute $\max\{\tau, \tau^{-1}\} \cdot d_{EMD}(\beta^H, \tau\cdot\beta^L)$.
+Diameter normalisation has a precise scale--invariance interpretation, but it
+can be sensitive to one extreme point
+\cite{may-normalized-bottleneck-2024}. We therefore also report a
+predeclared sensitivity calculation in which each point cloud is divided by
+the 99th percentile of its pairwise distances. This Q99 calculation has no
+claim to the pseudometric guarantees of $d_N$; it is explicitly a robustness
+diagnostic. The historical unit--diameter, FastDTW--approximated Betti--curve
+distances are retained, not
+silently replaced after observing the results.
 
 \subsection{Measuring the local structure}
 
@@ -270,7 +432,7 @@ Let $\alpha_X$ be the accuracy of a $kNN$ classifier trained and tested on $X$, 
 DiRe follows a streamlined workflow that is designed for ease of use and integration into existing data analysis pipelines.
 
 \begin{enumerate}
-    \item \textbf{Data Preprocessing:} DiRe does not prescribe a universal preprocessing pipeline. Whether the data has to be normalized, standardized, or processed via some transformation for variance reduction (e.g. $\log$-- or $\sinh^{-1}$--transform) depends on the dataset and scientific question. The benchmark suite reports preprocessing choices explicitly; for single--cell datasets, metadata columns are treated as labels or covariates rather than expression features unless stated otherwise.
+    \item \textbf{Data Preprocessing:} Scientific preprocessing remains dataset dependent: transformations such as $\log$ or $\sinh^{-1}$, feature selection, and treatment of metadata must follow the data and question. Separately, the released DiRe--RAPIDS estimator has \texttt{normalize=True} by default; this mean--centres the supplied array and divides it by one global maximum--absolute--value scalar for numerical safety, which preserves Euclidean neighbor rankings. The H100 profile sets \texttt{normalize=False} because it supplies already prepared common inputs to every reducer. The benchmark suite records both the preparation and estimator setting; for single--cell datasets, metadata columns are treated as labels or covariates rather than expression features unless stated otherwise.
     
     \item \textbf{Data embedding:} Performed according to the steps described in the previous section (cf.~Methods).  
     
@@ -281,19 +443,384 @@ DiRe follows a streamlined workflow that is designed for ease of use and integra
 
 \section{Benchmarking}
 
-A collection of benchmarks is available in the DiRe--RAPIDS repository \cite{dire-rapids}, some of which are given below. We concentrate on the main differences between DiRe, tSNE, and UMAP. The benchmark protocol uses DiRe--RAPIDS for DiRe, cuML implementations of tSNE and UMAP for GPU baselines \cite{cuml}, and the original UMAP implementation by McInnes et al. as a CPU reference implementation \cite{umap-git,umap}. Runtime comparisons therefore report backend and hardware explicitly; original \texttt{umap-learn} runtimes are not interpreted as GPU performance.
+A collection of benchmarks is available in the DiRe--RAPIDS repository
+\cite{dire-rapids}, some of which are given below. We concentrate on the main
+differences between DiRe, tSNE, and UMAP. For the visual comparisons and their
+associated metrics, DiRe, tSNE, UMAP, and PCA are instantiated with target
+dimension $d=2$ under a common protocol; this is the configuration of those
+experiments, not the scope of DiRe. The GPU protocol uses DiRe--RAPIDS and cuML
+implementations of tSNE, UMAP, and PCA on the same accelerator \cite{cuml}. A separate CPU--reference panel
+reports openTSNE \cite{opentsne} and the original UMAP implementation
+\cite{umap-git,umap}. CPU and GPU runtimes are never mixed into a
+hardware--normalized ranking.
 
 \subsection{Benchmark protocol}
 
-All benchmark figures in this manuscript are regenerated from the same benchmark runner and run logs. For each dataset and method we record the dataset source, number of points, ambient dimension, preprocessing, random seed, backend, wall--clock \texttt{fit\_transform} runtime, and the local, context, and persistence metrics used below. The scatter plots use a single canonical seed, while non-topological metric plots report the mean over seeded runs, with error bars equal to the sample standard deviation. Persistent homology metrics are computed on paired subsamples of the high--dimensional data and embedding; the subsample seed and fraction are part of the benchmark configuration and are implemented in the released benchmark runner. The number of repeats contributing to each plotted metric is recorded in the JSON logs. Runtime comparisons report the GPU model, driver, CUDA version, and package versions recorded in each benchmark log.
+All quantitative benchmark figures in this manuscript are regenerated from machine--readable run logs. Scatter plots are regenerated from stored coordinates when present; the committed archive also retains canonical embedding PNGs as an explicit fallback. For each dataset and method we record the dataset source, number of points, ambient dimension, preprocessing, random seed, backend, wall--clock \texttt{fit\_transform} runtime, and the local, context, and persistence metrics used below. The scatter plots use a single canonical seed, while repeated metric plots report means and sample standard deviations. In the fresh six--dataset H100 profile, each GPU configuration has 20 seeded fits and each CPU reference has 10. The first successful fit is retained as the configuration cold start; runtime means and sample standard deviations use the remaining 19 GPU or 9 CPU fits rather than combining compilation/JIT startup with steady execution.
 
-%\newpage
+The small--suite persistence audit calls the DiRe--RAPIDS GPU rank--based
+local--$k$NN atlas evaluator directly on a fixed $m=1000$ row--index subset
+for every fit. Each record is required to identify
+\texttt{backend="atlas"}, the direct atlas implementation, and
+\texttt{prefer\_ripser=False}; this protocol does not fall through to the
+wrapper's Ripser preference. Subset seeds are independent of layout seeds, and
+the identical indices and their SHA--256 digest are recorded for every method;
+consequently the reported comparator-minus-DiRe effects are paired. Means,
+sample standard deviations, minima, and every paired gap are retained. The
+default DiRe configuration is not replaced by the separately labelled
+source--distributed topology preset.
+
+The million--point profile uses a distinct, explicitly labelled exact persistent--homology diagnostic: \TopologySubsetCount{} paired, fixed--seed row--index subsets of the high--dimensional input and embedding, each with $m=4000$ indices applied identically to the input and every embedding. Three independently seeded full layouts are evaluated separately on the first fixed subset. Runtime comparisons record the GPU model, driver, package versions, cold start, synchronized steady--state fits, and peak incremental device--memory use sampled through NVML. Each large dataset/method/size configuration runs in an isolated process so that allocator state or a failure in one reducer cannot contaminate another.
+
+\begin{figure}[tbp]
+    \centering
+    \includegraphics[width=\textwidth]{pics/metrics-summary.png}
+    \caption{Condensed quality summary for the fresh six--dataset H100
+    benchmark. Each
+    cell shows the exact raw repeated--run mean and a direction--adjusted
+    $\log_2$ ratio against default DiRe. Positive values favour the comparator
+    and negative values favour default DiRe; $+1$ and $-1$ denote twofold differences in
+    the favourable direction. Lower stress, absolute context loss, and
+    Betti--curve discrepancy are better, whereas higher neighborhood overlap
+    is better. The continuous colour scale is centred at equality and clipped
+    at $\pm1$ for legibility; the printed effect values are not clipped.}
+    \label{fig:archived-quality-summary}
+\end{figure}
+
+\begin{figure}[tbp]
+    \centering
+    \includegraphics[width=\textwidth]{pics/runtime-summary.png}
+    \caption{Fresh runtime summary with GPU and CPU implementations in
+    separate panels. The GPU panel compares default DiRe--RAPIDS, the
+    source--distributed topology preset, cuML tSNE, and cuML UMAP on the same
+    NVIDIA H100 PCIe. The CPU panel is a practical reference and is
+    not used for hardware--normalized speed claims. Points and whiskers are
+    steady--fit means and sample standard deviations over runs 2--20 for GPU
+    configurations and 2--10 for CPU references; the separately retained
+    first configuration run is excluded because it can include CUDA
+    compilation or CPU JIT startup.}
+    \label{fig:archived-runtime-summary}
+\end{figure}
+
+\begin{table}[tbp]
+  \centering
+  \scriptsize
+  \resizebox{\textwidth}{!}{%
+    \input{generated/revision3/revision3-small-atlas-topology-summary.tex}}
+  \caption{Repeated small--suite atlas--topology discrepancies. Entries are
+  mean $\pm$ sample standard deviation [minimum] over 20 GPU fits; lower is
+  better. Every method uses the same independently seeded $m=1000$
+  row--index subset for the corresponding layout seed. The topology preset is
+  reported alongside, not substituted for, default DiRe.}
+  \label{tab:small-atlas-topology}
+\end{table}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-small-atlas-topology-paired-effects.pdf}
+  \caption{Paired small--suite atlas effects against default DiRe. Bars show
+  the mean direction--adjusted
+  $\log_2(\text{comparator discrepancy}/\text{DiRe discrepancy})$; positive
+  values favour default DiRe, and whiskers show the observed sample standard
+  deviation of the paired log ratios. The grey interval marks discrepancies
+  within five percent. Exact raw means, minima, paired gaps, and their
+  95\% descriptive mean intervals are retained in the generated CSV files.}
+  \label{fig:small-atlas-topology-effects}
+\end{figure}
+
+Figures~\ref{fig:archived-quality-summary} and
+\ref{fig:archived-runtime-summary}, Table~\ref{tab:small-atlas-topology}, and
+Fig.~\ref{fig:small-atlas-topology-effects} replace the previous sequence of
+per--metric bar charts. They show a tradeoff, not a universal winner. DiRe has
+lower mean atlas discrepancy than cuML UMAP in
+\SmallAtlasDireLowerVsUmapCount{} of
+\SmallAtlasUmapComparisonCount{} dataset--homology comparisons. In
+\SmallAtlasDireFivePctLowerVsUmapCount{} comparisons the relative advantage
+exceeds the predeclared five--percent practical--difference band, and
+\SmallAtlasDireIntervalLowerVsUmapCount{} paired descriptive 95\% intervals
+exclude zero in DiRe's direction. Against cuML tSNE, the
+\SmallAtlasTsneComparisonCount{} comparisons split evenly:
+\SmallAtlasDireLowerVsTsneCount{} lower means for DiRe and
+\SmallAtlasTsneLowerVsDireCount{} for tSNE. DiRe is lower in both homology
+dimensions on Disk and Half--moons and in $H_0$ on both Levine datasets;
+tSNE is lower in both dimensions on Blobs and MNIST and in $H_1$ on both
+Levine datasets. This is a reproducible method-- and
+homology--dependent distinction, not empirical redundancy.
+
+The local metrics provide a separate tradeoff. DiRe has the highest
+neighborhood overlap on Disk and is second on Half--moons, while other methods
+lead that metric on the remaining datasets. In the fresh same--H100
+steady--fit means, default DiRe is fastest among the three default GPU
+nonlinear methods on Half--moons and Levine32 and intermediate on Blobs,
+Disk, MNIST, and Levine13; it is not the slowest on any of the six datasets.
+The statement that DiRe is simply ``the slowest of the three'' is therefore
+not a valid summary of the reported measurements. The machine--readable cold
+and steady values and regenerated detailed panels remain in the
+reproducibility package.
+
+\subsection{Million--point two--domain profile}
+
+The large--data profile adds two public inputs from different application
+domains: the released 10x embryonic mouse--brain analysis with all
+1,306,127 cells, and 723,457 arXiv document embeddings. Every newly executed
+reducer receives the same prepared floating--point rows in the same order. The
+released Cell Ranger tSNE coordinates are retained as a separately labelled
+external 10x reference, not as a same--input or runtime baseline. Dataset
+revisions, download hashes, transformations, labels, method parameters,
+package versions, hardware identity, failures, and fixed diagnostic row-index
+subsets are recorded in the result bundle.
+
+\begin{table}[tbp]
+  \centering
+  \small
+  \resizebox{\textwidth}{!}{%
+    \input{generated/revision3/revision3-dataset-stats.tex}}
+  \caption{Public large--data inputs. Here $N$ is the full number of
+  observations and $D$ is the common input dimension supplied to every
+  reducer.}
+  \label{tab:revision3-datasets}
+\end{table}
+
+The timing result is dataset dependent but directly contradicts the claim that
+DiRe is not practically viable at realistic scale. On 10x,
+production--policy DiRe took \TenxDireAutoSteadySeconds{} seconds steady,
+compared with \TenxCumlUmapSteadySeconds{} seconds for cuML UMAP and
+\TenxCumlTsneSteadySeconds{} seconds for cuML tSNE. On arXiv the corresponding
+times were \ArxivDireAutoSteadySeconds{},
+\ArxivCumlUmapSteadySeconds{}, and
+\ArxivCumlTsneSteadySeconds{} seconds. These are implementation measurements
+on the same H100, not asymptotic equivalence claims. Production--policy DiRe
+is the fastest of the three nonlinear GPU methods at both full--data
+endpoints.
+
+The quality results do not support universal dominance. On 10x, tSNE and the
+released Cell Ranger layout lead most primary homology discrepancies, while
+UMAP leads the labelled context and centroid--adjacency diagnostics.
+Production--policy DiRe is therefore reported as fast on this dataset, not as
+the topology leader. On arXiv, PCA has the lowest mean $H_0$ Betti--DTW
+discrepancy. Among the primary production comparison of DiRe, cuML UMAP, and
+cuML tSNE, production--policy DiRe has the lowest mean Betti--DTW discrepancy:
+relative to UMAP and tSNE its mean discrepancy is lower by
+\ArxivDireBetaZeroDtwReductionVsUmapPct\% and
+\ArxivDireBetaZeroDtwReductionVsTsnePct\% for $H_0$, and by
+\ArxivDireBetaOneDtwReductionVsUmapPct\% and
+\ArxivDireBetaOneDtwReductionVsTsnePct\% for $H_1$. Table
+\ref{tab:revision3-arxiv-topology-effects} reports the paired gaps and observed
+standard deviations. The mean gaps are
+\ArxivUmapMinusDireBetaZeroDtwGapInObservedSd{} and
+\ArxivUmapMinusDireBetaOneDtwGapInObservedSd{} times their observed paired
+standard deviations against UMAP, and
+\ArxivTsneMinusDireBetaZeroDtwGapInObservedSd{} and
+\ArxivTsneMinusDireBetaOneDtwGapInObservedSd{} times against tSNE, for $H_0$
+and $H_1$, respectively. These ratios describe effect magnitude relative to
+the \TopologySubsetCount{} observed paired values; they are not standard errors, $p$--values,
+or claims of inferential significance. Table
+\ref{tab:revision3-arxiv-topology-effects} lists every underlying
+subset--specific gap rather than only its sign. In the nested subset-size
+audit, the $H_1$ comparison with UMAP
+reverses at the smallest nested subset $m=1000$; it holds at $m=2000$ and
+$m=4000$. Exact diameter--normalised bottleneck values are nearly saturated
+for arXiv and are described as non--discriminating rather than recruited as
+support for the Betti--DTW result. The Q99 scale sensitivity also qualifies
+the conclusion. For $H_0$, its paired UMAP-minus-DiRe gap is only
+\ArxivUmapMinusDireBetaZeroQNinetyNineDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaZeroQNinetyNineDtwGapSd{}, while the
+tSNE gap is
+\ArxivTsneMinusDireBetaZeroQNinetyNineDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaZeroQNinetyNineDtwGapSd{}. Thus the arXiv
+$H_0$ advantage is specific to the retained unit--diameter Betti--DTW
+protocol, not normalization--universal. For Q99 $H_1$, the mean UMAP and tSNE
+gaps are:
+\ArxivUmapMinusDireBetaOneQNinetyNineDtwGap{}$\pm$
+\ArxivUmapMinusDireBetaOneQNinetyNineDtwGapSd{} and
+\ArxivTsneMinusDireBetaOneQNinetyNineDtwGap{}$\pm$
+\ArxivTsneMinusDireBetaOneQNinetyNineDtwGapSd{}, respectively.
+
+As an implementation--independent integrity check, the retained subsets,
+diagrams, and scores were then recomputed in a CPU--only container with no GPU
+exposed. This audit recomputed \TopologyAuditComparisonCount{} scalar topology
+comparisons across the primary subsets, nested subset sizes, and layout seeds; all
+\TopologyAuditComparisonCount{} matched the bundled values, with maximum
+absolute difference \TopologyAuditMaximumAbsoluteDelta{}. The audit environment,
+script hash, and machine--readable comparison records accompany the
+reproduction suite.
+
+The arXiv speed discrepancy is explained primarily by graph construction. In
+the fresh paired profile, automatic IVF--PQ took
+\ArxivDireAutoProfileSteadySeconds{} seconds steady, forced IVF--Flat took
+\ArxivDireIvfFlatProfileSteadySeconds{} seconds, and the ratio was
+\ArxivDireAutoSpeedupVsIvfFlat{}--fold. The automatic graph stage alone took
+\ArxivDireAutoKnnGraphSeconds{} seconds; the recorded
+\texttt{init="pca"} pathway (cuML TruncatedSVD for this 384--feature input)
+and layout took \ArxivDireAutoInitializationSeconds{} and
+\ArxivDireAutoLayoutSeconds{} seconds, respectively, with
+\ArxivDireAutoChunkedFallbackCalls{} chunked force fallbacks. Mean fixed-query
+neighbor--set overlap was \ArxivDireBackendGraphOverlap{}. The full
+local/global/context/topology gate is therefore reported alongside this
+speed--approximation tradeoff; the timing is not presented as evidence of
+quality equivalence.
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-large-scaling.pdf}
+  \caption{Same--H100 scaling through the complete 1,306,127--cell and
+  723,457--document inputs. Error bars are steady--fit sample standard
+  deviations; cold starts and the raw values remain in the generated table.
+  CPU references are not mixed into this panel.}
+  \label{fig:revision3-large-scaling}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-backend-policy-audit.pdf}
+  \caption{Paired cuVS backend--policy audit. Production
+  \texttt{auto} and fresh forced IVF--Flat runs use identical inputs,
+  parameters, seeds, repeat count, and H100. The forced IVF--Flat control
+  remains a separately named configuration rather than being overwritten.
+  Runtime is interpreted together with fixed--query graph overlap and the full
+  quality comparison.}
+  \label{fig:revision3-backend-policy}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-tenx-layouts.pdf}
+  \caption{10x layouts on the same stratified display sample. Display sampling
+  affects only rasterization; every newly run reducer is fitted to all
+  $N=1,306,127$ cells, the external Cell Ranger reference supplies coordinates
+  for all cells, and every quantitative metric uses its separately recorded
+  protocol.}
+  \label{fig:revision3-tenx-layouts}
+\end{figure}
+
+The 10x labels and marker genes are taken from the released Cell Ranger
+analysis rather than inferred by visually naming clusters after reduction.
+For each of the 20 official clusters, we compare its three nearest cluster
+centroids in the common 20--dimensional input with its three nearest centroids
+in each layout. Table~\ref{tab:revision3-tenx-adjacency} reports how many of
+those 60 directed relationships are preserved. The corresponding pair-level
+CSV attaches the source cluster's released positive markers to every
+preserved, lost, and introduced relationship. This makes visual interpretation
+auditable while avoiding the circular claim that stronger apparent separation
+must be biologically more faithful. The complete released marker list is
+given in Table~\ref{tab:revision3-tenx-markers}.
+
+Several preserved input relationships are directly interpretable from those
+released markers. Production--policy DiRe retains both directions between
+clusters 9 and 10, whose strongest markers include the cell--cycle genes
+\textit{Rrm2}, \textit{Hmgb2}, \textit{Ube2c}, \textit{Cenpf}, and
+\textit{Ccnb1}; it retains 20$\rightarrow$19, whose source and target both
+include \textit{S100a8}; 13$\rightarrow$15, linking the
+\textit{Cldn5}/\textit{Flt1} and \textit{Rgs5}/\textit{Ndufa4l2} marker
+profiles; and 19$\rightarrow$16, linking two marker profiles with myeloid
+genes. These are examples of input relationships retained in the benchmark
+layout configured with $d=2$, not discoveries made from the picture. The aggregate
+result is also important: production--policy DiRe preserves
+\TenxDireAutoAdjacencyPreserved{} of 60 directed input relationships and
+introduces \TenxDireAutoAdjacencyIntroduced{}, whereas UMAP preserves
+\TenxCumlUmapAdjacencyPreserved{} and introduces
+\TenxCumlUmapAdjacencyIntroduced{}. We therefore do not use the examples to claim biological or
+metric superiority. An independent recomputation from every bundled full
+layout reproduces all stored centroid adjacencies exactly. The primary
+equal--cluster recall gives each released cluster the same weight; the
+separately reported source--cell--weighted recalls are
+\TenxDireAutoAdjacencyCellWeighted{} for DiRe and
+\TenxCumlUmapAdjacencyCellWeighted{} for UMAP. Excluding the three source
+clusters with fewer than 1,000 cells does not explain the difference:
+equal--cluster recall becomes \TenxDireAutoAdjacencyFilteredEqual{} and
+\TenxCumlUmapAdjacencyFilteredEqual{}, respectively. The comparison is also
+$k$--dependent: for $k=1,2,3$, respectively, DiRe's equal--cluster recalls are
+\TenxDireAutoAdjacencyKOne{}, \TenxDireAutoAdjacencyKTwo{}, and
+\TenxDireAutoAdjacencyKThree{}, while UMAP's are
+\TenxCumlUmapAdjacencyKOne{}, \TenxCumlUmapAdjacencyKTwo{}, and
+\TenxCumlUmapAdjacencyKThree{}. These sensitivity records accompany the
+pair--level CSV and are not used to replace the predeclared three--centroid
+result. The one--factor DiRe controls also show that the global arrangement is
+initialization-- and configuration--dependent rather than a corrupted metric:
+spectral--initialised DiRe preserves
+\TenxDireSpectralAdjacencyPreserved{} relationships with source--cell--weighted
+recall \TenxDireSpectralAdjacencyCellWeighted{}, while the predeclared topology
+preset preserves \TenxDireTopologyAdjacencyPreserved{} with weighted recall
+\TenxDireTopologyAdjacencyCellWeighted{}. UMAP remains the leader in the
+predeclared equal--cluster comparison, and the controls are reported as
+sensitivity results rather than substituted for production--policy DiRe.
+
+\begin{table}[tbp]
+  \centering
+  \resizebox{\textwidth}{!}{%
+    \input{generated/revision3/revision3-tenx-adjacency-summary.tex}}
+  \caption{Preservation of directed three-nearest-centroid relationships
+  between the common 20--dimensional 10x input and each benchmark layout
+  configured with $d=2$. An introduced edge displaces an input edge; it is not
+  interpreted as a newly discovered biological relation. Equal--cluster recall
+  weights each of the 20 released clusters equally; source--cell--weighted
+  recall weights each source cluster by its released cell count.}
+  \label{tab:revision3-tenx-adjacency}
+\end{table}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-arxiv-layouts.pdf}
+  \caption{arXiv layouts on the same stratified display sample. All
+  $N=723,457$ document embeddings are fitted; the slight per--panel display
+  clipping and clipped fraction are stated in the figure and are not applied
+  to any metric.}
+  \label{fig:revision3-arxiv-layouts}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=\textwidth]
+    {generated/revision3/revision3-topology-paired-effects.pdf}
+  \caption{Paired topology effect magnitudes. Each bar is the mean of
+  comparator discrepancy minus production--policy DiRe discrepancy over
+  \TopologySubsetCount{} independently seeded, shared 4,000--row topology
+  subsets; positive
+  values favour DiRe, and whiskers are the observed standard deviation of the
+  paired subset--specific gaps. Each subset uses identical row indices
+  for the high--dimensional reference and every embedding. These are descriptive
+  robustness records, not $p$--values or claims of conventional statistical
+  significance.}
+  \label{fig:revision3-topology-effects}
+\end{figure}
+
+\begin{table}[tbp]
+  \centering
+  \resizebox{\textwidth}{!}{%
+    \input{generated/revision3/revision3-backend-policy-audit.tex}}
+  \caption{Cold and steady backend timing decomposition, fixed--query graph
+  overlap, and the fresh forced--IVF--Flat/production--auto speed ratio.}
+  \label{tab:revision3-backend-policy}
+\end{table}
+
+\begin{table}[tbp]
+  \centering
+  \resizebox{\textwidth}{!}{%
+    \input{generated/revision3/revision3-arxiv-topology-paired-effects.tex}}
+  \caption{arXiv paired Betti--DTW effects under the retained unit--diameter
+  protocol and the separately labelled Q99 scale sensitivity. The gap is
+  comparator minus production--policy DiRe, so a positive gap favours DiRe.
+  Each topology subset is one independently seeded set of $m=4000$ row indices
+  applied identically to the high--dimensional reference and every embedding.
+  The final column reports every subset--specific paired gap in fixed seed
+  order rather than reducing the signs to a count.}
+  \label{tab:revision3-arxiv-topology-effects}
+\end{table}
 
 \subsection{Dataset: Blobs}
 
-The 2D embeddings of the blobs dataset are given in Fig.~\ref{fig:blobs}. The dataset has $10$K points, 12 Gaussian clusters, and ambient dimension $1000$. It is primarily a sanity check: under appropriate parameters, all methods should recover the cluster structure.
+The benchmark embeddings configured with $d=2$ for the blobs dataset are given in Fig.~\ref{fig:blobs}. The dataset has $10$K points, 12 Gaussian clusters, and ambient dimension $1000$. It is primarily a sanity check: under appropriate parameters, all methods should recover the cluster structure.
 
-The key metrics are given in Appendix~\ref{appendix:blobs}. We compare the visual embedding, local metrics, and persistence metrics, since these criteria capture different aspects of the output.
+The key metrics are summarized in
+Fig.~\ref{fig:archived-quality-summary}; the corresponding raw values and
+detailed generated panels are retained in the reproducibility package. We
+compare the visual embedding, local metrics, and persistence metrics, since
+these criteria capture different aspects of the output.
 
 The local metrics can rank the methods differently from the global metrics, which is expected because stress and neighborhood preservation measure local metric distortion rather than cluster--level topology.
 
@@ -337,7 +864,10 @@ The average neighborhood preservation score should not be interpreted as a compl
 
 MNIST Digits provides a labeled image benchmark with well known class structure. This benchmark compares whether the methods preserve digit classes, transitions between visually similar digits, and the persistent homology summaries of the high--dimensional data.
 
-The key metrics are given in Appendix~\ref{appendix:mnist}. In this dataset, visual cluster separation, classifier context, and persistence distances need not induce the same ranking, so these criteria are reported separately.
+The key metrics are included in Fig.~\ref{fig:archived-quality-summary}. In
+this dataset, visual cluster separation, classifier context, and persistence
+distances do not induce the same ranking, so their raw records are also
+reported separately in the reproduction archive.
 
 Even when all methods reasonably preserve labeled context, the SVM and kNN context scores can distinguish linear separability from local class consistency.
 
@@ -380,7 +910,10 @@ Here we embed a 2D disk with points uniformly distributed in it. Since the input
 
 A similar family of tests can be run on a sphere and an ellipsoid in 3D with uniformly distributed points. See the DiRe--RAPIDS repository for additional datasets \cite{dire-rapids}.
 
-The metrics are given in Appendix~\ref{appendix:disk}. We treat persistence metrics and local distortion metrics as complementary: a method may preserve nearest neighbors while changing the global shape of this simple input.
+The metrics are included in Fig.~\ref{fig:archived-quality-summary}. We treat
+persistence metrics and local distortion metrics as complementary: a method
+may preserve nearest neighbors while changing the global shape of this simple
+input.
 
 \begin{figure}[ht]
     \centering
@@ -417,7 +950,12 @@ The metrics are given in Appendix~\ref{appendix:disk}. We treat persistence metr
 
 \subsection{Dataset: Half-moons}
 
-The half--moons dataset tests whether a method preserves the non--linear relation between two labeled components. Since the input classes are not linearly separable, a two--dimensional embedding that makes them linearly separable may improve a downstream classifier while changing the original context. The context preservation score is reported in Appendix~\ref{appendix:moons}.
+The half--moons dataset tests whether a method preserves the non--linear
+relation between two labeled components. Since the input classes are not
+linearly separable, a benchmark embedding configured with $d=2$ that makes them linearly
+separable may improve a downstream classifier while changing the original
+context. The context preservation score is included in
+Fig.~\ref{fig:archived-quality-summary}.
 
 \begin{figure}[ht]
     \centering
@@ -493,7 +1031,8 @@ The Levine 13 CyTOF single--cell dataset serves as a biological benchmark in whi
 
 We report persistence and context metrics separately, since biological labels, local neighborhoods, and topological summaries need not agree perfectly.
 
-More benchmarking information is available in Appendix~\ref{appendix:levine13}.
+The generated per--metric Levine13 panels and raw repeated values are available
+in the reproducibility package.
 
 \subsection{Dataset: Levine 32}
 
@@ -532,15 +1071,70 @@ The Levine 32 CyTOF dataset is handled with particular care because patient, bat
     \label{fig:levine32}
 \end{figure}
 
-More benchmarking data is available in Appendix~\ref{appendix:levine32}. 
+The generated per--metric Levine32 panels and raw repeated values are available
+in the reproducibility package.
+
+\section{Scope and limitations}
+
+DiRe retains the general framing stated in the abstract and introduction: it
+is a dimensionality--reduction framework for a user--specified target
+dimension $d$, including non--visual dimensions used in subsequent analysis.
+The visual comparison figures in this study happen to instantiate $d=2$; that
+experimental parameter neither defines the method nor restricts its intended
+applications. As with any empirical study, the numerical rankings reported
+here describe the recorded datasets, implementations, and configurations
+rather than a universal ordering of all dimensionality--reduction methods.
+
+No scalar metric used here defines ``global structure'' completely. Persistent
+homology summarizes connectivity and loops across filtration scales but does
+not retain every geometric relation; class--centroid correlations depend on
+the supplied labels; context classification can reward separability that was
+not present in the input; and neighborhood overlap is deliberately local. We
+therefore report these diagnostics separately and do not infer universal
+superiority from any one of them.
+
+Persistent homology and exact neighbor comparisons are evaluated on fixed,
+recorded samples for computational feasibility. These estimates have sampling
+variation, addressed by repeated seeds, but they are not full--data persistence
+computations. Biological cluster labels and marker statistics in the large
+single--cell example come from the released Cell Ranger analysis. They support
+comparison and interpretation of layouts, not a claim that a visualization
+alone discovers a new cell type or establishes a causal biological mechanism.
+
+Runtime results are implementation-- and hardware--specific. Same--GPU
+comparisons control the accelerator for the released GPU implementations, while
+CPU reference timings answer a different practical question and are displayed
+separately. Approximate kNN search introduces a recall--speed tradeoff. The
+large profile therefore reports both the production automatic cuVS policy and
+a forced IVF--Flat control, their effective index types, stage times, and
+fixed--query graph overlap; neither configuration is claimed optimal for every
+dataset. Initialization, random seed, neighbor
+count, force parameters, and iteration budget can all change a layout; the
+initialization ablation measures part, but not all, of that sensitivity.
 
 \section{Conclusions}
 
 A new dimensionality reduction framework, called \texttt{DiRe}, has been developed with an explicit emphasis on preserving and measuring the dataset's homological structure. The latter is quantified by persistent homology and expressed via persistence diagrams or Betti curves. The benchmarks and metrics provided give evidence that DiRe can preserve global structure in cases where purely local criteria are insufficient, while also showing that no single metric captures every scientifically relevant aspect of an embedding.
 
+The released default layout uses sparse $k$NN attraction and bounded
+random--negative repulsion. This implementation distinction matters: the
+layout is linear in the number of points for fixed protocol parameters and
+does not reintroduce exact all--pairs repulsion. DiRe accepts a user--specified
+target dimension $d$. The particular comparisons reported here use $d=2$ and
+show dataset--dependent tradeoffs among local, labelled-context,
+centroid-geometry, and persistent-homology diagnostics; that benchmark
+configuration does not recast DiRe as a visualization-only method.
+
 The DiRe software includes DiRe--RAPIDS \cite{dire-rapids} and DiRe--JAX \cite{dire-github,dire-joss}.
 
-The benchmark logs, archived embedding images, plotting scripts, manuscript build scripts, and Sphinx version of this manuscript are available in a separate reproducibility repository \cite{homological-stability-repro}. The DiRe implementation used by those scripts is DiRe--RAPIDS \cite{dire-rapids}. GPU acceleration is recommended for rerunning the largest datasets and for runtime comparisons against cuML baselines.
+The benchmark logs, archived embedding images, plotting scripts, manuscript
+build scripts, and Sphinx version of this manuscript are available in a
+separate reproducibility repository \cite{homological-stability-repro}. The
+large--data profile pins the DiRe commit and public dataset revisions, runs
+method/size configurations in isolated processes, packages checksummed results,
+and regenerates manuscript figures and tables locally. GPU acceleration is
+required for reproducing the same--accelerator large--scale comparison; it is
+not required to inspect the records or rebuild the manuscript artifacts.
 
 \section{Funding} This work is supported by the Google~Cloud Research Award number GCP19980904. The computational benchmarks were run in part on Lambda Labs GPU infrastructure; we thank Lambda Labs for supporting this work with access to GPU computing resources.
 
@@ -548,9 +1142,29 @@ The benchmark logs, archived embedding images, plotting scripts, manuscript buil
 
 \newpage
 
+\begingroup
+\sloppy
 \printbibliography
+\endgroup
 
 \newpage
+
+\appendix
+\section{Released 10x marker annotation}
+
+The following marker statistics are copied from the pinned public Cell Ranger
+analysis and are included to make the cluster-level visual and adjacency audit
+interpretable. They were not inferred from any of the compared layouts.
+
+\input{generated/revision3/revision3-tenx-markers.tex}
+
+\newpage
+
+% The historical per-dataset bar-chart appendix is retained below as an
+% auditable source mapping, and all of its figures are still regenerated by
+% the suite. It is excluded from the revised paper in favor of the two compact
+% summaries in the main text.
+\iffalse
 
 \section{Blobs: Dataset Metrics}\label{appendix:blobs}
 
@@ -852,5 +1466,7 @@ The benchmark logs, archived embedding images, plotting scripts, manuscript buil
     \caption{"Levine 32" dataset metrics comparison. Error bars show sample standard deviations.}
     \label{fig:levine32-comparison}
 \end{figure}
+
+\fi
 
 \end{document}

@@ -1,0 +1,2142 @@
+{
+  "arxiv": {
+    "all_evaluated": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.4166666865348816,
+        "centroid_spearman": 0.10841725119799986,
+        "cold_sec": 32.4267120930017,
+        "context_balanced_accuracy": 0.13518419767369128,
+        "dataset": "arxiv",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 5.198500000000001,
+        "dtw_beta1": 0.461275,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 4.38433837890625,
+        "knn_overlap": 0.03790000453591347,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE",
+          "DiRe (spectral init)",
+          "PCA (2D)",
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (topology preset)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne",
+          "dire_spectral",
+          "pca2",
+          "dire_auto",
+          "dire",
+          "dire_topology",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4395878810495125,
+        "q99_bottleneck_beta1": 0.033621074423581,
+        "q99_dtw_beta0": 4.5363750000000005,
+        "q99_dtw_beta1": 0.432275,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 29.488116412001546,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.6041666865348816,
+        "centroid_spearman": 0.8734217654003749,
+        "cold_sec": 1.1174824929985334,
+        "context_balanced_accuracy": 0.2523002584074512,
+        "dataset": "arxiv",
+        "display": "PCA (2D)",
+        "dtw_beta0": 3.17135,
+        "dtw_beta1": 0.13504999999999998,
+        "exact_optimum_displays": [
+          "PCA (2D)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "pca2",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "gpu_gib": 1.83941650390625,
+        "knn_overlap": 0.014506666921079159,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE",
+          "DiRe (spectral init)",
+          "DiRe (IVF-Flat control)"
+        ],
+        "practically_comparable_methods": [
+          "pca2",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne",
+          "dire_spectral",
+          "dire"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.031393109712285934,
+        "q99_dtw_beta0": 2.9900500000000005,
+        "q99_dtw_beta1": 0.1307,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.9809882344998186,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.6041666865348816,
+        "centroid_spearman": 0.8734217654003749,
+        "cold_sec": 1.1174824929985334,
+        "context_balanced_accuracy": 0.2523002584074512,
+        "dataset": "arxiv",
+        "display": "PCA (2D)",
+        "dtw_beta0": 3.17135,
+        "dtw_beta1": 0.13504999999999998,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 1.83941650390625,
+        "knn_overlap": 0.014506666921079159,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "pca2",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.031393109712285934,
+        "q99_dtw_beta0": 2.9900500000000005,
+        "q99_dtw_beta1": 0.1307,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.9809882344998186,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.6041666865348816,
+        "centroid_spearman": 0.8734217654003749,
+        "cold_sec": 1.1174824929985334,
+        "context_balanced_accuracy": 0.2523002584074512,
+        "dataset": "arxiv",
+        "display": "PCA (2D)",
+        "dtw_beta0": 3.17135,
+        "dtw_beta1": 0.13504999999999998,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 1.83941650390625,
+        "knn_overlap": 0.014506666921079159,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)"
+        ],
+        "practically_comparable_methods": [
+          "pca2"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.031393109712285934,
+        "q99_dtw_beta0": 2.9900500000000005,
+        "q99_dtw_beta1": 0.1307,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.9809882344998186,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.5833333730697632,
+        "centroid_spearman": 0.7458990207653309,
+        "cold_sec": 47.77518177300226,
+        "context_balanced_accuracy": 0.22609774499537932,
+        "dataset": "arxiv",
+        "display": "DiRe (topology preset)",
+        "dtw_beta0": 4.022875,
+        "dtw_beta1": 0.11005000000000001,
+        "exact_optimum_displays": [
+          "DiRe (topology preset)"
+        ],
+        "exact_optimum_methods": [
+          "dire_topology"
+        ],
+        "gpu_gib": 4.009765625,
+        "knn_overlap": 0.09914667159318924,
+        "method": "dire_topology",
+        "practically_comparable_displays": [
+          "DiRe (topology preset)"
+        ],
+        "practically_comparable_methods": [
+          "dire_topology"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.03184650905696175,
+        "q99_dtw_beta0": 3.49985,
+        "q99_dtw_beta1": 0.09240000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 46.62387471200054,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.5833333730697632,
+        "centroid_spearman": 0.7458990207653309,
+        "cold_sec": 47.77518177300226,
+        "context_balanced_accuracy": 0.22609774499537932,
+        "dataset": "arxiv",
+        "display": "DiRe (topology preset)",
+        "dtw_beta0": 4.022875,
+        "dtw_beta1": 0.11005000000000001,
+        "exact_optimum_displays": [
+          "DiRe (topology preset)"
+        ],
+        "exact_optimum_methods": [
+          "dire_topology"
+        ],
+        "gpu_gib": 4.009765625,
+        "knn_overlap": 0.09914667159318924,
+        "method": "dire_topology",
+        "practically_comparable_displays": [
+          "DiRe (topology preset)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "dire_topology",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.03184650905696175,
+        "q99_dtw_beta0": 3.49985,
+        "q99_dtw_beta1": 0.09240000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 46.62387471200054,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.6041666865348816,
+        "centroid_spearman": 0.8734217654003749,
+        "cold_sec": 1.1174824929985334,
+        "context_balanced_accuracy": 0.2523002584074512,
+        "dataset": "arxiv",
+        "display": "PCA (2D)",
+        "dtw_beta0": 3.17135,
+        "dtw_beta1": 0.13504999999999998,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 1.83941650390625,
+        "knn_overlap": 0.014506666921079159,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)"
+        ],
+        "practically_comparable_methods": [
+          "pca2"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.031393109712285934,
+        "q99_dtw_beta0": 2.9900500000000005,
+        "q99_dtw_beta1": 0.1307,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.9809882344998186,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    },
+    "nonlinear_gpu_defaults": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.4166666865348816,
+        "centroid_spearman": 0.10841725119799986,
+        "cold_sec": 32.4267120930017,
+        "context_balanced_accuracy": 0.13518419767369128,
+        "dataset": "arxiv",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 5.198500000000001,
+        "dtw_beta1": 0.461275,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 4.38433837890625,
+        "knn_overlap": 0.03790000453591347,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE",
+          "DiRe (auto cuVS)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne",
+          "dire_auto",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4395878810495125,
+        "q99_bottleneck_beta1": 0.033621074423581,
+        "q99_dtw_beta0": 4.5363750000000005,
+        "q99_dtw_beta1": 0.432275,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 29.488116412001546,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP",
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap",
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.026932626962661743,
+        "centroid_adjacency_recall": 0.625,
+        "centroid_spearman": 0.8093062018195707,
+        "cold_sec": 15.109447537997767,
+        "context_balanced_accuracy": 0.25154438565465415,
+        "dataset": "arxiv",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 3.46995,
+        "dtw_beta1": 0.16237500000000002,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 4.255859375,
+        "knn_overlap": 0.07178667187690735,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.033952603172515014,
+        "q99_dtw_beta0": 3.5631500000000003,
+        "q99_dtw_beta1": 0.155775,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 13.693127871998513,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.026932626962661743,
+        "centroid_adjacency_recall": 0.625,
+        "centroid_spearman": 0.8093062018195707,
+        "cold_sec": 15.109447537997767,
+        "context_balanced_accuracy": 0.25154438565465415,
+        "dataset": "arxiv",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 3.46995,
+        "dtw_beta1": 0.16237500000000002,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 4.255859375,
+        "knn_overlap": 0.07178667187690735,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.033952603172515014,
+        "q99_dtw_beta0": 3.5631500000000003,
+        "q99_dtw_beta1": 0.155775,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 13.693127871998513,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.026932626962661743,
+        "centroid_adjacency_recall": 0.625,
+        "centroid_spearman": 0.8093062018195707,
+        "cold_sec": 15.109447537997767,
+        "context_balanced_accuracy": 0.25154438565465415,
+        "dataset": "arxiv",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 3.46995,
+        "dtw_beta1": 0.16237500000000002,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 4.255859375,
+        "knn_overlap": 0.07178667187690735,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.033952603172515014,
+        "q99_dtw_beta0": 3.5631500000000003,
+        "q99_dtw_beta1": 0.155775,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 13.693127871998513,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    },
+    "nonlinear_gpu_with_sensitivity": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.4166666865348816,
+        "centroid_spearman": 0.10841725119799986,
+        "cold_sec": 32.4267120930017,
+        "context_balanced_accuracy": 0.13518419767369128,
+        "dataset": "arxiv",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 5.198500000000001,
+        "dtw_beta1": 0.461275,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 4.38433837890625,
+        "knn_overlap": 0.03790000453591347,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE",
+          "DiRe (spectral init)",
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (topology preset)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne",
+          "dire_spectral",
+          "dire_auto",
+          "dire",
+          "dire_topology",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4395878810495125,
+        "q99_bottleneck_beta1": 0.033621074423581,
+        "q99_dtw_beta0": 4.5363750000000005,
+        "q99_dtw_beta1": 0.432275,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 29.488116412001546,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.5833333730697632,
+        "centroid_spearman": 0.7458990207653309,
+        "cold_sec": 47.77518177300226,
+        "context_balanced_accuracy": 0.22609774499537932,
+        "dataset": "arxiv",
+        "display": "DiRe (topology preset)",
+        "dtw_beta0": 4.022875,
+        "dtw_beta1": 0.11005000000000001,
+        "exact_optimum_displays": [
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "gpu_gib": 4.009765625,
+        "knn_overlap": 0.09914667159318924,
+        "method": "dire_topology",
+        "practically_comparable_displays": [
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE",
+          "DiRe (spectral init)",
+          "DiRe (IVF-Flat control)"
+        ],
+        "practically_comparable_methods": [
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne",
+          "dire_spectral",
+          "dire"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.03184650905696175,
+        "q99_dtw_beta0": 3.49985,
+        "q99_dtw_beta1": 0.09240000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 46.62387471200054,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP",
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap",
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 39.701501420997374,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.74484192899945,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.026932626962661743,
+        "centroid_adjacency_recall": 0.625,
+        "centroid_spearman": 0.8093062018195707,
+        "cold_sec": 15.109447537997767,
+        "context_balanced_accuracy": 0.25154438565465415,
+        "dataset": "arxiv",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 3.46995,
+        "dtw_beta1": 0.16237500000000002,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 4.255859375,
+        "knn_overlap": 0.07178667187690735,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.033952603172515014,
+        "q99_dtw_beta0": 3.5631500000000003,
+        "q99_dtw_beta1": 0.155775,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 13.693127871998513,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.5833333730697632,
+        "centroid_spearman": 0.7458990207653309,
+        "cold_sec": 47.77518177300226,
+        "context_balanced_accuracy": 0.22609774499537932,
+        "dataset": "arxiv",
+        "display": "DiRe (topology preset)",
+        "dtw_beta0": 4.022875,
+        "dtw_beta1": 0.11005000000000001,
+        "exact_optimum_displays": [
+          "DiRe (topology preset)"
+        ],
+        "exact_optimum_methods": [
+          "dire_topology"
+        ],
+        "gpu_gib": 4.009765625,
+        "knn_overlap": 0.09914667159318924,
+        "method": "dire_topology",
+        "practically_comparable_displays": [
+          "DiRe (topology preset)"
+        ],
+        "practically_comparable_methods": [
+          "dire_topology"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.03184650905696175,
+        "q99_dtw_beta0": 3.49985,
+        "q99_dtw_beta1": 0.09240000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 46.62387471200054,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.5833333730697632,
+        "centroid_spearman": 0.7458990207653309,
+        "cold_sec": 47.77518177300226,
+        "context_balanced_accuracy": 0.22609774499537932,
+        "dataset": "arxiv",
+        "display": "DiRe (topology preset)",
+        "dtw_beta0": 4.022875,
+        "dtw_beta1": 0.11005000000000001,
+        "exact_optimum_displays": [
+          "DiRe (topology preset)"
+        ],
+        "exact_optimum_methods": [
+          "dire_topology"
+        ],
+        "gpu_gib": 4.009765625,
+        "knn_overlap": 0.09914667159318924,
+        "method": "dire_topology",
+        "practically_comparable_displays": [
+          "DiRe (topology preset)",
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "dire_topology",
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.03184650905696175,
+        "q99_dtw_beta0": 3.49985,
+        "q99_dtw_beta1": 0.09240000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 46.62387471200054,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.026932626962661743,
+        "centroid_adjacency_recall": 0.625,
+        "centroid_spearman": 0.8093062018195707,
+        "cold_sec": 15.109447537997767,
+        "context_balanced_accuracy": 0.25154438565465415,
+        "dataset": "arxiv",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 3.46995,
+        "dtw_beta1": 0.16237500000000002,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 4.255859375,
+        "knn_overlap": 0.07178667187690735,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.033952603172515014,
+        "q99_dtw_beta0": 3.5631500000000003,
+        "q99_dtw_beta1": 0.155775,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 13.693127871998513,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    }
+  },
+  "tenx": {
+    "all_evaluated": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": true,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.01955434437841177,
+        "centroid_adjacency_recall": 0.4333333373069763,
+        "centroid_spearman": 0.6831695294081627,
+        "cold_sec": 0.3727124710021599,
+        "context_balanced_accuracy": 0.4731127356657855,
+        "dataset": "tenx",
+        "display": "PCA (2D)",
+        "dtw_beta0": 0.306675,
+        "dtw_beta1": 0.05775,
+        "exact_optimum_displays": [
+          "PCA (2D)",
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (spectral init)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE",
+          "Cell Ranger t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "pca2",
+          "dire_auto",
+          "dire",
+          "dire_spectral",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne",
+          "cellranger_tsne"
+        ],
+        "gpu_gib": 0.89410400390625,
+        "knn_overlap": 0.04195334017276764,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)",
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (spectral init)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE",
+          "Cell Ranger t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "pca2",
+          "dire_auto",
+          "dire",
+          "dire_spectral",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne",
+          "cellranger_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05020354492906602,
+        "q99_dtw_beta0": 0.40090000000000003,
+        "q99_dtw_beta1": 0.0833,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.1481473259991617,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.01955434437841177,
+        "centroid_adjacency_recall": 0.4333333373069763,
+        "centroid_spearman": 0.6831695294081627,
+        "cold_sec": 0.3727124710021599,
+        "context_balanced_accuracy": 0.4731127356657855,
+        "dataset": "tenx",
+        "display": "PCA (2D)",
+        "dtw_beta0": 0.306675,
+        "dtw_beta1": 0.05775,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 0.89410400390625,
+        "knn_overlap": 0.04195334017276764,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)"
+        ],
+        "practically_comparable_methods": [
+          "pca2"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05020354492906602,
+        "q99_dtw_beta0": 0.40090000000000003,
+        "q99_dtw_beta1": 0.0833,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.1481473259991617,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.015120843984186649,
+        "centroid_adjacency_recall": 0.3500000536441803,
+        "centroid_spearman": 0.3907193813504092,
+        "cold_sec": null,
+        "context_balanced_accuracy": 0.578194297497389,
+        "dataset": "tenx",
+        "display": "Cell Ranger t-SNE",
+        "dtw_beta0": 0.14289999999999997,
+        "dtw_beta1": 0.038474999999999995,
+        "exact_optimum_displays": [
+          "Cell Ranger t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cellranger_tsne"
+        ],
+        "gpu_gib": null,
+        "knn_overlap": 0.28512001037597656,
+        "method": "cellranger_tsne",
+        "practically_comparable_displays": [
+          "Cell Ranger t-SNE",
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cellranger_tsne",
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.41899999999999993,
+        "q99_dtw_beta1": 0.07460000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": null,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.01955434437841177,
+        "centroid_adjacency_recall": 0.4333333373069763,
+        "centroid_spearman": 0.6831695294081627,
+        "cold_sec": 0.3727124710021599,
+        "context_balanced_accuracy": 0.4731127356657855,
+        "dataset": "tenx",
+        "display": "PCA (2D)",
+        "dtw_beta0": 0.306675,
+        "dtw_beta1": 0.05775,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 0.89410400390625,
+        "knn_overlap": 0.04195334017276764,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)"
+        ],
+        "practically_comparable_methods": [
+          "pca2"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05020354492906602,
+        "q99_dtw_beta0": 0.40090000000000003,
+        "q99_dtw_beta1": 0.0833,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 0.1481473259991617,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    },
+    "nonlinear_gpu_defaults": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": true,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.032455158047378065,
+        "centroid_adjacency_recall": 0.28333336114883423,
+        "centroid_spearman": -0.3314980295415677,
+        "cold_sec": 9.481872272001056,
+        "context_balanced_accuracy": 0.4276212837640233,
+        "dataset": "tenx",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 0.221325,
+        "dtw_beta1": 0.046475,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "gpu_gib": 7.1640625,
+        "knn_overlap": 0.14390666782855988,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05233834839185558,
+        "q99_dtw_beta0": 0.41525000000000006,
+        "q99_dtw_beta1": 0.074075,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 7.814731788499557,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.032455158047378065,
+        "centroid_adjacency_recall": 0.28333336114883423,
+        "centroid_spearman": -0.3314980295415677,
+        "cold_sec": 9.481872272001056,
+        "context_balanced_accuracy": 0.4276212837640233,
+        "dataset": "tenx",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 0.221325,
+        "dtw_beta1": 0.046475,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 7.1640625,
+        "knn_overlap": 0.14390666782855988,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05233834839185558,
+        "q99_dtw_beta0": 0.41525000000000006,
+        "q99_dtw_beta1": 0.074075,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 7.814731788499557,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    },
+    "nonlinear_gpu_with_sensitivity": {
+      "bottleneck_beta0": {
+        "all_candidates_exactly_equal": true,
+        "all_candidates_within_tolerance": true,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.032455158047378065,
+        "centroid_adjacency_recall": 0.28333336114883423,
+        "centroid_spearman": -0.3314980295415677,
+        "cold_sec": 9.481872272001056,
+        "context_balanced_accuracy": 0.4276212837640233,
+        "dataset": "tenx",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 0.221325,
+        "dtw_beta1": 0.046475,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (spectral init)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto",
+          "dire",
+          "dire_spectral",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "gpu_gib": 7.1640625,
+        "knn_overlap": 0.14390666782855988,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)",
+          "DiRe (spectral init)",
+          "DiRe (topology preset)",
+          "cuML UMAP",
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto",
+          "dire",
+          "dire_spectral",
+          "dire_topology",
+          "cuml_umap",
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05233834839185558,
+        "q99_dtw_beta0": 0.41525000000000006,
+        "q99_dtw_beta1": 0.074075,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 7.814731788499557,
+        "unique_exact_optimum": false,
+        "unique_within_tolerance": false
+      },
+      "bottleneck_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_adjacency_recall": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "centroid_spearman": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "context_balanced_accuracy": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.237860211000225,
+        "context_balanced_accuracy": 0.6430304985061659,
+        "dataset": "tenx",
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 14.301782358499622,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta0": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "dtw_beta1": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.014140013605356216,
+        "centroid_adjacency_recall": 0.3333333432674408,
+        "centroid_spearman": 0.20012421979906136,
+        "cold_sec": 33.63555932699819,
+        "context_balanced_accuracy": 0.4706325819493074,
+        "dataset": "tenx",
+        "display": "cuML t-SNE",
+        "dtw_beta0": 0.12969999999999998,
+        "dtw_beta1": 0.040075,
+        "exact_optimum_displays": [
+          "cuML t-SNE"
+        ],
+        "exact_optimum_methods": [
+          "cuml_tsne"
+        ],
+        "gpu_gib": 2.94097900390625,
+        "knn_overlap": 0.347653329372406,
+        "method": "cuml_tsne",
+        "practically_comparable_displays": [
+          "cuML t-SNE"
+        ],
+        "practically_comparable_methods": [
+          "cuml_tsne"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05130708261336736,
+        "q99_dtw_beta0": 0.418025,
+        "q99_dtw_beta1": 0.07325000000000001,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 32.865373805499985,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.4270747244358063,
+        "bottleneck_beta1": 0.032455158047378065,
+        "centroid_adjacency_recall": 0.28333336114883423,
+        "centroid_spearman": -0.3314980295415677,
+        "cold_sec": 9.481872272001056,
+        "context_balanced_accuracy": 0.4276212837640233,
+        "dataset": "tenx",
+        "display": "DiRe (auto cuVS)",
+        "dtw_beta0": 0.221325,
+        "dtw_beta1": 0.046475,
+        "exact_optimum_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "exact_optimum_methods": [
+          "dire_auto"
+        ],
+        "gpu_gib": 7.1640625,
+        "knn_overlap": 0.14390666782855988,
+        "method": "dire_auto",
+        "practically_comparable_displays": [
+          "DiRe (auto cuVS)"
+        ],
+        "practically_comparable_methods": [
+          "dire_auto"
+        ],
+        "q99_bottleneck_beta0": 2.687212553767567,
+        "q99_bottleneck_beta1": 0.05233834839185558,
+        "q99_dtw_beta0": 0.41525000000000006,
+        "q99_dtw_beta1": 0.074075,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 7.814731788499557,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      }
+    }
+  }
+}

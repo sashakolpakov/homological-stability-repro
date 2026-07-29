@@ -4,7 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import importlib.metadata
 import json
+import os
+import platform
 import socket
 import subprocess
 import time
@@ -19,13 +23,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from sklearn.datasets import fetch_openml, make_blobs, make_moons
-from scipy.spatial.distance import pdist
-
 from dire_rapids import create_dire
-from dire_rapids.betti_curve import compute_betti_curve_ripser
 from dire_rapids.metrics import evaluate_embedding
 from dire_rapids.utils import _load_cytof, _load_dire_dataset
-from fastdtw import fastdtw
+from runtime_protocol import summarize_fit_times
 
 warnings.filterwarnings(
     "ignore",
@@ -41,28 +42,44 @@ warnings.filterwarnings(
 )
 warnings.filterwarnings(
     "ignore",
-    message=r"The input point cloud has more columns than rows; did you mean to transpose\?",
-    category=UserWarning,
-    module=r"ripser\.ripser",
-)
-warnings.filterwarnings(
-    "ignore",
     message=r"torch\.linalg\.svd: During SVD computation with the selected cusolver driver.*",
     category=UserWarning,
 )
 
-METHODS = ("dire", "cuml_tsne", "cuml_umap", "umap")
+DEFAULT_METHODS = ("dire", "cuml_tsne", "cuml_umap", "opentsne", "umap")
+CPU_METHODS = frozenset({"opentsne", "umap"})
+KNOWN_METHODS = (
+    "dire",
+    "dire_topology",
+    "cuml_tsne",
+    "cuml_umap",
+    "opentsne",
+    "umap",
+    "dire_pca_init",
+    "dire_spectral",
+    "dire_spectral_init",
+)
 DISPLAY = {
     "dire": "DiRe-RAPIDS",
+    "dire_topology": "DiRe (topology preset)",
     "cuml_tsne": "cuML tSNE",
     "cuml_umap": "cuML UMAP",
+    "opentsne": "openTSNE",
     "umap": "Original UMAP",
+    "dire_pca_init": "PCA initialization",
+    "dire_spectral": "DiRe (spectral init.)",
+    "dire_spectral_init": "Spectral initialization",
 }
 BACKEND = {
     "dire": "GPU: DiRe-RAPIDS/PyTorch/cuVS",
+    "dire_topology": "GPU: DiRe-RAPIDS/PyTorch/cuVS",
     "cuml_tsne": "GPU: RAPIDS cuML",
     "cuml_umap": "GPU: RAPIDS cuML",
+    "opentsne": "CPU: openTSNE",
     "umap": "CPU: umap-learn reference",
+    "dire_pca_init": "GPU: DiRe-RAPIDS initialization only",
+    "dire_spectral": "GPU: DiRe-RAPIDS/PyTorch/cuVS",
+    "dire_spectral_init": "GPU: DiRe-RAPIDS initialization only",
 }
 METRIC_KEYS = (
     ("time", "Runtime (seconds)"),
@@ -96,12 +113,36 @@ def json_ready(obj):
 
 def environment_info():
     info = {}
-    for name in ["numpy", "torch", "cuml", "cuvs", "cudf", "cupy", "sklearn", "umap", "dire_rapids"]:
+    for name in [
+        "numpy",
+        "torch",
+        "cuml",
+        "cuvs",
+        "cudf",
+        "cupy",
+        "sklearn",
+        "umap",
+        "openTSNE",
+        "dire_rapids",
+    ]:
         try:
             mod = __import__(name)
             info[name] = getattr(mod, "__version__", "installed")
         except Exception as exc:  # pylint: disable=broad-exception-caught
             info[name] = f"unavailable: {type(exc).__name__}: {exc}"
+    info["platform"] = platform.platform()
+    info["python"] = platform.python_version()
+    info["cpu_count"] = os.cpu_count()
+    try:
+        dist = importlib.metadata.distribution("dire-rapids")
+        direct_url = dist.read_text("direct_url.json")
+        info["dire_rapids_direct_url"] = json.loads(direct_url) if direct_url else None
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        info["dire_rapids_direct_url_error"] = str(exc)
+    try:
+        info["lscpu"] = subprocess.check_output(["lscpu"], text=True).strip()
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        info["lscpu_error"] = str(exc)
     try:
         import torch
         info["torch_cuda_available"] = bool(torch.cuda.is_available())
@@ -210,18 +251,91 @@ def load_dataset(name, max_points, seed, full_datasets):
     raise ValueError(f"unknown dataset: {name}")
 
 
-def make_reducer(method, seed):
+class OpenTSNEReducer:
+    """Small sklearn-style adapter around openTSNE's ``fit`` API."""
+
+    def __init__(self, seed, n_jobs):
+        self.seed = seed
+        self.n_jobs = n_jobs
+
+    def fit_transform(self, X):
+        from openTSNE import TSNE
+
+        embedding = TSNE(
+            n_components=2,
+            perplexity=30,
+            initialization="pca",
+            negative_gradient_method="fft",
+            n_jobs=self.n_jobs,
+            random_state=self.seed,
+            verbose=False,
+        ).fit(X)
+        return np.asarray(embedding, dtype=np.float32)
+
+
+def make_reducer(method, seed, args):
     if method == "dire":
-        return create_dire(n_components=2, n_neighbors=16, max_iter_layout=30, random_state=seed, verbose=False)
+        return create_dire(
+            n_components=2,
+            n_neighbors=16,
+            init="pca",
+            max_iter_layout=args.dire_iterations,
+            random_state=seed,
+            verbose=False,
+        )
+    if method == "dire_topology":
+        from dire_rapids import TOPOLOGY_TUNED
+
+        return create_dire(
+            n_components=2,
+            random_state=seed,
+            verbose=False,
+            **TOPOLOGY_TUNED,
+        )
+    if method == "dire_pca_init":
+        return create_dire(
+            n_components=2,
+            n_neighbors=16,
+            init="pca",
+            max_iter_layout=0,
+            random_state=seed,
+            verbose=False,
+        )
+    if method == "dire_spectral":
+        return create_dire(
+            n_components=2,
+            n_neighbors=16,
+            init="spectral",
+            max_iter_layout=args.dire_iterations,
+            random_state=seed,
+            verbose=False,
+        )
+    if method == "dire_spectral_init":
+        return create_dire(
+            n_components=2,
+            n_neighbors=16,
+            init="spectral",
+            max_iter_layout=0,
+            random_state=seed,
+            verbose=False,
+        )
     if method == "cuml_umap":
         from cuml import UMAP
         return UMAP(n_components=2, n_neighbors=15, min_dist=0.1, random_state=seed, verbose=False)
     if method == "cuml_tsne":
         from cuml import TSNE
         return TSNE(n_components=2, perplexity=30, random_state=seed, verbose=False)
+    if method == "opentsne":
+        return OpenTSNEReducer(seed=seed, n_jobs=args.cpu_jobs)
     if method == "umap":
         from umap import UMAP
-        return UMAP(n_components=2, n_neighbors=15, min_dist=0.1, random_state=seed)
+        return UMAP(
+            n_components=2,
+            n_neighbors=15,
+            min_dist=0.1,
+            n_jobs=args.cpu_jobs,
+            random_state=seed,
+        )
     raise ValueError(method)
 
 
@@ -238,7 +352,7 @@ def to_numpy(embedding):
 
 
 def method_dataset(X, y, method, args):
-    cap = args.umap_max_points if method == "umap" else None
+    cap = args.cpu_max_points if method in CPU_METHODS else None
     if cap is None or len(X) <= cap:
         return X, y, None
     rng = np.random.default_rng(args.seed)
@@ -248,7 +362,7 @@ def method_dataset(X, y, method, args):
         "n_samples": int(len(idx)),
         "sample_policy": "uniform without replacement",
         "sample_seed": int(args.seed),
-        "reason": "method cap for CPU umap-learn",
+        "reason": f"method cap for CPU baseline {method}",
     }
 
 
@@ -325,9 +439,10 @@ def aggregate_metric_repeats(records):
 
 
 def plot_metric_bars(path, dataset_name, results, key, title):
-    values = [metric_value(results[m], key) for m in METHODS if m in results]
-    errors = [metric_error(results[m], key) for m in METHODS if m in results]
-    names = [DISPLAY[m] for m in METHODS if m in results]
+    methods = [method for method in results if method in DISPLAY]
+    values = [metric_value(results[m], key) for m in methods]
+    errors = [metric_error(results[m], key) for m in methods]
+    names = [DISPLAY[m] for m in methods]
     clean = [(n, v, e) for n, v, e in zip(names, values, errors) if v is not None]
     if not clean:
         return
@@ -355,56 +470,102 @@ def plot_metric_bars(path, dataset_name, results, key, title):
 
 
 def topology_subset_indices(n_samples, args, seed):
-    min_sample_size = int(np.ceil(0.05 * n_samples))
-    if args.topology_sample_size is not None:
-        sample_size = min(args.topology_sample_size, n_samples)
-        if sample_size < min_sample_size:
-            raise ValueError(
-                f"topology_sample_size={sample_size} is below 5% of n_samples={n_samples}; "
-                f"use at least {min_sample_size}"
-            )
-    else:
-        sample_size = int(np.ceil(args.topology_sample_fraction * n_samples))
-    sample_size = max(1, min(sample_size, n_samples))
+    sample_size = min(args.topology_sample_size, n_samples)
     rng = np.random.default_rng(seed)
     return np.sort(rng.choice(n_samples, size=sample_size, replace=False))
 
 
-def rescale_to_unit_diameter(points):
-    points = np.asarray(points, dtype=np.float32)
-    diameter = float(pdist(points).max())
-    if diameter == 0.0:
-        return points
-    return (points / diameter).astype(np.float32)
-
-
-def curve_dtw(a, b):
-    dist, _path = fastdtw(np.asarray(a, dtype=float), np.asarray(b, dtype=float))
-    return float(dist)
-
-
-def compute_ripser_topology_metrics(data, embedding, n_steps):
-    data_curve = compute_betti_curve_ripser(
-        rescale_to_unit_diameter(data),
-        n_steps=n_steps,
-        maxdim=1,
-    )
-    embedding_curve = compute_betti_curve_ripser(
-        rescale_to_unit_diameter(embedding),
-        n_steps=n_steps,
-        maxdim=1,
-    )
+def atlas_curve_parameters(args) -> dict:
     return {
-        "metrics": {
-            "dtw_beta0": curve_dtw(data_curve["beta_0"], embedding_curve["beta_0"]) / len(data),
-            "dtw_beta1": curve_dtw(data_curve["beta_1"], embedding_curve["beta_1"]) / len(data),
-        },
-        "backend": "ripser",
+        "k_neighbors": args.topology_atlas_neighbors,
+        "density_threshold": args.topology_atlas_density_threshold,
+        "overlap_factor": args.topology_atlas_overlap_factor,
+        "n_steps": args.topology_steps,
     }
 
 
-def run_method_once(X, y, method, seed, args, compute_topology):
-    reducer = make_reducer(method, seed)
+def compute_atlas_curve(points, args):
+    from dire_rapids.betti_curve import compute_betti_curve_gpu
+
+    return compute_betti_curve_gpu(
+        points,
+        **atlas_curve_parameters(args),
+    )
+
+
+def compute_atlas_topology_metrics(
+    data,
+    embedding,
+    args,
+    seed,
+    reference_curve=None,
+):
+    """Compute the explicit rank-based local-kNN atlas diagnostic.
+
+    ``dire_rapids.metrics.compute_global_metrics`` currently reports
+    ``backend="atlas"`` while its internal backend selector defaults to
+    ``prefer_ripser=True``.  Calling that wrapper would therefore ignore the
+    atlas neighborhood, density, and overlap parameters whenever Ripser is
+    installed.  The benchmark invokes the GPU atlas implementation directly
+    so the recorded backend is an executed code path, not merely a label.
+    """
+
+    del seed  # The fixed row-index subset is already selected by this seed.
+    from fastdtw import fastdtw
+
+    curve_parameters = atlas_curve_parameters(args)
+    high = (
+        compute_atlas_curve(data, args)
+        if reference_curve is None
+        else reference_curve
+    )
+    low = compute_atlas_curve(embedding, args)
+    metrics = {}
+    for dimension in (0, 1):
+        high_curve = np.column_stack(
+            (
+                high["filtration_values"],
+                high[f"beta_{dimension}"],
+            )
+        )
+        low_curve = np.column_stack(
+            (
+                low["filtration_values"],
+                low[f"beta_{dimension}"],
+            )
+        )
+        distance, _path = fastdtw(high_curve, low_curve, dist=2)
+        metrics[f"dtw_beta{dimension}"] = float(distance / len(data))
+    return {
+        "metrics": metrics,
+        "backend": "atlas",
+        "backend_detail": "direct GPU rank-based local-kNN atlas",
+        "prefer_ripser": False,
+        "parameters": {
+            **curve_parameters,
+            "implementation": (
+                "dire_rapids.betti_curve.compute_betti_curve_gpu"
+            ),
+        },
+    }
+
+
+def subset_digest(indices):
+    return hashlib.sha256(
+        np.asarray(indices, dtype=np.int64).tobytes(order="C")
+    ).hexdigest()
+
+
+def run_method_once(
+    X,
+    y,
+    method,
+    seed,
+    args,
+    compute_topology,
+    topology_reference_cache,
+):
+    reducer = make_reducer(method, seed, args)
     t0 = time.perf_counter()
     embedding = to_numpy(reducer.fit_transform(X))
     fit_time = time.perf_counter() - t0
@@ -420,25 +581,55 @@ def run_method_once(X, y, method, seed, args, compute_topology):
     )
     topology_metadata = None
     if compute_topology:
-        idx = topology_subset_indices(len(X), args, seed)
+        subset_seed = args.topology_subset_seed + (seed - args.seed)
+        idx = topology_subset_indices(len(X), args, subset_seed)
         print(
             f"Computing topology for {method}, seed {seed}: "
             f"{len(idx)}/{len(X)} points",
             flush=True,
         )
         topology_t0 = time.perf_counter()
-        metrics["topology"] = compute_ripser_topology_metrics(
+        digest = subset_digest(idx)
+        reference_key = (
+            int(subset_seed),
+            digest,
+            int(len(X)),
+            int(X.shape[1]),
+        )
+        cache_hit = reference_key in topology_reference_cache
+        if cache_hit:
+            reference_curve = topology_reference_cache[reference_key]
+            reference_wall_time = 0.0
+        else:
+            reference_t0 = time.perf_counter()
+            reference_curve = compute_atlas_curve(X[idx], args)
+            reference_wall_time = time.perf_counter() - reference_t0
+            topology_reference_cache[reference_key] = reference_curve
+        embedding_t0 = time.perf_counter()
+        metrics["topology"] = compute_atlas_topology_metrics(
             X[idx],
             embedding[idx],
-            args.topology_steps,
+            args,
+            subset_seed,
+            reference_curve=reference_curve,
         )
+        embedding_wall_time = time.perf_counter() - embedding_t0
         topology_time = time.perf_counter() - topology_t0
         topology_metadata = {
             "sample_size": int(len(idx)),
             "sample_fraction": float(len(idx) / len(X)),
-            "sample_policy": "uniform without replacement",
+            "sample_policy": "fixed-size uniform without replacement",
+            "subset_seed": int(subset_seed),
+            "indices_sha256": digest,
+            "indices": idx.tolist(),
+            "backend": "atlas",
+            "backend_detail": "direct GPU rank-based local-kNN atlas",
+            "prefer_ripser": False,
             "n_steps": int(args.topology_steps),
             "wall_time_sec": float(topology_time),
+            "reference_curve_cache_hit": bool(cache_hit),
+            "reference_curve_wall_time_sec": float(reference_wall_time),
+            "embedding_curve_wall_time_sec": float(embedding_wall_time),
         }
     return embedding, {
         "seed": seed,
@@ -459,24 +650,50 @@ def run_dataset(name, args):
 
     X, y, info = load_dataset(name, args.max_points, args.seed, args.full_datasets)
     results = {"dataset": info, "methods": {}}
+    topology_reference_cache = {}
     np.save(dataset_dir / "labels.npy", np.asarray([] if y is None else y))
 
-    for method in METHODS:
+    for method in args.methods:
         X_method, y_method, input_sample = method_dataset(X, y, method, args)
         records = []
+        repeats = args.cpu_repeats if method in CPU_METHODS else args.repeats
         method_result = {
             "display": DISPLAY[method],
             "backend": BACKEND[method],
-            "repeats_requested": args.repeats,
-            "topology_repeats_requested": args.topology_repeats if args.topology else 0,
+            "hardware_class": "CPU" if method in CPU_METHODS else "GPU",
+            "repeats_requested": repeats,
+            "topology_repeats_requested": (
+                min(args.topology_repeats, repeats) if args.topology else 0
+            ),
             "metric_subsample": args.metric_subsample,
-            "topology_backend": "ripser" if args.topology else None,
-            "topology_sample_fraction": args.topology_sample_fraction if args.topology else None,
+            "topology_backend": "atlas" if args.topology else None,
+            "topology_backend_detail": (
+                "direct GPU rank-based local-kNN atlas"
+                if args.topology
+                else None
+            ),
+            "topology_prefer_ripser": False if args.topology else None,
             "topology_sample_size": args.topology_sample_size if args.topology else None,
             "topology_steps": args.topology_steps if args.topology else None,
             "input_n_samples": int(len(X_method)),
             "input_sample": input_sample,
         }
+        if method == "dire_topology":
+            from dire_rapids import TOPOLOGY_TUNED
+
+            method_result["configuration_origin"] = {
+                "name": "dire_rapids.TOPOLOGY_TUNED",
+                "source_commit": "9117dc45a3e130fa1d636dfd181f3e97960c5b3b",
+                "committed_utc": "2026-04-23T02:01:37Z",
+                "selection_independence": (
+                    "The named source-distributed preset predates the "
+                    "Revision 3 benchmark."
+                ),
+            }
+            method_result["parameters"] = {
+                "n_components": 2,
+                **json_ready(TOPOLOGY_TUNED),
+            }
         if y_method is not None and len(y_method) != len(y):
             np.save(dataset_dir / f"{method}_labels.npy", np.asarray(y_method))
         try:
@@ -486,15 +703,23 @@ def run_dataset(name, args):
                     f"  using {len(X_method)}/{len(X)} input points for {method}",
                     flush=True,
                 )
-            for repeat_index in range(args.repeats):
+            for repeat_index in range(repeats):
                 repeat_seed = args.seed + repeat_index
                 compute_topology = args.topology and repeat_index < args.topology_repeats
                 print(
-                    f"  repeat {repeat_index + 1}/{args.repeats}, seed {repeat_seed}"
+                    f"  repeat {repeat_index + 1}/{repeats}, seed {repeat_seed}"
                     f"{' with topology' if compute_topology else ''}",
                     flush=True,
                 )
-                embedding, record = run_method_once(X_method, y_method, method, repeat_seed, args, compute_topology)
+                embedding, record = run_method_once(
+                    X_method,
+                    y_method,
+                    method,
+                    repeat_seed,
+                    args,
+                    compute_topology,
+                    topology_reference_cache,
+                )
                 record["input_n_samples"] = int(len(X_method))
                 record["input_sample"] = input_sample
                 record["topology_computed"] = bool(compute_topology)
@@ -512,11 +737,13 @@ def run_dataset(name, args):
                     method_result["metrics"] = record["metrics"]
             method_result["repeats"] = records
             method_result["aggregate"] = aggregate_metric_repeats(records)
+            method_result["timing"] = summarize_fit_times(records)
             results["methods"][method] = method_result
         except Exception as exc:  # pylint: disable=broad-exception-caught
             method_result["repeats"] = records
             if records:
                 method_result["aggregate"] = aggregate_metric_repeats(records)
+                method_result["timing"] = summarize_fit_times(records)
             method_result["error"] = f"{type(exc).__name__}: {exc}"
             results["methods"][method] = method_result
 
@@ -543,27 +770,75 @@ def main():
         help="load all available rows for datasets with fixed external sources; synthetic datasets keep their configured size",
     )
     parser.add_argument(
+        "--cpu-max-points",
         "--umap-max-points",
+        dest="cpu_max_points",
         type=int,
         default=10_000,
-        help="maximum input points for original CPU umap-learn; use 0 to disable this method-specific cap",
+        help="maximum input points for CPU baselines; use 0 to disable this method-specific cap",
+    )
+    parser.add_argument(
+        "--methods",
+        nargs="+",
+        choices=KNOWN_METHODS,
+        default=list(DEFAULT_METHODS),
+        help="reducers to run, in display order",
+    )
+    parser.add_argument(
+        "--dire-iterations",
+        type=int,
+        default=128,
+        help="layout iterations for full DiRe methods",
+    )
+    parser.add_argument(
+        "--cpu-jobs",
+        type=int,
+        default=1,
+        help="worker count for CPU baselines",
     )
     parser.add_argument("--metric-subsample", type=float, default=0.05)
     parser.add_argument(
-        "--topology-sample-fraction",
-        type=float,
-        default=0.05,
-        help="fraction of points used for the explicit topology pass",
-    )
-    parser.add_argument(
         "--topology-sample-size",
         type=int,
-        default=None,
-        help="absolute topology sample size; overrides --topology-sample-fraction",
+        default=1_000,
+        help=(
+            "fixed number of rows in each paired atlas-topology subset; "
+            "datasets with fewer rows use all rows"
+        ),
     )
     parser.add_argument("--topology-steps", type=int, default=100)
+    parser.add_argument(
+        "--topology-subset-seed",
+        type=int,
+        default=1042,
+        help=(
+            "seed for the first fixed row-index subset; repeat i uses this "
+            "seed plus i, independently of the layout seed"
+        ),
+    )
+    parser.add_argument(
+        "--topology-atlas-neighbors",
+        type=int,
+        default=20,
+    )
+    parser.add_argument(
+        "--topology-atlas-density-threshold",
+        type=float,
+        default=0.8,
+    )
+    parser.add_argument(
+        "--topology-atlas-overlap-factor",
+        type=float,
+        default=1.5,
+    )
     parser.add_argument("--topology", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--repeats", type=int, default=1, help="number of seeded runs used for metric means and error bars")
+    parser.add_argument(
+        "--cpu-repeats",
+        type=int,
+        default=3,
+        help="number of seeded runs for slower CPU baselines",
+    )
     parser.add_argument(
         "--topology-repeats",
         type=int,
@@ -575,14 +850,24 @@ def main():
         raise ValueError("metric_subsample must be at least 0.05")
     if args.max_points < 1:
         raise ValueError("max_points must be positive")
-    if args.umap_max_points < 0:
-        raise ValueError("umap_max_points must be non-negative")
-    if args.umap_max_points == 0:
-        args.umap_max_points = None
-    if args.topology_sample_fraction < 0.05:
-        raise ValueError("topology_sample_fraction must be at least 0.05")
-    if args.topology_sample_size is not None and args.topology_sample_size < 1:
+    if args.cpu_max_points < 0:
+        raise ValueError("cpu_max_points must be non-negative")
+    if args.cpu_max_points == 0:
+        args.cpu_max_points = None
+    if args.dire_iterations < 1:
+        raise ValueError("dire_iterations must be positive")
+    if args.repeats < 1 or args.cpu_repeats < 1:
+        raise ValueError("repeat counts must be positive")
+    if args.topology_sample_size < 1:
         raise ValueError("topology_sample_size must be positive")
+    if args.topology_atlas_neighbors < 2:
+        raise ValueError("topology_atlas_neighbors must be at least 2")
+    if not 0.0 < args.topology_atlas_density_threshold <= 1.0:
+        raise ValueError(
+            "topology_atlas_density_threshold must be in (0, 1]"
+        )
+    if args.topology_atlas_overlap_factor <= 0.0:
+        raise ValueError("topology_atlas_overlap_factor must be positive")
     args.topology_repeats = max(0, min(args.topology_repeats, args.repeats))
 
     args.output.mkdir(parents=True, exist_ok=True)
