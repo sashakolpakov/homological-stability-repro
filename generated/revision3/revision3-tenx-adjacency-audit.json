@@ -58,11 +58,11 @@
     {
       "display": "DiRe (auto cuVS)",
       "input_directed_edges": 60,
-      "introduced_directed_edges": 43,
-      "mean_recall": 0.2833333333333333,
+      "introduced_directed_edges": 42,
+      "mean_recall": 0.3,
       "method": "dire_auto",
-      "preserved_directed_edges": 17,
-      "source_cell_weighted_recall": 0.31489331946025667
+      "preserved_directed_edges": 18,
+      "source_cell_weighted_recall": 0.32750592655487054
     },
     {
       "display": "DiRe (IVF-Flat control)",
@@ -80,16 +80,7 @@
       "mean_recall": 0.43333333333333335,
       "method": "dire_spectral",
       "preserved_directed_edges": 26,
-      "source_cell_weighted_recall": 0.6907651399902154
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "input_directed_edges": 60,
-      "introduced_directed_edges": 39,
-      "mean_recall": 0.35,
-      "method": "dire_topology",
-      "preserved_directed_edges": 21,
-      "source_cell_weighted_recall": 0.5956391172782841
+      "source_cell_weighted_recall": 0.6876199634491899
     },
     {
       "display": "cuML UMAP",
@@ -103,11 +94,11 @@
     {
       "display": "cuML t-SNE",
       "input_directed_edges": 60,
-      "introduced_directed_edges": 40,
-      "mean_recall": 0.3333333333333333,
+      "introduced_directed_edges": 39,
+      "mean_recall": 0.35,
       "method": "cuml_tsne",
-      "preserved_directed_edges": 20,
-      "source_cell_weighted_recall": 0.39173730170700594
+      "preserved_directed_edges": 21,
+      "source_cell_weighted_recall": 0.34644308452904393
     },
     {
       "display": "Cell Ranger t-SNE",
@@ -422,23 +413,23 @@
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.25,
+      "equal_cluster_weight_recall": 0.2,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 1,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.335443643688554
+      "source_cell_weighted_recall": 0.33158643837850377
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.23529411764705882,
+      "equal_cluster_weight_recall": 0.17647058823529413,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 1,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.3356006447243834
+      "source_cell_weighted_recall": 0.33174118483426845
     },
     {
       "display": "DiRe (auto cuVS)",
@@ -452,63 +443,63 @@
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.275,
+      "equal_cluster_weight_recall": 0.3,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 2,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.3193464341522685
+      "source_cell_weighted_recall": 0.3269314545982129
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.20588235294117646,
+      "equal_cluster_weight_recall": 0.23529411764705882,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 2,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.31922130532173404
+      "source_cell_weighted_recall": 0.32681075929778974
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.2,
+      "equal_cluster_weight_recall": 0.23333333333333334,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 2,
       "method": "dire_auto",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.3198800433425677
+      "source_cell_weighted_recall": 0.3275314121629501
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.2833333333333333,
+      "equal_cluster_weight_recall": 0.3,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 3,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.31489331946025667
+      "source_cell_weighted_recall": 0.32750592655487054
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.2352941176470588,
+      "equal_cluster_weight_recall": 0.2549019607843137,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 3,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.3147191128298314
+      "source_cell_weighted_recall": 0.32733909213573126
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.24444444444444446,
+      "equal_cluster_weight_recall": 0.26666666666666666,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 3,
       "method": "dire_auto",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.3159896128182374
+      "source_cell_weighted_recall": 0.3287125460463294
     },
     {
       "display": "DiRe (auto cuVS)",
@@ -542,13 +533,13 @@
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.31,
+      "equal_cluster_weight_recall": 0.32,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 5,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.3871949664925386
+      "source_cell_weighted_recall": 0.38721380080191287
     },
     {
       "display": "DiRe (auto cuVS)",
@@ -602,123 +593,123 @@
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.3357142857142857,
+      "equal_cluster_weight_recall": 0.34285714285714286,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 7,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.3942467200465848
+      "source_cell_weighted_recall": 0.40716823752317227
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.3277310924369748,
+      "equal_cluster_weight_recall": 0.33613445378151263,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 7,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.39429899574809346
+      "source_cell_weighted_recall": 0.4072280659975739
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.3428571428571428,
+      "equal_cluster_weight_recall": 0.35238095238095235,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 7,
       "method": "dire_auto",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.39579441165090223
+      "source_cell_weighted_recall": 0.4088289573897014
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.35625,
+      "equal_cluster_weight_recall": 0.35,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 8,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.41089907413291354
+      "source_cell_weighted_recall": 0.4094377882089567
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.35294117647058826,
+      "equal_cluster_weight_recall": 0.34558823529411764,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 8,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.4109784703730147
+      "source_cell_weighted_recall": 0.40951633031093243
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.36666666666666664,
+      "equal_cluster_weight_recall": 0.35833333333333334,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 8,
       "method": "dire_auto",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.4122917344055187
+      "source_cell_weighted_recall": 0.41081766618963067
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.38333333333333325,
+      "equal_cluster_weight_recall": 0.3611111111111111,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 9,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.41203437508161334
+      "source_cell_weighted_recall": 0.39875303941432266
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.3856209150326797,
+      "equal_cluster_weight_recall": 0.3594771241830066,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 9,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.41208216422562766
+      "source_cell_weighted_recall": 0.39879306546764814
+    },
+    {
+      "display": "DiRe (auto cuVS)",
+      "equal_cluster_weight_recall": 0.37777777777777766,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 9,
+      "method": "dire_auto",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.4002335322399178
     },
     {
       "display": "DiRe (auto cuVS)",
       "equal_cluster_weight_recall": 0.4,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 9,
-      "method": "dire_auto",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.4131987163364186
-    },
-    {
-      "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.40499999999999997,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 10,
       "method": "dire_auto",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.440007824660236
+      "source_cell_weighted_recall": 0.4362240425318518
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.39999999999999997,
+      "equal_cluster_weight_recall": 0.3941176470588235,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 10,
       "method": "dire_auto",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.44003281843225345
+      "source_cell_weighted_recall": 0.4362468246404834
     },
     {
       "display": "DiRe (auto cuVS)",
-      "equal_cluster_weight_recall": 0.41333333333333333,
+      "equal_cluster_weight_recall": 0.4066666666666667,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 10,
       "method": "dire_auto",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.4411752076187768
+      "source_cell_weighted_recall": 0.43735832765034915
     },
     {
       "display": "DiRe (IVF-Flat control)",
@@ -962,33 +953,33 @@
     },
     {
       "display": "DiRe (IVF-Flat control)",
-      "equal_cluster_weight_recall": 0.37777777777777777,
+      "equal_cluster_weight_recall": 0.3722222222222222,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 9,
       "method": "dire",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.42063903433586475
+      "source_cell_weighted_recall": 0.4196916192342365
     },
     {
       "display": "DiRe (IVF-Flat control)",
-      "equal_cluster_weight_recall": 0.3790849673202614,
+      "equal_cluster_weight_recall": 0.37254901960784315,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 9,
       "method": "dire",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.4206918530003891
+      "source_cell_weighted_recall": 0.4197438841239344
     },
     {
       "display": "DiRe (IVF-Flat control)",
-      "equal_cluster_weight_recall": 0.39999999999999997,
+      "equal_cluster_weight_recall": 0.39259259259259255,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 9,
       "method": "dire",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.42231097030869347
+      "source_cell_weighted_recall": 0.42135526789230326
     },
     {
       "display": "DiRe (IVF-Flat control)",
@@ -1022,83 +1013,83 @@
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.35,
+      "equal_cluster_weight_recall": 0.3,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 1,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6007723598088088
+      "source_cell_weighted_recall": 0.45032986838186484
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.35294117647058826,
+      "equal_cluster_weight_recall": 0.29411764705882354,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 1,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6010292914466769
+      "source_cell_weighted_recall": 0.45055402171348374
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.3333333333333333,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "dire_spectral",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.45422964610005706
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.4,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "dire_spectral",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.5711814394771718
+    },
+    {
+      "display": "DiRe (spectral init)",
+      "equal_cluster_weight_recall": 0.38235294117647056,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "dire_spectral",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.5714291186213194
     },
     {
       "display": "DiRe (spectral init)",
       "equal_cluster_weight_recall": 0.4,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
-      "k": 1,
-      "method": "dire_spectral",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6059324946458954
-    },
-    {
-      "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.35,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 2,
-      "method": "dire_spectral",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5302240900004364
-    },
-    {
-      "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.35294117647058826,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 2,
-      "method": "dire_spectral",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5304673638923703
-    },
-    {
-      "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.36666666666666664,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
       "k": 2,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.532849449452078
+      "source_cell_weighted_recall": 0.5741453706013511
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4333333333333334,
+      "equal_cluster_weight_recall": 0.4333333333333333,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 3,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6907651399902154
+      "source_cell_weighted_recall": 0.6876199634491899
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.45098039215686275,
+      "equal_cluster_weight_recall": 0.4313725490196078,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 3,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6909740629178273
+      "source_cell_weighted_recall": 0.6878140247981916
     },
     {
       "display": "DiRe (spectral init)",
@@ -1108,27 +1099,27 @@
       "k": 3,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6940170728938269
+      "source_cell_weighted_recall": 0.6921282369517271
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.425,
+      "equal_cluster_weight_recall": 0.4,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 4,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6186507897011546
+      "source_cell_weighted_recall": 0.6167221870461295
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4264705882352941,
+      "equal_cluster_weight_recall": 0.39705882352941174,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 4,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6187436990755069
+      "source_cell_weighted_recall": 0.6168139691304494
     },
     {
       "display": "DiRe (spectral init)",
@@ -1142,483 +1133,183 @@
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.43999999999999995,
+      "equal_cluster_weight_recall": 0.44000000000000006,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 5,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6820770108879152
+      "source_cell_weighted_recall": 0.6679321382989555
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4588235294117647,
+      "equal_cluster_weight_recall": 0.42352941176470593,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 5,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6822607334046289
+      "source_cell_weighted_recall": 0.6679192930094594
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4666666666666668,
+      "equal_cluster_weight_recall": 0.4533333333333334,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 5,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6847138672274737
+      "source_cell_weighted_recall": 0.6718118073742607
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4833333333333334,
+      "equal_cluster_weight_recall": 0.4583333333333333,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 6,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.741426624924937
+      "source_cell_weighted_recall": 0.6570600204523246
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4901960784313726,
+      "equal_cluster_weight_recall": 0.4411764705882352,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 6,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.74151475501597
+      "source_cell_weighted_recall": 0.6569576251017596
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.5,
+      "equal_cluster_weight_recall": 0.46666666666666673,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 6,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.7442588989865365
+      "source_cell_weighted_recall": 0.6603089329299767
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4428571428571429,
+      "equal_cluster_weight_recall": 0.4214285714285714,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 7,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6481980695598514
+      "source_cell_weighted_recall": 0.5981413533512221
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.45378151260504196,
+      "equal_cluster_weight_recall": 0.41176470588235287,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 7,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6482810268137579
+      "source_cell_weighted_recall": 0.5980740128533388
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4571428571428572,
+      "equal_cluster_weight_recall": 0.43809523809523815,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 7,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6501271513647934
+      "source_cell_weighted_recall": 0.6012318274611862
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4375,
+      "equal_cluster_weight_recall": 0.4125,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 8,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.597204176929196
+      "source_cell_weighted_recall": 0.5316649912297962
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4411764705882353,
+      "equal_cluster_weight_recall": 0.39705882352941174,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 8,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5972776558875532
+      "source_cell_weighted_recall": 0.5315873580089538
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.45,
+      "equal_cluster_weight_recall": 0.4083333333333333,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 8,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.5991380142585617
+      "source_cell_weighted_recall": 0.5333981824233994
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4444444444444445,
+      "equal_cluster_weight_recall": 0.43888888888888894,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 9,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5746762076820333
+      "source_cell_weighted_recall": 0.5391189201186237
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4509803921568627,
+      "equal_cluster_weight_recall": 0.4313725490196078,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 9,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5747170052865629
+      "source_cell_weighted_recall": 0.5390844580089879
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4592592592592592,
+      "equal_cluster_weight_recall": 0.437037037037037,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 9,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.576253888521179
+      "source_cell_weighted_recall": 0.5403306505529937
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.42000000000000004,
+      "equal_cluster_weight_recall": 0.45499999999999996,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 10,
       "method": "dire_spectral",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.531589883678999
+      "source_cell_weighted_recall": 0.5404863386179138
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.4235294117647059,
+      "equal_cluster_weight_recall": 0.44705882352941173,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 10,
       "method": "dire_spectral",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5316255848943282
+      "source_cell_weighted_recall": 0.5404743044851857
     },
     {
       "display": "DiRe (spectral init)",
-      "equal_cluster_weight_recall": 0.43333333333333335,
+      "equal_cluster_weight_recall": 0.45333333333333337,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 10,
       "method": "dire_spectral",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.5331260942801249
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.3,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 1,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.4108704589982444
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.23529411764705882,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 1,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.41097732126824393
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.26666666666666666,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 1,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.41433007852171877
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.325,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 2,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5730568313801032
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.3235294117647059,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 2,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5733251414931008
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.36666666666666664,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 2,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.5780023339493868
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.35,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 3,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5956391172782841
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.35294117647058826,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 3,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5959298198305862
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.39999999999999986,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 3,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6007914214874203
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.425,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 4,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6632683881429601
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.4411764705882353,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 4,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.663500180792484
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.48333333333333334,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 4,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6679402858045368
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.4800000000000001,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 5,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.7359841730551471
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.49411764705882355,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 5,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.736180559598702
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.5200000000000001,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 5,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.7397765370894833
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.4750000000000001,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 6,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.71824128383636
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.48039215686274517,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 6,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.7183158618336852
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.49999999999999994,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 6,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.721519239893492
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.45000000000000007,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 7,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.653888393482629
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.46218487394957986,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 7,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6539746767951314
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.4857142857142857,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 7,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6570326802563262
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.45625,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 8,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6165618848703074
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.47058823529411764,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 8,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6166069387542479
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.48333333333333334,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 8,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6186249856155502
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.47222222222222215,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 9,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6038859756959146
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.4901960784313725,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 9,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6039481878021933
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.5037037037037038,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 9,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6057235393272359
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.48999999999999994,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 10,
-      "method": "dire_topology",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6202097498941525
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.5117647058823529,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 10,
-      "method": "dire_topology",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.620301157378325
-    },
-    {
-      "display": "DiRe (topology preset)",
-      "equal_cluster_weight_recall": 0.5333333333333332,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 10,
-      "method": "dire_topology",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6225250830050332
+      "source_cell_weighted_recall": 0.5416202953195124
     },
     {
       "display": "cuML UMAP",
@@ -1922,73 +1613,73 @@
     },
     {
       "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.45,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.30961996804292385
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4117647058823529,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.3092555026797123
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.4666666666666667,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 1,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.311778412281115
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.275,
+      "included_source_cells": 1306127,
+      "included_source_clusters": 20,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 0,
+      "source_cell_weighted_recall": 0.1668727466777733
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.2647058823529412,
+      "included_source_cells": 1305364,
+      "included_source_clusters": 17,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 1000,
+      "source_cell_weighted_recall": 0.16669756481716977
+    },
+    {
+      "display": "cuML t-SNE",
+      "equal_cluster_weight_recall": 0.3,
+      "included_source_cells": 1294801,
+      "included_source_clusters": 15,
+      "k": 2,
+      "method": "cuml_tsne",
+      "minimum_source_cells": 10000,
+      "source_cell_weighted_recall": 0.16805748528152203
+    },
+    {
+      "display": "cuML t-SNE",
       "equal_cluster_weight_recall": 0.35,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 1,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6081728652726726
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.35294117647058826,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 1,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6084341225895612
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 1,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6133977344781167
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.325,
-      "included_source_cells": 1306127,
-      "included_source_clusters": 20,
-      "k": 2,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.4249640348909409
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.35294117647058826,
-      "included_source_cells": 1305364,
-      "included_source_clusters": 17,
-      "k": 2,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.42516531787302236
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.36666666666666664,
-      "included_source_cells": 1294801,
-      "included_source_clusters": 15,
-      "k": 2,
-      "method": "cuml_tsne",
-      "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.4266883482481092
-    },
-    {
-      "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.3333333333333333,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 3,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.39173730170700594
+      "source_cell_weighted_recall": 0.34644308452904393
     },
     {
       "display": "cuML t-SNE",
@@ -1998,127 +1689,127 @@
       "k": 3,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.39193486772016584
+      "source_cell_weighted_recall": 0.3464637705140737
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.3777777777777777,
+      "equal_cluster_weight_recall": 0.4,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 3,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.39241293964606655
+      "source_cell_weighted_recall": 0.34786787055822993
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.375,
+      "equal_cluster_weight_recall": 0.325,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 4,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.3938669440261169
+      "source_cell_weighted_recall": 0.30701800054665435
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4264705882352941,
+      "equal_cluster_weight_recall": 0.35294117647058826,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 4,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.39407360705519684
+      "source_cell_weighted_recall": 0.30706109560245265
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.45,
+      "equal_cluster_weight_recall": 0.38333333333333336,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 4,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.39524896103725593
+      "source_cell_weighted_recall": 0.30849933696374965
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.42000000000000004,
+      "equal_cluster_weight_recall": 0.38,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 5,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.4037605837717158
+      "source_cell_weighted_recall": 0.36523247739308656
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.44705882352941184,
+      "equal_cluster_weight_recall": 0.4117647058823529,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 5,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.4038608388158398
+      "source_cell_weighted_recall": 0.3653180262363601
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4533333333333334,
+      "equal_cluster_weight_recall": 0.44000000000000006,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 5,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.40389233557898085
+      "source_cell_weighted_recall": 0.366591468495931
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4333333333333333,
+      "equal_cluster_weight_recall": 0.4,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 6,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.41166925829826145
+      "source_cell_weighted_recall": 0.3998549400887764
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4509803921568627,
+      "equal_cluster_weight_recall": 0.4411764705882353,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 6,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.41171504653108254
+      "source_cell_weighted_recall": 0.3999820484299143
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4555555555555556,
+      "equal_cluster_weight_recall": 0.4777777777777778,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 6,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.41170599446041
+      "source_cell_weighted_recall": 0.40182275114090893
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.4928571428571429,
+      "equal_cluster_weight_recall": 0.47142857142857136,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 7,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.4958628503528808
+      "source_cell_weighted_recall": 0.4648062554407037
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5126050420168067,
+      "equal_cluster_weight_recall": 0.495798319327731,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 7,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.4959077643148906
+      "source_cell_weighted_recall": 0.4649484741420784
     },
     {
       "display": "cuML t-SNE",
@@ -2128,97 +1819,97 @@
       "k": 7,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.49645709484093914
+      "source_cell_weighted_recall": 0.46635693714434007
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.49375,
+      "equal_cluster_weight_recall": 0.50625,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 8,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5099993147680126
+      "source_cell_weighted_recall": 0.4758565782653601
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5,
+      "equal_cluster_weight_recall": 0.5147058823529411,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 8,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5100100431756965
+      "source_cell_weighted_recall": 0.47589197342656914
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5083333333333333,
+      "equal_cluster_weight_recall": 0.5416666666666666,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 8,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.5106250883340374
+      "source_cell_weighted_recall": 0.47720141936869065
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5333333333333334,
+      "equal_cluster_weight_recall": 0.5222222222222223,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 9,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.5650627134012747
+      "source_cell_weighted_recall": 0.4729633659071609
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5359477124183007,
+      "equal_cluster_weight_recall": 0.5294117647058824,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 9,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.5650787400636484
+      "source_cell_weighted_recall": 0.47301535987067383
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5555555555555556,
+      "equal_cluster_weight_recall": 0.5481481481481482,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 9,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.5665369942305163
+      "source_cell_weighted_recall": 0.47368076896243777
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.575,
+      "equal_cluster_weight_recall": 0.5650000000000001,
       "included_source_cells": 1306127,
       "included_source_clusters": 20,
       "k": 10,
       "method": "cuml_tsne",
       "minimum_source_cells": 0,
-      "source_cell_weighted_recall": 0.6073904758113108
+      "source_cell_weighted_recall": 0.5268880438119722
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.5882352941176471,
+      "equal_cluster_weight_recall": 0.5705882352941177,
       "included_source_cells": 1305364,
       "included_source_clusters": 17,
       "k": 10,
       "method": "cuml_tsne",
       "minimum_source_cells": 1000,
-      "source_cell_weighted_recall": 0.6074532467572263
+      "source_cell_weighted_recall": 0.5268998532210172
     },
     {
       "display": "cuML t-SNE",
-      "equal_cluster_weight_recall": 0.6133333333333334,
+      "equal_cluster_weight_recall": 0.5933333333333334,
       "included_source_cells": 1294801,
       "included_source_clusters": 15,
       "k": 10,
       "method": "cuml_tsne",
       "minimum_source_cells": 10000,
-      "source_cell_weighted_recall": 0.6091456524979515
+      "source_cell_weighted_recall": 0.5279351035410075
     },
     {
       "display": "Cell Ranger t-SNE",
@@ -2528,7 +2219,6 @@
     "dire": true,
     "dire_auto": true,
     "dire_spectral": true,
-    "dire_topology": true,
     "pca2": true
   },
   "stored_reference_adjacency_matches_bundled_input_centroids": {
@@ -2538,7 +2228,6 @@
     "dire": true,
     "dire_auto": true,
     "dire_spectral": true,
-    "dire_topology": true,
     "pca2": true
   }
 }

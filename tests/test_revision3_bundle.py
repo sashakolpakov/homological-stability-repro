@@ -25,7 +25,6 @@ from verify_revision3_bundle import (  # noqa: E402
     SMALL_GPU_METHODS,
     SMALL_GPU_REPEATS,
     SMALL_METHODS,
-    SMALL_TOPOLOGY_PRESET_COMMIT,
     TOPOLOGY_METRICS,
     extract_and_verify,
     sha256_file,
@@ -265,11 +264,6 @@ def make_current_contract_bundle(root: Path) -> Path:
                 "topology_sample_size": 1_000,
                 "repeats": records,
             }
-            if method == "dire_topology":
-                method_payload["configuration_origin"] = {
-                    "name": "dire_rapids.TOPOLOGY_TUNED",
-                    "source_commit": SMALL_TOPOLOGY_PRESET_COMMIT,
-                }
             methods[method] = method_payload
         (small_root / f"{dataset}.json").write_text(
             json.dumps(
@@ -377,6 +371,21 @@ def test_current_revision3_contract_rejects_forbidden_replication_term(
     path.write_text(json.dumps(payload), encoding="utf-8")
 
     with pytest.raises(RuntimeError, match="forbidden schema terms"):
+        verify_current_revision3_contract(bundle)
+
+
+def test_current_revision3_contract_rejects_removed_preset_metadata(
+    tmp_path: Path,
+) -> None:
+    bundle = make_current_contract_bundle(tmp_path)
+    readme = bundle / "README.md"
+    readme.write_text(
+        "# fixture\nremoved " + "topology " + "preset\n",
+        encoding="utf-8",
+    )
+    write_bundle_manifest(bundle, "current-fixture")
+
+    with pytest.raises(RuntimeError, match="removed preset"):
         verify_current_revision3_contract(bundle)
 
 

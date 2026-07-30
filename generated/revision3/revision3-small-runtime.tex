@@ -2,42 +2,36 @@
 \toprule
 Dataset & Method & Hardware & Rows & Cold (s) & Steady (s) \\
 \midrule
-Blobs & openTSNE & CPU & 10,000 & 13.1 & 14.8 \\
-Blobs & umap-learn & CPU & 10,000 & 29.1 & 12.5 \\
-Disk & openTSNE & CPU & 10,000 & 36.6 & 37.7 \\
-Disk & umap-learn & CPU & 10,000 & 8.64 & 8.65 \\
-Moons & openTSNE & CPU & 10,000 & 48.3 & 43.5 \\
-Moons & umap-learn & CPU & 10,000 & 11.7 & 8.79 \\
-MNIST & openTSNE & CPU & 10,000 & 32.3 & 32.5 \\
-MNIST & umap-learn & CPU & 10,000 & 24.7 & 9.96 \\
-Levine13 & openTSNE & CPU & 10,000 & 29.7 & 29.4 \\
-Levine13 & umap-learn & CPU & 10,000 & 23.3 & 9.91 \\
-Levine32 & openTSNE & CPU & 10,000 & 34.2 & 34.8 \\
-Levine32 & umap-learn & CPU & 10,000 & 12.3 & 9.47 \\
+Blobs & openTSNE & CPU & 10,000 & 20.3 & 21.8 \\
+Blobs & umap-learn & CPU & 10,000 & 28.4 & 11.6 \\
+Disk & openTSNE & CPU & 10,000 & 45.9 & 42.5 \\
+Disk & umap-learn & CPU & 10,000 & 8.61 & 8.53 \\
+Moons & openTSNE & CPU & 10,000 & 47.6 & 51.1 \\
+Moons & umap-learn & CPU & 10,000 & 8.80 & 8.87 \\
+MNIST & openTSNE & CPU & 10,000 & 35.4 & 38.6 \\
+MNIST & umap-learn & CPU & 10,000 & 23.2 & 10.1 \\
+Levine13 & openTSNE & CPU & 10,000 & 44.3 & 40.0 \\
+Levine13 & umap-learn & CPU & 10,000 & 26.2 & 9.55 \\
+Levine32 & openTSNE & CPU & 10,000 & 39.3 & 40.2 \\
+Levine32 & umap-learn & CPU & 10,000 & 9.56 & 9.60 \\
 \addlinespace
-Blobs & cuML t-SNE & GPU & 10,000 & 0.44 & 0.43 \\
+Blobs & cuML t-SNE & GPU & 10,000 & 0.44 & 0.44 \\
 Blobs & cuML UMAP & GPU & 10,000 & 0.20 & 0.18 \\
-Blobs & DiRe-RAPIDS & GPU & 10,000 & 1.50 & 0.43 \\
-Blobs & DiRe (topology preset) & GPU & 10,000 & 0.54 & 0.46 \\
-Disk & cuML t-SNE & GPU & 10,000 & 0.40 & 0.40 \\
+Blobs & DiRe-RAPIDS & GPU & 10,000 & 1.26 & 0.41 \\
+Disk & cuML t-SNE & GPU & 10,000 & 0.41 & 0.41 \\
 Disk & cuML UMAP & GPU & 10,000 & 0.26 & 0.28 \\
-Disk & DiRe-RAPIDS & GPU & 10,000 & 0.34 & 0.33 \\
-Disk & DiRe (topology preset) & GPU & 10,000 & 1.03 & 1.12 \\
-Moons & cuML t-SNE & GPU & 10,000 & 0.40 & 0.40 \\
+Disk & DiRe-RAPIDS & GPU & 10,000 & 0.32 & 0.31 \\
+Moons & cuML t-SNE & GPU & 10,000 & 0.41 & 0.41 \\
 Moons & cuML UMAP & GPU & 10,000 & 0.53 & 0.56 \\
-Moons & DiRe-RAPIDS & GPU & 10,000 & 0.32 & 0.33 \\
-Moons & DiRe (topology preset) & GPU & 10,000 & 1.32 & 1.35 \\
-MNIST & cuML t-SNE & GPU & 10,000 & 0.43 & 0.42 \\
-MNIST & cuML UMAP & GPU & 10,000 & 0.24 & 0.23 \\
-MNIST & DiRe-RAPIDS & GPU & 10,000 & 1.26 & 0.35 \\
-MNIST & DiRe (topology preset) & GPU & 10,000 & 0.75 & 0.73 \\
-Levine13 & cuML t-SNE & GPU & 10,000 & 0.41 & 0.40 \\
-Levine13 & cuML UMAP & GPU & 10,000 & 0.23 & 0.22 \\
-Levine13 & DiRe-RAPIDS & GPU & 10,000 & 1.03 & 0.26 \\
-Levine13 & DiRe (topology preset) & GPU & 10,000 & 0.66 & 0.63 \\
-Levine32 & cuML t-SNE & GPU & 10,000 & 0.39 & 0.39 \\
-Levine32 & cuML UMAP & GPU & 10,000 & 0.35 & 0.33 \\
-Levine32 & DiRe-RAPIDS & GPU & 10,000 & 0.31 & 0.30 \\
-Levine32 & DiRe (topology preset) & GPU & 10,000 & 0.96 & 0.91 \\
+Moons & DiRe-RAPIDS & GPU & 10,000 & 0.31 & 0.31 \\
+MNIST & cuML t-SNE & GPU & 10,000 & 0.42 & 0.42 \\
+MNIST & cuML UMAP & GPU & 10,000 & 0.24 & 0.22 \\
+MNIST & DiRe-RAPIDS & GPU & 10,000 & 1.07 & 0.34 \\
+Levine13 & cuML t-SNE & GPU & 10,000 & 0.42 & 0.42 \\
+Levine13 & cuML UMAP & GPU & 10,000 & 0.24 & 0.22 \\
+Levine13 & DiRe-RAPIDS & GPU & 10,000 & 2.07 & 0.25 \\
+Levine32 & cuML t-SNE & GPU & 10,000 & 0.40 & 0.40 \\
+Levine32 & cuML UMAP & GPU & 10,000 & 0.35 & 0.34 \\
+Levine32 & DiRe-RAPIDS & GPU & 10,000 & 0.30 & 0.29 \\
 \bottomrule
 \end{tabular}

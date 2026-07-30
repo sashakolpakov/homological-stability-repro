@@ -52,8 +52,8 @@ also contains the six--dataset reference suite with 20 GPU and 10 CPU fits per
 configuration. Its atlas diagnostic is evaluated on every fit over paired,
 fixed 1,000-row index subsets by calling the GPU rank-based local-kNN atlas
 evaluator directly; the records require ``prefer_ripser=false``. Default DiRe
-and the separately labelled source-distributed topology preset are both
-retained. The renderer reports raw means, sample standard deviations, minima,
+is the fixed comparator. The renderer reports raw means, sample standard
+deviations, minima,
 every paired gap, and continuous paired effect sizes rather than ordinal
 ranks. The fetched bundle also contains the
 fixed topology reference subsets and diagrams: the historical Betti-curve DTW,

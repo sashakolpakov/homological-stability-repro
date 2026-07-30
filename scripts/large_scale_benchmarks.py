@@ -36,7 +36,6 @@ METHODS = (
     "dire",
     "dire_ivf_flat_control",
     "dire_spectral",
-    "dire_topology",
     "cuml_umap",
     "cuml_tsne",
     "pca2",
@@ -49,7 +48,6 @@ DISPLAY = {
     "dire": "DiRe-RAPIDS (forced IVF-Flat control)",
     "dire_ivf_flat_control": "DiRe-RAPIDS (fresh IVF-Flat policy control)",
     "dire_spectral": "DiRe-RAPIDS (spectral-init sensitivity)",
-    "dire_topology": "DiRe-RAPIDS (topology preset)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
     "pca2": "cuML PCA (2D reference)",
@@ -57,8 +55,6 @@ DISPLAY = {
 EXPECTED_DIRE_COMMIT = "293b622cc79fa8ea6fd5b54009e0930e3385b22f"
 EXPECTED_DIRE_REF = "refs/heads/main"
 DIRE_REF_RESOLVED_UTC = "2026-07-28"
-TOPOLOGY_PRESET_COMMIT = "9117dc45a3e130fa1d636dfd181f3e97960c5b3b"
-TOPOLOGY_PRESET_COMMITTED_UTC = "2026-04-23T02:01:37Z"
 
 DATASET_FILES = {
     "tenx": {
@@ -333,11 +329,10 @@ def build_reducer(method: str, seed: int, n_neighbors: int, dire_iterations: int
         "dire",
         "dire_ivf_flat_control",
         "dire_spectral",
-        "dire_topology",
     ):
         # Importing dire_rapids loads RAPIDS before torch to avoid shared-library
         # ordering problems documented by the package.
-        from dire_rapids import TOPOLOGY_TUNED, create_dire
+        from dire_rapids import create_dire
 
         common = {
             "backend": "cuvs",
@@ -350,25 +345,12 @@ def build_reducer(method: str, seed: int, n_neighbors: int, dire_iterations: int
             "normalize": False,
             "verbose": False,
         }
-        if method in (
-            "dire_auto",
-            "dire",
-            "dire_ivf_flat_control",
-            "dire_spectral",
-        ):
-            parameters = {
-                **common,
-                "n_neighbors": n_neighbors,
-                "init": (
-                    "spectral" if method == "dire_spectral" else "pca"
-                ),
-                "max_iter_layout": dire_iterations,
-            }
-        else:
-            # This named preset predates both Revision 3's report and the 10x/
-            # arXiv sensitivity run. Its source commit and timestamp are
-            # recorded in every worker result below.
-            parameters = {**common, **TOPOLOGY_TUNED}
+        parameters = {
+            **common,
+            "n_neighbors": n_neighbors,
+            "init": "spectral" if method == "dire_spectral" else "pca",
+            "max_iter_layout": dire_iterations,
+        }
         return create_dire(**parameters), parameters
     if method == "cuml_umap":
         from cuml import UMAP
@@ -580,16 +562,6 @@ def worker_main(args) -> int:
             "selection_independence": (
                 "Only init changes from the default DiRe benchmark; all force "
                 "parameters and the iteration budget are held fixed."
-            ),
-        }
-    if args.method == "dire_topology":
-        payload["configuration_origin"] = {
-            "name": "dire_rapids.TOPOLOGY_TUNED",
-            "source_commit": TOPOLOGY_PRESET_COMMIT,
-            "committed_utc": TOPOLOGY_PRESET_COMMITTED_UTC,
-            "selection_independence": (
-                "The named source-distributed preset was committed before the "
-                "Revision 3 10x/arXiv sensitivity experiment."
             ),
         }
     try:

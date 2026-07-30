@@ -12,7 +12,6 @@ from pathlib import Path
 DATASETS = ("blobs", "disk", "moons", "mnist", "levine13", "levine32")
 METHODS = (
     "dire",
-    "dire-topology",
     "cuml-tsne",
     "cuml-umap",
     "opentsne",
@@ -20,7 +19,6 @@ METHODS = (
 )
 EXPECTED_LOG_METHODS = (
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
     "opentsne",
@@ -104,7 +102,7 @@ def verify_archived_clone(repository_root: Path) -> dict:
         )
     if png_names != EXPECTED_PNG:
         raise RuntimeError(
-            "archived embedding payload differs from the 6x6 contract: "
+            "archived embedding payload differs from the 6x5 contract: "
             f"missing={sorted(EXPECTED_PNG - png_names)}, "
             f"extra={sorted(png_names - EXPECTED_PNG)}"
         )
@@ -129,7 +127,7 @@ def verify_archived_clone(repository_root: Path) -> dict:
     )
     if tuple(archived_manifest.get("methods", ())) != EXPECTED_LOG_METHODS:
         raise RuntimeError(
-            "archived JSON payload does not declare the final six-method "
+            "archived JSON payload does not declare the final five-method "
             f"protocol: {archived_manifest.get('methods')!r}"
         )
 

@@ -20,7 +20,6 @@ DATASET_BASES = {
 }
 METHODS = (
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
     "opentsne",

@@ -349,7 +349,6 @@ def test_small_runtime_separates_gpu_and_cpu_records(tmp_path: Path) -> None:
     methods = {}
     for method, hardware, base in (
         ("dire", "GPU", 1.0),
-        ("dire_topology", "GPU", 1.5),
         ("cuml_umap", "GPU", 2.0),
         ("cuml_tsne", "GPU", 3.0),
         ("opentsne", "CPU", 4.0),
@@ -373,7 +372,7 @@ def test_small_runtime_separates_gpu_and_cpu_records(tmp_path: Path) -> None:
 
     rows = make_small_runtime(tmp_path / "bundle", output)
 
-    assert len(rows) == 6
+    assert len(rows) == 5
     assert {row["hardware_class"] for row in rows} == {"GPU", "CPU"}
     assert (output / "revision3-small-runtime.csv").is_file()
     assert b"\r" not in (
@@ -392,7 +391,6 @@ def test_small_atlas_effects_retain_paired_values_and_subset_identity(
     methods = {}
     for method, offset in (
         ("dire", 0.0),
-        ("dire_topology", 0.2),
         ("cuml_umap", 0.4),
         ("cuml_tsne", 0.6),
     ):
@@ -450,7 +448,7 @@ def test_small_atlas_effects_retain_paired_values_and_subset_identity(
     assert {
         row["comparator"]
         for row in effects
-    } == {"dire_topology", "cuml_umap", "cuml_tsne"}
+    } == {"cuml_umap", "cuml_tsne"}
     assert (
         output / "revision3-small-atlas-topology-summary.csv"
     ).is_file()
@@ -470,7 +468,7 @@ def test_small_atlas_effects_reject_unpaired_subset_hashes(
     methods = {}
     for method, digest in (
         ("dire", "a" * 64),
-        ("dire_topology", "b" * 64),
+        ("cuml_umap", "b" * 64),
     ):
         methods[method] = {
             "repeats": [

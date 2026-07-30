@@ -50,7 +50,6 @@ QUALITY_METHODS = {
         "dire_auto",
         "dire",
         "dire_spectral",
-        "dire_topology",
         "cuml_umap",
         "cuml_tsne",
         "cellranger_tsne",
@@ -60,7 +59,6 @@ QUALITY_METHODS = {
         "dire_auto",
         "dire",
         "dire_spectral",
-        "dire_topology",
         "cuml_umap",
         "cuml_tsne",
     ),
@@ -69,13 +67,11 @@ SENSITIVITY_METHODS = (
     "dire_auto",
     "dire",
     "dire_spectral",
-    "dire_topology",
 )
 DISPLAY = {
     "dire_auto": "DiRe (auto cuVS)",
     "dire": "DiRe (IVF-Flat control)",
     "dire_spectral": "DiRe (spectral init)",
-    "dire_topology": "DiRe (topology preset)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
     "pca2": "PCA (2D)",
@@ -87,7 +83,6 @@ COLORS = {
     "dire_auto": "#1b9e77",
     "dire": "#80b1a8",
     "dire_spectral": "#33a89c",
-    "dire_topology": "#006d5b",
     "cuml_umap": "#d95f02",
     "cuml_tsne": "#7570b3",
     "pca2": "#666666",
@@ -99,7 +94,6 @@ MARKERS = {
     "dire_auto": "o",
     "dire": "h",
     "dire_spectral": "v",
-    "dire_topology": "X",
     "cuml_umap": "s",
     "cuml_tsne": "^",
     "pca2": "D",
@@ -140,7 +134,6 @@ SMALL_DATASET_DISPLAY = {
 }
 SMALL_DISPLAY = {
     "dire": "DiRe-RAPIDS",
-    "dire_topology": "DiRe (topology preset)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
     "opentsne": "openTSNE",
@@ -149,7 +142,6 @@ SMALL_DISPLAY = {
 SMALL_TOPOLOGY_BACKEND_DETAIL = "direct GPU rank-based local-kNN atlas"
 SMALL_COLORS = {
     "dire": "#1b9e77",
-    "dire_topology": "#006d5b",
     "cuml_umap": "#d95f02",
     "cuml_tsne": "#7570b3",
     "opentsne": "#1f78b4",
@@ -289,7 +281,7 @@ def format_float(value: float | None, digits: int = 3) -> str:
 def result_path(bundle_root: Path, dataset: str, method: str, size: int) -> Path:
     results_directory = (
         "topology_sensitivity_results"
-        if method in ("dire_spectral", "dire_topology")
+        if method == "dire_spectral"
         else "large_results"
     )
     return (
@@ -603,7 +595,7 @@ def render_arxiv_layouts(bundle_root: Path, output_root: Path, sample_size: int)
     plt.close(fig)
 
 
-def render_dire_topology_sensitivity_layouts(
+def render_dire_control_layouts(
     bundle_root: Path,
     output_root: Path,
     tenx_sample_size: int,
@@ -652,7 +644,7 @@ def render_dire_topology_sensitivity_layouts(
     fig, axes = plt.subplots(
         2,
         len(SENSITIVITY_METHODS),
-        figsize=(15.2, 7.9),
+        figsize=(11.6, 7.9),
         constrained_layout=True,
     )
     for column, method in enumerate(SENSITIVITY_METHODS):
@@ -687,10 +679,10 @@ def render_dire_topology_sensitivity_layouts(
     axes[1, 0].set_ylabel("arXiv corpus", fontsize=10)
     fig.suptitle(
         "DiRe controls: production auto policy, forced IVF-Flat, "
-        "spectral initialization, and predeclared topology preset",
+        "and spectral initialization",
         fontsize=12,
     )
-    path = output_root / "revision3-dire-topology-sensitivity-layouts.pdf"
+    path = output_root / "revision3-dire-control-layouts.pdf"
     save_deterministic_pdf(fig, path, bbox_inches="tight")
     fig.savefig(path.with_suffix(".png"), dpi=240, bbox_inches="tight")
     plt.close(fig)
@@ -793,7 +785,6 @@ def make_small_runtime(
         for method, result in payload.get("methods", {}).items():
             if method not in (
                 "dire",
-                "dire_topology",
                 "cuml_umap",
                 "cuml_tsne",
                 "opentsne",
@@ -857,7 +848,7 @@ def make_small_runtime(
     panels = (
         (
             "GPU",
-            ("dire", "dire_topology", "cuml_umap", "cuml_tsne"),
+            ("dire", "cuml_umap", "cuml_tsne"),
         ),
         ("CPU", ("opentsne", "umap")),
     )
@@ -959,7 +950,6 @@ def make_small_atlas_topology_effects(
     )
     methods = (
         "dire",
-        "dire_topology",
         "cuml_umap",
         "cuml_tsne",
         "opentsne",
@@ -973,7 +963,7 @@ def make_small_atlas_topology_effects(
             continue
         payload = read_json(path)
         available = payload.get("methods", {})
-        if "dire" not in available or "dire_topology" not in available:
+        if "dire" not in available:
             continue
         records_by_method: dict[str, dict[tuple, dict]] = {}
         identity_hashes: dict[tuple[int, int], str] = {}
@@ -1195,14 +1185,11 @@ def make_small_atlas_topology_effects(
         (row["dataset"], row["method"], row["metric"]): row
         for row in summaries
     }
-    table_methods = ("dire", "dire_topology", "cuml_umap", "cuml_tsne")
+    table_methods = ("dire", "cuml_umap", "cuml_tsne")
     lines = [
-        r"\begin{tabular}{@{}llrrrr@{}}",
+        r"\begin{tabular}{@{}llrrr@{}}",
         r"\toprule",
-        (
-            r"Dataset & Metric & DiRe & Topology preset & cuML UMAP & "
-            r"cuML t-SNE \\"
-        ),
+        r"Dataset & Metric & DiRe & cuML UMAP & cuML t-SNE \\",
         r"\midrule",
     ]
     for dataset_index, dataset in enumerate(SMALL_DATASET_ORDER):
@@ -1231,7 +1218,7 @@ def make_small_atlas_topology_effects(
         encoding="utf-8",
     )
 
-    plotted_methods = ("dire_topology", "cuml_umap", "cuml_tsne")
+    plotted_methods = ("cuml_umap", "cuml_tsne")
     effect_lookup = {
         (row["dataset"], row["comparator"], row["metric"]): row
         for row in effects
@@ -1294,7 +1281,7 @@ def make_small_atlas_topology_effects(
     bound = max(all_abs) * 1.08
     for axis in axes:
         axis.set_ylim(-bound, bound)
-    axes[0].legend(frameon=False, ncol=3, fontsize=8)
+    axes[0].legend(frameon=False, ncol=2, fontsize=8)
     axes[-1].set_xticks(x)
     axes[-1].set_xticklabels(
         [SMALL_DATASET_DISPLAY[name] for name in SMALL_DATASET_ORDER],
@@ -3528,7 +3515,6 @@ def make_macros_and_summary(
         "dire_auto": "DireAuto",
         "dire": "DireIvfFlat",
         "dire_spectral": "DireSpectral",
-        "dire_topology": "DireTopology",
         "cuml_umap": "CumlUmap",
         "cuml_tsne": "CumlTsne",
         "pca2": "Pca",
@@ -3557,7 +3543,6 @@ def make_macros_and_summary(
         for method, prefix in (
             ("dire_auto", "TenxDireAuto"),
             ("dire_spectral", "TenxDireSpectral"),
-            ("dire_topology", "TenxDireTopology"),
             ("cuml_umap", "TenxCumlUmap"),
         ):
             row = adjacency_rows[method]
@@ -3668,7 +3653,6 @@ def make_macros_and_summary(
             "dire_auto",
             "dire",
             "dire_spectral",
-            "dire_topology",
             "cuml_umap",
             "cuml_tsne",
         ),
@@ -3808,7 +3792,7 @@ def main() -> None:
         args.output_root,
         args.arxiv_display_sample,
     )
-    render_dire_topology_sensitivity_layouts(
+    render_dire_control_layouts(
         args.bundle_root,
         args.output_root,
         args.tenx_display_sample,

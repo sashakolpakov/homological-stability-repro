@@ -141,10 +141,9 @@ dire_auto,DiRe (auto cuVS),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",2,lost
 dire_auto,DiRe (auto cuVS),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",6,preserved
 dire_auto,DiRe (auto cuVS),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",8,introduced
 dire_auto,DiRe (auto cuVS),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",10,preserved
-dire_auto,DiRe (auto cuVS),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",6,lost
+dire_auto,DiRe (auto cuVS),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",6,preserved
 dire_auto,DiRe (auto cuVS),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",8,preserved
 dire_auto,DiRe (auto cuVS),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",9,preserved
-dire_auto,DiRe (auto cuVS),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",18,introduced
 dire_auto,DiRe (auto cuVS),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",1,lost
 dire_auto,DiRe (auto cuVS),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",3,lost
 dire_auto,DiRe (auto cuVS),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",4,lost
@@ -176,12 +175,12 @@ dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",4,lost
 dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",6,lost
 dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",8,lost
 dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",13,introduced
+dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",15,introduced
 dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",19,introduced
-dire_auto,DiRe (auto cuVS),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",20,introduced
 dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",6,lost
 dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",8,preserved
 dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",9,lost
-dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",14,introduced
+dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",15,introduced
 dire_auto,DiRe (auto cuVS),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",18,introduced
 dire_auto,DiRe (auto cuVS),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",6,lost
 dire_auto,DiRe (auto cuVS),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",8,preserved
@@ -309,8 +308,8 @@ dire_spectral,DiRe (spectral init),2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",6,lost
 dire_spectral,DiRe (spectral init),3,"Snca, Zbtb20, Crym, Stmn2, Nts",1,preserved
 dire_spectral,DiRe (spectral init),3,"Snca, Zbtb20, Crym, Stmn2, Nts",2,preserved
 dire_spectral,DiRe (spectral init),3,"Snca, Zbtb20, Crym, Stmn2, Nts",4,preserved
-dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",1,lost
-dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",2,preserved
+dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",1,preserved
+dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",2,lost
 dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",3,introduced
 dire_spectral,DiRe (spectral init),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",7,preserved
 dire_spectral,DiRe (spectral init),5,"Maf, Nxph1, Meg3, Sst, Npy",1,lost
@@ -318,40 +317,40 @@ dire_spectral,DiRe (spectral init),5,"Maf, Nxph1, Meg3, Sst, Npy",4,preserved
 dire_spectral,DiRe (spectral init),5,"Maf, Nxph1, Meg3, Sst, Npy",7,preserved
 dire_spectral,DiRe (spectral init),5,"Maf, Nxph1, Meg3, Sst, Npy",12,introduced
 dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",2,preserved
-dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",4,preserved
+dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",3,introduced
+dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",4,lost
 dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",7,lost
-dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",15,introduced
+dire_spectral,DiRe (spectral init),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",9,introduced
 dire_spectral,DiRe (spectral init),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",2,lost
-dire_spectral,DiRe (spectral init),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",3,introduced
 dire_spectral,DiRe (spectral init),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",4,preserved
 dire_spectral,DiRe (spectral init),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",5,preserved
+dire_spectral,DiRe (spectral init),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",12,introduced
 dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",2,lost
 dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",6,lost
-dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",9,lost
+dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",9,preserved
 dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",10,introduced
 dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",14,introduced
-dire_spectral,DiRe (spectral init),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",17,introduced
 dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",2,lost
 dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",6,lost
 dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",8,introduced
 dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",10,preserved
-dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",17,introduced
+dire_spectral,DiRe (spectral init),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",18,introduced
 dire_spectral,DiRe (spectral init),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",6,lost
 dire_spectral,DiRe (spectral init),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",8,preserved
 dire_spectral,DiRe (spectral init),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",9,preserved
-dire_spectral,DiRe (spectral init),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",17,introduced
+dire_spectral,DiRe (spectral init),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",18,introduced
 dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",1,lost
 dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",3,lost
 dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",4,lost
-dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",14,introduced
-dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",18,introduced
-dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",20,introduced
+dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",12,introduced
+dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",13,introduced
+dire_spectral,DiRe (spectral init),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",15,introduced
 dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",4,lost
 dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",5,lost
 dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",7,lost
 dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",13,introduced
+dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",15,introduced
 dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",16,introduced
-dire_spectral,DiRe (spectral init),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",19,introduced
 dire_spectral,DiRe (spectral init),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",6,lost
 dire_spectral,DiRe (spectral init),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",8,lost
 dire_spectral,DiRe (spectral init),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",15,preserved
@@ -360,7 +359,7 @@ dire_spectral,DiRe (spectral init),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",19,intro
 dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",6,lost
 dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",8,preserved
 dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",9,lost
-dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",18,introduced
+dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",17,introduced
 dire_spectral,DiRe (spectral init),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",20,introduced
 dire_spectral,DiRe (spectral init),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",6,lost
 dire_spectral,DiRe (spectral init),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",8,lost
@@ -371,127 +370,28 @@ dire_spectral,DiRe (spectral init),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",19,int
 dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",4,lost
 dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",6,lost
 dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",8,lost
-dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",13,introduced
 dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",15,introduced
 dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",19,introduced
+dire_spectral,DiRe (spectral init),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",20,introduced
 dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",6,lost
 dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",8,preserved
-dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",9,preserved
-dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",10,introduced
+dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",9,lost
+dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",14,introduced
+dire_spectral,DiRe (spectral init),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",20,introduced
 dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",6,lost
 dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",8,preserved
-dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",14,introduced
+dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",9,introduced
+dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",10,introduced
 dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",17,lost
-dire_spectral,DiRe (spectral init),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",20,introduced
 dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",4,lost
 dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",5,lost
-dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",13,introduced
 dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",15,introduced
 dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",16,preserved
+dire_spectral,DiRe (spectral init),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",20,introduced
 dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",12,lost
-dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",14,introduced
-dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",16,lost
-dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",18,introduced
+dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",15,introduced
+dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",16,preserved
 dire_spectral,DiRe (spectral init),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",19,preserved
-dire_topology,DiRe (topology preset),1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",2,preserved
-dire_topology,DiRe (topology preset),1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",3,preserved
-dire_topology,DiRe (topology preset),1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",4,preserved
-dire_topology,DiRe (topology preset),2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",1,preserved
-dire_topology,DiRe (topology preset),2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",3,introduced
-dire_topology,DiRe (topology preset),2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",4,preserved
-dire_topology,DiRe (topology preset),2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",6,lost
-dire_topology,DiRe (topology preset),3,"Snca, Zbtb20, Crym, Stmn2, Nts",1,lost
-dire_topology,DiRe (topology preset),3,"Snca, Zbtb20, Crym, Stmn2, Nts",2,preserved
-dire_topology,DiRe (topology preset),3,"Snca, Zbtb20, Crym, Stmn2, Nts",4,preserved
-dire_topology,DiRe (topology preset),3,"Snca, Zbtb20, Crym, Stmn2, Nts",7,introduced
-dire_topology,DiRe (topology preset),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",1,lost
-dire_topology,DiRe (topology preset),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",2,lost
-dire_topology,DiRe (topology preset),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",3,introduced
-dire_topology,DiRe (topology preset),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",5,introduced
-dire_topology,DiRe (topology preset),4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",7,preserved
-dire_topology,DiRe (topology preset),5,"Maf, Nxph1, Meg3, Sst, Npy",1,lost
-dire_topology,DiRe (topology preset),5,"Maf, Nxph1, Meg3, Sst, Npy",3,introduced
-dire_topology,DiRe (topology preset),5,"Maf, Nxph1, Meg3, Sst, Npy",4,preserved
-dire_topology,DiRe (topology preset),5,"Maf, Nxph1, Meg3, Sst, Npy",7,preserved
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",2,lost
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",4,lost
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",7,lost
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",9,introduced
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",13,introduced
-dire_topology,DiRe (topology preset),6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",15,introduced
-dire_topology,DiRe (topology preset),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",2,lost
-dire_topology,DiRe (topology preset),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",3,introduced
-dire_topology,DiRe (topology preset),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",4,preserved
-dire_topology,DiRe (topology preset),7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",5,preserved
-dire_topology,DiRe (topology preset),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",2,lost
-dire_topology,DiRe (topology preset),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",6,lost
-dire_topology,DiRe (topology preset),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",9,preserved
-dire_topology,DiRe (topology preset),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",10,introduced
-dire_topology,DiRe (topology preset),8,"Fabp7, Dbi, Mt3, Aldoc, Vim",17,introduced
-dire_topology,DiRe (topology preset),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",2,lost
-dire_topology,DiRe (topology preset),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",6,lost
-dire_topology,DiRe (topology preset),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",8,introduced
-dire_topology,DiRe (topology preset),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",10,preserved
-dire_topology,DiRe (topology preset),9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",15,introduced
-dire_topology,DiRe (topology preset),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",6,lost
-dire_topology,DiRe (topology preset),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",8,preserved
-dire_topology,DiRe (topology preset),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",9,lost
-dire_topology,DiRe (topology preset),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",17,introduced
-dire_topology,DiRe (topology preset),10,"Ube2c, Hmgb2, Cks2, Cenpf, Ccnb1",19,introduced
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",1,lost
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",3,lost
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",4,lost
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",8,introduced
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",14,introduced
-dire_topology,DiRe (topology preset),11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",18,introduced
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",4,lost
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",5,lost
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",7,lost
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",13,introduced
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",14,introduced
-dire_topology,DiRe (topology preset),12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",15,introduced
-dire_topology,DiRe (topology preset),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",6,lost
-dire_topology,DiRe (topology preset),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",8,lost
-dire_topology,DiRe (topology preset),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",9,introduced
-dire_topology,DiRe (topology preset),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",12,introduced
-dire_topology,DiRe (topology preset),13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",15,preserved
-dire_topology,DiRe (topology preset),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",6,lost
-dire_topology,DiRe (topology preset),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",8,preserved
-dire_topology,DiRe (topology preset),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",9,lost
-dire_topology,DiRe (topology preset),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",11,introduced
-dire_topology,DiRe (topology preset),14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",18,introduced
-dire_topology,DiRe (topology preset),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",6,lost
-dire_topology,DiRe (topology preset),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",8,preserved
-dire_topology,DiRe (topology preset),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",9,introduced
-dire_topology,DiRe (topology preset),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",13,introduced
-dire_topology,DiRe (topology preset),15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",14,lost
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",4,lost
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",6,lost
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",8,lost
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",17,introduced
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",19,introduced
-dire_topology,DiRe (topology preset),16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",20,introduced
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",6,lost
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",8,lost
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",9,lost
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",10,introduced
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",19,introduced
-dire_topology,DiRe (topology preset),17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",20,introduced
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",6,lost
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",8,lost
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",11,introduced
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",14,introduced
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",17,lost
-dire_topology,DiRe (topology preset),18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",20,introduced
-dire_topology,DiRe (topology preset),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",4,lost
-dire_topology,DiRe (topology preset),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",5,lost
-dire_topology,DiRe (topology preset),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",16,preserved
-dire_topology,DiRe (topology preset),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",17,introduced
-dire_topology,DiRe (topology preset),19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",20,introduced
-dire_topology,DiRe (topology preset),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",12,lost
-dire_topology,DiRe (topology preset),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",16,preserved
-dire_topology,DiRe (topology preset),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",17,introduced
-dire_topology,DiRe (topology preset),20,"S100a9, S100a8, BC100530, Ngp, Stfa1",19,preserved
 cuml_umap,cuML UMAP,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",2,preserved
 cuml_umap,cuML UMAP,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",3,preserved
 cuml_umap,cuML UMAP,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",4,preserved
@@ -586,23 +486,24 @@ cuml_umap,cuML UMAP,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",19,preserved
 cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",2,preserved
 cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",3,lost
 cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",4,lost
-cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",12,introduced
-cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",13,introduced
-cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",1,preserved
+cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",15,introduced
+cuml_tsne,cuML t-SNE,1,"Tuba1a, Gpm6a, Cd24a, Gria2, Tsc22d1",20,introduced
+cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",1,lost
 cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",4,lost
 cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",6,lost
 cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",15,introduced
-cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",17,introduced
+cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",19,introduced
+cuml_tsne,cuML t-SNE,2,"Igfbpl1, Sox11, Pcp4, Nfib, H3f3b",20,introduced
 cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",1,lost
 cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",2,lost
 cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",4,preserved
-cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",9,introduced
-cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",15,introduced
+cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",7,introduced
+cuml_tsne,cuML t-SNE,3,"Snca, Zbtb20, Crym, Stmn2, Nts",11,introduced
 cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",1,lost
 cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",2,lost
 cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",3,introduced
 cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",7,preserved
-cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",15,introduced
+cuml_tsne,cuML t-SNE,4,"Gria2, Ptprd, Arpp21, Tmem108, Nts",9,introduced
 cuml_tsne,cuML t-SNE,5,"Maf, Nxph1, Meg3, Sst, Npy",1,lost
 cuml_tsne,cuML t-SNE,5,"Maf, Nxph1, Meg3, Sst, Npy",4,preserved
 cuml_tsne,cuML t-SNE,5,"Maf, Nxph1, Meg3, Sst, Npy",7,preserved
@@ -610,17 +511,17 @@ cuml_tsne,cuML t-SNE,5,"Maf, Nxph1, Meg3, Sst, Npy",12,introduced
 cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",2,lost
 cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",4,lost
 cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",7,lost
-cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",13,introduced
 cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",14,introduced
-cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",17,introduced
+cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",16,introduced
+cuml_tsne,cuML t-SNE,6,"Neurog2, Eomes, Gadd45g, Mdk, Mfap4",19,introduced
 cuml_tsne,cuML t-SNE,7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",2,lost
+cuml_tsne,cuML t-SNE,7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",3,introduced
 cuml_tsne,cuML t-SNE,7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",4,preserved
 cuml_tsne,cuML t-SNE,7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",5,preserved
-cuml_tsne,cuML t-SNE,7,"Nnat, Dlx6os1, Sp9, Gad2, Ccnd2",11,introduced
 cuml_tsne,cuML t-SNE,8,"Fabp7, Dbi, Mt3, Aldoc, Vim",2,lost
 cuml_tsne,cuML t-SNE,8,"Fabp7, Dbi, Mt3, Aldoc, Vim",6,preserved
 cuml_tsne,cuML t-SNE,8,"Fabp7, Dbi, Mt3, Aldoc, Vim",9,preserved
-cuml_tsne,cuML t-SNE,8,"Fabp7, Dbi, Mt3, Aldoc, Vim",15,introduced
+cuml_tsne,cuML t-SNE,8,"Fabp7, Dbi, Mt3, Aldoc, Vim",14,introduced
 cuml_tsne,cuML t-SNE,9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",2,lost
 cuml_tsne,cuML t-SNE,9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",3,introduced
 cuml_tsne,cuML t-SNE,9,"2810417H13Rik, H2afz, Rrm2, Hmgb2, Ccnd2",6,lost
@@ -635,51 +536,49 @@ cuml_tsne,cuML t-SNE,11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",3,preserved
 cuml_tsne,cuML t-SNE,11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",4,preserved
 cuml_tsne,cuML t-SNE,11,"Snhg11, Reln, Ndnf, Meg3, Pcp4",7,introduced
 cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",1,introduced
-cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",2,introduced
 cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",4,lost
 cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",5,preserved
 cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",7,lost
+cuml_tsne,cuML t-SNE,12,"Hbb-bs, Hba-a1, Hba-a2, Hbb-bt, Alas2",20,introduced
 cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",6,preserved
 cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",8,lost
-cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",14,introduced
 cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",15,lost
-cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",17,introduced
-cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",6,lost
-cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",8,lost
+cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",16,introduced
+cuml_tsne,cuML t-SNE,13,"Cldn5, Igfbp7, Bsg, Itm2a, Flt1",19,introduced
+cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",6,preserved
+cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",8,preserved
 cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",9,lost
-cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",13,introduced
-cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",17,introduced
-cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",18,introduced
+cuml_tsne,cuML t-SNE,14,"Olig1, Pdgfra, Serpine2, Olig2, Lhfpl3",16,introduced
 cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",2,introduced
-cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",3,introduced
-cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",4,introduced
 cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",6,lost
 cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",8,lost
 cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",14,lost
+cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",18,introduced
+cuml_tsne,cuML t-SNE,15,"Rgs5, Higd1b, Vtn, Igf2, Ndufa4l2",20,introduced
 cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",4,lost
 cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",6,preserved
 cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",8,lost
-cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",14,introduced
+cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",13,introduced
 cuml_tsne,cuML t-SNE,16,"Ccl4, C1qb, C1qc, C1qa, Ccl3",19,introduced
-cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",6,preserved
+cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",6,lost
 cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",8,lost
 cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",9,lost
 cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",13,introduced
-cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",14,introduced
+cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",15,introduced
+cuml_tsne,cuML t-SNE,17,"Ttr, Dbi, Rspo1, Wnt8b, Apoe",18,introduced
 cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",6,lost
 cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",8,lost
-cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",13,introduced
-cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",14,introduced
-cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",17,lost
+cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",15,introduced
+cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",17,preserved
 cuml_tsne,cuML t-SNE,18,"Meig1, Dynlrb2, Foxj1, Mt2, Mt1",20,introduced
 cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",4,lost
 cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",5,lost
 cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",6,introduced
+cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",13,introduced
 cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",16,preserved
-cuml_tsne,cuML t-SNE,19,"Plac8, Lyz2, S100a8, Ifi27l2a, Cd52",18,introduced
+cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",2,introduced
 cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",12,lost
-cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",13,introduced
-cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",14,introduced
+cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",15,introduced
 cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",16,lost
 cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",18,introduced
 cuml_tsne,cuML t-SNE,20,"S100a9, S100a8, BC100530, Ngp, Stfa1",19,lost

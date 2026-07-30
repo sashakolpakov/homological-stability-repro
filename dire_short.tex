@@ -467,8 +467,7 @@ wrapper's Ripser preference. Subset seeds are independent of layout seeds, and
 the identical indices and their SHA--256 digest are recorded for every method;
 consequently the reported comparator-minus-DiRe effects are paired. Means,
 sample standard deviations, minima, and every paired gap are retained. The
-default DiRe configuration is not replaced by the separately labelled
-source--distributed topology preset.
+default DiRe configuration is the fixed comparator.
 
 The million--point profile uses a distinct, explicitly labelled exact persistent--homology diagnostic: \TopologySubsetCount{} paired, fixed--seed row--index subsets of the high--dimensional input and embedding, each with $m=4000$ indices applied identically to the input and every embedding. Three independently seeded full layouts are evaluated separately on the first fixed subset. Runtime comparisons record the GPU model, driver, package versions, cold start, synchronized steady--state fits, and peak incremental device--memory use sampled through NVML. Each large dataset/method/size configuration runs in an isolated process so that allocator state or a failure in one reducer cannot contaminate another.
 
@@ -480,10 +479,13 @@ The million--point profile uses a distinct, explicitly labelled exact persistent
     cell shows the exact raw repeated--run mean and a direction--adjusted
     $\log_2$ ratio against default DiRe. Positive values favour the comparator
     and negative values favour default DiRe; $+1$ and $-1$ denote twofold differences in
-    the favourable direction. Lower stress, absolute context loss, and
-    Betti--curve discrepancy are better, whereas higher neighborhood overlap
-    is better. The continuous colour scale is centred at equality and clipped
-    at $\pm1$ for legibility; the printed effect values are not clipped.}
+    the favourable direction. Lower stress, smaller absolute context-score
+    magnitude, and lower Betti--curve discrepancy are better, whereas higher
+    neighborhood overlap is better. The printed context means retain the
+    signed score defined in the Methods; their absolute magnitudes determine
+    the colour and effect. The continuous colour scale is centred at equality
+    and clipped at $\pm1$ for legibility; the printed effect values are not
+    clipped.}
     \label{fig:archived-quality-summary}
 \end{figure}
 
@@ -491,8 +493,8 @@ The million--point profile uses a distinct, explicitly labelled exact persistent
     \centering
     \includegraphics[width=\textwidth]{pics/runtime-summary.png}
     \caption{Fresh runtime summary with GPU and CPU implementations in
-    separate panels. The GPU panel compares default DiRe--RAPIDS, the
-    source--distributed topology preset, cuML tSNE, and cuML UMAP on the same
+    separate panels. The GPU panel compares default DiRe--RAPIDS,
+    cuML tSNE, and cuML UMAP on the same
     NVIDIA H100 PCIe. The CPU panel is a practical reference and is
     not used for hardware--normalized speed claims. Points and whiskers are
     steady--fit means and sample standard deviations over runs 2--20 for GPU
@@ -510,8 +512,8 @@ The million--point profile uses a distinct, explicitly labelled exact persistent
   \caption{Repeated small--suite atlas--topology discrepancies. Entries are
   mean $\pm$ sample standard deviation [minimum] over 20 GPU fits; lower is
   better. Every method uses the same independently seeded $m=1000$
-  row--index subset for the corresponding layout seed. The topology preset is
-  reported alongside, not substituted for, default DiRe.}
+  row--index subset for the corresponding layout seed. Default DiRe is the
+  fixed comparator.}
   \label{tab:small-atlas-topology}
 \end{table}
 
@@ -743,9 +745,7 @@ result. The one--factor DiRe controls also show that the global arrangement is
 initialization-- and configuration--dependent rather than a corrupted metric:
 spectral--initialised DiRe preserves
 \TenxDireSpectralAdjacencyPreserved{} relationships with source--cell--weighted
-recall \TenxDireSpectralAdjacencyCellWeighted{}, while the predeclared topology
-preset preserves \TenxDireTopologyAdjacencyPreserved{} with weighted recall
-\TenxDireTopologyAdjacencyCellWeighted{}. UMAP remains the leader in the
+recall \TenxDireSpectralAdjacencyCellWeighted{}. UMAP remains the leader in the
 predeclared equal--cluster comparison, and the controls are reported as
 sensitivity results rather than substituted for production--policy DiRe.
 

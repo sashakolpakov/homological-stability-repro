@@ -4,16 +4,16 @@
       "bottleneck_beta0": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": true,
-        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta0": 0.34864032864570615,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.4166666865348816,
-        "centroid_spearman": 0.10841725119799986,
-        "cold_sec": 32.4267120930017,
-        "context_balanced_accuracy": 0.13518419767369128,
+        "centroid_adjacency_recall": 0.4375,
+        "centroid_spearman": 0.42475171886936586,
+        "cold_sec": 32.3821611379999,
+        "context_balanced_accuracy": 0.17524743579010205,
         "dataset": "arxiv",
         "display": "cuML t-SNE",
-        "dtw_beta0": 5.198500000000001,
-        "dtw_beta1": 0.461275,
+        "dtw_beta0": 5.33565,
+        "dtw_beta1": 0.44472500000000004,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -21,32 +21,30 @@
           "cuml_tsne"
         ],
         "gpu_gib": 4.38433837890625,
-        "knn_overlap": 0.03790000453591347,
+        "knn_overlap": 0.03900333121418953,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE",
-          "DiRe (spectral init)",
           "PCA (2D)",
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
-          "DiRe (topology preset)",
+          "DiRe (spectral init)",
           "cuML UMAP"
         ],
         "practically_comparable_methods": [
           "cuml_tsne",
-          "dire_spectral",
           "pca2",
           "dire_auto",
           "dire",
-          "dire_topology",
+          "dire_spectral",
           "cuml_umap"
         ],
-        "q99_bottleneck_beta0": 0.4395878810495125,
-        "q99_bottleneck_beta1": 0.033621074423581,
-        "q99_dtw_beta0": 4.5363750000000005,
-        "q99_dtw_beta1": 0.432275,
+        "q99_bottleneck_beta0": 0.9623086003670467,
+        "q99_bottleneck_beta1": 0.05101972258373231,
+        "q99_dtw_beta0": 2.57035,
+        "q99_dtw_beta1": 0.2385,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 29.488116412001546,
+        "steady_sec": 31.226001707500473,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
@@ -57,7 +55,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.6041666865348816,
         "centroid_spearman": 0.8734217654003749,
-        "cold_sec": 1.1174824929985334,
+        "cold_sec": 1.0933213470007104,
         "context_balanced_accuracy": 0.2523002584074512,
         "dataset": "arxiv",
         "display": "PCA (2D)",
@@ -65,41 +63,35 @@
         "dtw_beta1": 0.13504999999999998,
         "exact_optimum_displays": [
           "PCA (2D)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE"
         ],
         "exact_optimum_methods": [
           "pca2",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne"
         ],
-        "gpu_gib": 1.83941650390625,
+        "gpu_gib": 2.072265625,
         "knn_overlap": 0.014506666921079159,
         "method": "pca2",
         "practically_comparable_displays": [
           "PCA (2D)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE",
-          "DiRe (spectral init)",
-          "DiRe (IVF-Flat control)"
+          "DiRe (auto cuVS)"
         ],
         "practically_comparable_methods": [
           "pca2",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne",
-          "dire_spectral",
-          "dire"
+          "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
         "q99_bottleneck_beta1": 0.031393109712285934,
         "q99_dtw_beta0": 2.9900500000000005,
         "q99_dtw_beta1": 0.1307,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.9809882344998186,
+        "steady_sec": 1.2348755885000173,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -110,7 +102,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -136,7 +128,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -147,7 +139,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.6041666865348816,
         "centroid_spearman": 0.8734217654003749,
-        "cold_sec": 1.1174824929985334,
+        "cold_sec": 1.0933213470007104,
         "context_balanced_accuracy": 0.2523002584074512,
         "dataset": "arxiv",
         "display": "PCA (2D)",
@@ -159,7 +151,7 @@
         "exact_optimum_methods": [
           "pca2"
         ],
-        "gpu_gib": 1.83941650390625,
+        "gpu_gib": 2.072265625,
         "knn_overlap": 0.014506666921079159,
         "method": "pca2",
         "practically_comparable_displays": [
@@ -175,7 +167,7 @@
         "q99_dtw_beta0": 2.9900500000000005,
         "q99_dtw_beta1": 0.1307,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.9809882344998186,
+        "steady_sec": 1.2348755885000173,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
@@ -186,7 +178,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -212,7 +204,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -223,7 +215,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.6041666865348816,
         "centroid_spearman": 0.8734217654003749,
-        "cold_sec": 1.1174824929985334,
+        "cold_sec": 1.0933213470007104,
         "context_balanced_accuracy": 0.2523002584074512,
         "dataset": "arxiv",
         "display": "PCA (2D)",
@@ -235,7 +227,7 @@
         "exact_optimum_methods": [
           "pca2"
         ],
-        "gpu_gib": 1.83941650390625,
+        "gpu_gib": 2.072265625,
         "knn_overlap": 0.014506666921079159,
         "method": "pca2",
         "practically_comparable_displays": [
@@ -249,7 +241,7 @@
         "q99_dtw_beta0": 2.9900500000000005,
         "q99_dtw_beta1": 0.1307,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.9809882344998186,
+        "steady_sec": 1.2348755885000173,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -258,85 +250,9 @@
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.5833333730697632,
-        "centroid_spearman": 0.7458990207653309,
-        "cold_sec": 47.77518177300226,
-        "context_balanced_accuracy": 0.22609774499537932,
-        "dataset": "arxiv",
-        "display": "DiRe (topology preset)",
-        "dtw_beta0": 4.022875,
-        "dtw_beta1": 0.11005000000000001,
-        "exact_optimum_displays": [
-          "DiRe (topology preset)"
-        ],
-        "exact_optimum_methods": [
-          "dire_topology"
-        ],
-        "gpu_gib": 4.009765625,
-        "knn_overlap": 0.09914667159318924,
-        "method": "dire_topology",
-        "practically_comparable_displays": [
-          "DiRe (topology preset)"
-        ],
-        "practically_comparable_methods": [
-          "dire_topology"
-        ],
-        "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.03184650905696175,
-        "q99_dtw_beta0": 3.49985,
-        "q99_dtw_beta1": 0.09240000000000001,
-        "relative_comparability_tolerance": 0.05,
-        "steady_sec": 46.62387471200054,
-        "unique_exact_optimum": true,
-        "unique_within_tolerance": true
-      },
-      "knn_overlap": {
-        "all_candidates_exactly_equal": false,
-        "all_candidates_within_tolerance": false,
-        "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.5833333730697632,
-        "centroid_spearman": 0.7458990207653309,
-        "cold_sec": 47.77518177300226,
-        "context_balanced_accuracy": 0.22609774499537932,
-        "dataset": "arxiv",
-        "display": "DiRe (topology preset)",
-        "dtw_beta0": 4.022875,
-        "dtw_beta1": 0.11005000000000001,
-        "exact_optimum_displays": [
-          "DiRe (topology preset)"
-        ],
-        "exact_optimum_methods": [
-          "dire_topology"
-        ],
-        "gpu_gib": 4.009765625,
-        "knn_overlap": 0.09914667159318924,
-        "method": "dire_topology",
-        "practically_comparable_displays": [
-          "DiRe (topology preset)",
-          "cuML UMAP"
-        ],
-        "practically_comparable_methods": [
-          "dire_topology",
-          "cuml_umap"
-        ],
-        "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.03184650905696175,
-        "q99_dtw_beta0": 3.49985,
-        "q99_dtw_beta1": 0.09240000000000001,
-        "relative_comparability_tolerance": 0.05,
-        "steady_sec": 46.62387471200054,
-        "unique_exact_optimum": true,
-        "unique_within_tolerance": false
-      },
-      "steady_sec": {
-        "all_candidates_exactly_equal": false,
-        "all_candidates_within_tolerance": false,
-        "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.6041666865348816,
         "centroid_spearman": 0.8734217654003749,
-        "cold_sec": 1.1174824929985334,
+        "cold_sec": 1.0933213470007104,
         "context_balanced_accuracy": 0.2523002584074512,
         "dataset": "arxiv",
         "display": "PCA (2D)",
@@ -348,7 +264,83 @@
         "exact_optimum_methods": [
           "pca2"
         ],
-        "gpu_gib": 1.83941650390625,
+        "gpu_gib": 2.072265625,
+        "knn_overlap": 0.014506666921079159,
+        "method": "pca2",
+        "practically_comparable_displays": [
+          "PCA (2D)",
+          "DiRe (IVF-Flat control)"
+        ],
+        "practically_comparable_methods": [
+          "pca2",
+          "dire"
+        ],
+        "q99_bottleneck_beta0": 0.4481942921473642,
+        "q99_bottleneck_beta1": 0.031393109712285934,
+        "q99_dtw_beta0": 2.9900500000000005,
+        "q99_dtw_beta1": 0.1307,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 1.2348755885000173,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": false
+      },
+      "knn_overlap": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 40.27827315800005,
+        "context_balanced_accuracy": 0.3204187160509368,
+        "dataset": "arxiv",
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
+        "exact_optimum_displays": [
+          "cuML UMAP"
+        ],
+        "exact_optimum_methods": [
+          "cuml_umap"
+        ],
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
+        "practically_comparable_displays": [
+          "cuML UMAP"
+        ],
+        "practically_comparable_methods": [
+          "cuml_umap"
+        ],
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
+        "relative_comparability_tolerance": 0.05,
+        "steady_sec": 39.868964586000175,
+        "unique_exact_optimum": true,
+        "unique_within_tolerance": true
+      },
+      "steady_sec": {
+        "all_candidates_exactly_equal": false,
+        "all_candidates_within_tolerance": false,
+        "bottleneck_beta0": 0.35169721245765684,
+        "bottleneck_beta1": 0.02459406554698944,
+        "centroid_adjacency_recall": 0.6041666865348816,
+        "centroid_spearman": 0.8734217654003749,
+        "cold_sec": 1.0933213470007104,
+        "context_balanced_accuracy": 0.2523002584074512,
+        "dataset": "arxiv",
+        "display": "PCA (2D)",
+        "dtw_beta0": 3.17135,
+        "dtw_beta1": 0.13504999999999998,
+        "exact_optimum_displays": [
+          "PCA (2D)"
+        ],
+        "exact_optimum_methods": [
+          "pca2"
+        ],
+        "gpu_gib": 2.072265625,
         "knn_overlap": 0.014506666921079159,
         "method": "pca2",
         "practically_comparable_displays": [
@@ -362,7 +354,7 @@
         "q99_dtw_beta0": 2.9900500000000005,
         "q99_dtw_beta1": 0.1307,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.9809882344998186,
+        "steady_sec": 1.2348755885000173,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }
@@ -371,16 +363,16 @@
       "bottleneck_beta0": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": true,
-        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta0": 0.34864032864570615,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.4166666865348816,
-        "centroid_spearman": 0.10841725119799986,
-        "cold_sec": 32.4267120930017,
-        "context_balanced_accuracy": 0.13518419767369128,
+        "centroid_adjacency_recall": 0.4375,
+        "centroid_spearman": 0.42475171886936586,
+        "cold_sec": 32.3821611379999,
+        "context_balanced_accuracy": 0.17524743579010205,
         "dataset": "arxiv",
         "display": "cuML t-SNE",
-        "dtw_beta0": 5.198500000000001,
-        "dtw_beta1": 0.461275,
+        "dtw_beta0": 5.33565,
+        "dtw_beta1": 0.44472500000000004,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -388,7 +380,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 4.38433837890625,
-        "knn_overlap": 0.03790000453591347,
+        "knn_overlap": 0.03900333121418953,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE",
@@ -400,23 +392,23 @@
           "dire_auto",
           "cuml_umap"
         ],
-        "q99_bottleneck_beta0": 0.4395878810495125,
-        "q99_bottleneck_beta1": 0.033621074423581,
-        "q99_dtw_beta0": 4.5363750000000005,
-        "q99_dtw_beta1": 0.432275,
+        "q99_bottleneck_beta0": 0.9623086003670467,
+        "q99_bottleneck_beta1": 0.05101972258373231,
+        "q99_dtw_beta0": 2.57035,
+        "q99_dtw_beta1": 0.2385,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 29.488116412001546,
+        "steady_sec": 31.226001707500473,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
       "bottleneck_beta1": {
         "all_candidates_exactly_equal": false,
-        "all_candidates_within_tolerance": false,
+        "all_candidates_within_tolerance": true,
         "bottleneck_beta0": 0.35169721245765684,
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -435,18 +427,20 @@
         "method": "cuml_umap",
         "practically_comparable_displays": [
           "cuML UMAP",
-          "cuML t-SNE"
+          "cuML t-SNE",
+          "DiRe (auto cuVS)"
         ],
         "practically_comparable_methods": [
           "cuml_umap",
-          "cuml_tsne"
+          "cuml_tsne",
+          "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4296650348450187,
         "q99_bottleneck_beta1": 0.03612110361197086,
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -457,7 +451,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -483,7 +477,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -494,7 +488,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -522,7 +516,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
@@ -533,7 +527,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -559,7 +553,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -567,15 +561,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.026932626962661743,
+        "bottleneck_beta1": 0.025752632506191732,
         "centroid_adjacency_recall": 0.625,
-        "centroid_spearman": 0.8093062018195707,
-        "cold_sec": 15.109447537997767,
-        "context_balanced_accuracy": 0.25154438565465415,
+        "centroid_spearman": 0.8134801027849156,
+        "cold_sec": 15.659768893000091,
+        "context_balanced_accuracy": 0.26739029128911057,
         "dataset": "arxiv",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 3.46995,
-        "dtw_beta1": 0.16237500000000002,
+        "dtw_beta0": 3.5740749999999997,
+        "dtw_beta1": 0.1467,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -583,7 +577,7 @@
           "dire_auto"
         ],
         "gpu_gib": 4.255859375,
-        "knn_overlap": 0.07178667187690735,
+        "knn_overlap": 0.07162000983953476,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -592,11 +586,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.033952603172515014,
-        "q99_dtw_beta0": 3.5631500000000003,
-        "q99_dtw_beta1": 0.155775,
+        "q99_bottleneck_beta1": 0.032833087864977004,
+        "q99_dtw_beta0": 3.6110749999999996,
+        "q99_dtw_beta1": 0.146125,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 13.693127871998513,
+        "steady_sec": 13.808423265500096,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -604,15 +598,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.026932626962661743,
+        "bottleneck_beta1": 0.025752632506191732,
         "centroid_adjacency_recall": 0.625,
-        "centroid_spearman": 0.8093062018195707,
-        "cold_sec": 15.109447537997767,
-        "context_balanced_accuracy": 0.25154438565465415,
+        "centroid_spearman": 0.8134801027849156,
+        "cold_sec": 15.659768893000091,
+        "context_balanced_accuracy": 0.26739029128911057,
         "dataset": "arxiv",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 3.46995,
-        "dtw_beta1": 0.16237500000000002,
+        "dtw_beta0": 3.5740749999999997,
+        "dtw_beta1": 0.1467,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -620,7 +614,7 @@
           "dire_auto"
         ],
         "gpu_gib": 4.255859375,
-        "knn_overlap": 0.07178667187690735,
+        "knn_overlap": 0.07162000983953476,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -629,11 +623,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.033952603172515014,
-        "q99_dtw_beta0": 3.5631500000000003,
-        "q99_dtw_beta1": 0.155775,
+        "q99_bottleneck_beta1": 0.032833087864977004,
+        "q99_dtw_beta0": 3.6110749999999996,
+        "q99_dtw_beta1": 0.146125,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 13.693127871998513,
+        "steady_sec": 13.808423265500096,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -644,7 +638,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -670,7 +664,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -678,15 +672,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.026932626962661743,
+        "bottleneck_beta1": 0.025752632506191732,
         "centroid_adjacency_recall": 0.625,
-        "centroid_spearman": 0.8093062018195707,
-        "cold_sec": 15.109447537997767,
-        "context_balanced_accuracy": 0.25154438565465415,
+        "centroid_spearman": 0.8134801027849156,
+        "cold_sec": 15.659768893000091,
+        "context_balanced_accuracy": 0.26739029128911057,
         "dataset": "arxiv",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 3.46995,
-        "dtw_beta1": 0.16237500000000002,
+        "dtw_beta0": 3.5740749999999997,
+        "dtw_beta1": 0.1467,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -694,7 +688,7 @@
           "dire_auto"
         ],
         "gpu_gib": 4.255859375,
-        "knn_overlap": 0.07178667187690735,
+        "knn_overlap": 0.07162000983953476,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -703,11 +697,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.033952603172515014,
-        "q99_dtw_beta0": 3.5631500000000003,
-        "q99_dtw_beta1": 0.155775,
+        "q99_bottleneck_beta1": 0.032833087864977004,
+        "q99_dtw_beta0": 3.6110749999999996,
+        "q99_dtw_beta1": 0.146125,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 13.693127871998513,
+        "steady_sec": 13.808423265500096,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }
@@ -716,16 +710,16 @@
       "bottleneck_beta0": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": true,
-        "bottleneck_beta0": 0.35111960470676423,
+        "bottleneck_beta0": 0.34864032864570615,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.4166666865348816,
-        "centroid_spearman": 0.10841725119799986,
-        "cold_sec": 32.4267120930017,
-        "context_balanced_accuracy": 0.13518419767369128,
+        "centroid_adjacency_recall": 0.4375,
+        "centroid_spearman": 0.42475171886936586,
+        "cold_sec": 32.3821611379999,
+        "context_balanced_accuracy": 0.17524743579010205,
         "dataset": "arxiv",
         "display": "cuML t-SNE",
-        "dtw_beta0": 5.198500000000001,
-        "dtw_beta1": 0.461275,
+        "dtw_beta0": 5.33565,
+        "dtw_beta1": 0.44472500000000004,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -733,30 +727,28 @@
           "cuml_tsne"
         ],
         "gpu_gib": 4.38433837890625,
-        "knn_overlap": 0.03790000453591347,
+        "knn_overlap": 0.03900333121418953,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE",
-          "DiRe (spectral init)",
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
-          "DiRe (topology preset)",
+          "DiRe (spectral init)",
           "cuML UMAP"
         ],
         "practically_comparable_methods": [
           "cuml_tsne",
-          "dire_spectral",
           "dire_auto",
           "dire",
-          "dire_topology",
+          "dire_spectral",
           "cuml_umap"
         ],
-        "q99_bottleneck_beta0": 0.4395878810495125,
-        "q99_bottleneck_beta1": 0.033621074423581,
-        "q99_dtw_beta0": 4.5363750000000005,
-        "q99_dtw_beta1": 0.432275,
+        "q99_bottleneck_beta0": 0.9623086003670467,
+        "q99_bottleneck_beta1": 0.05101972258373231,
+        "q99_dtw_beta0": 2.57035,
+        "q99_dtw_beta1": 0.2385,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 29.488116412001546,
+        "steady_sec": 31.226001707500473,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
@@ -765,47 +757,41 @@
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.5833333730697632,
-        "centroid_spearman": 0.7458990207653309,
-        "cold_sec": 47.77518177300226,
-        "context_balanced_accuracy": 0.22609774499537932,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 40.27827315800005,
+        "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
-        "display": "DiRe (topology preset)",
-        "dtw_beta0": 4.022875,
-        "dtw_beta1": 0.11005000000000001,
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
         "exact_optimum_displays": [
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE"
         ],
         "exact_optimum_methods": [
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne"
         ],
-        "gpu_gib": 4.009765625,
-        "knn_overlap": 0.09914667159318924,
-        "method": "dire_topology",
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
         "practically_comparable_displays": [
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE",
-          "DiRe (spectral init)",
-          "DiRe (IVF-Flat control)"
+          "DiRe (auto cuVS)"
         ],
         "practically_comparable_methods": [
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne",
-          "dire_spectral",
-          "dire"
+          "dire_auto"
         ],
-        "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.03184650905696175,
-        "q99_dtw_beta0": 3.49985,
-        "q99_dtw_beta1": 0.09240000000000001,
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 46.62387471200054,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -816,7 +802,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -842,7 +828,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -853,7 +839,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -881,7 +867,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": false
       },
@@ -892,7 +878,7 @@
         "bottleneck_beta1": 0.02459406554698944,
         "centroid_adjacency_recall": 0.75,
         "centroid_spearman": 0.845940690325717,
-        "cold_sec": 39.701501420997374,
+        "cold_sec": 40.27827315800005,
         "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
         "display": "cuML UMAP",
@@ -918,7 +904,7 @@
         "q99_dtw_beta0": 3.62235,
         "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 39.74484192899945,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -926,15 +912,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.026932626962661743,
+        "bottleneck_beta1": 0.025752632506191732,
         "centroid_adjacency_recall": 0.625,
-        "centroid_spearman": 0.8093062018195707,
-        "cold_sec": 15.109447537997767,
-        "context_balanced_accuracy": 0.25154438565465415,
+        "centroid_spearman": 0.8134801027849156,
+        "cold_sec": 15.659768893000091,
+        "context_balanced_accuracy": 0.26739029128911057,
         "dataset": "arxiv",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 3.46995,
-        "dtw_beta1": 0.16237500000000002,
+        "dtw_beta0": 3.5740749999999997,
+        "dtw_beta1": 0.1467,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -942,57 +928,59 @@
           "dire_auto"
         ],
         "gpu_gib": 4.255859375,
-        "knn_overlap": 0.07178667187690735,
+        "knn_overlap": 0.07162000983953476,
         "method": "dire_auto",
         "practically_comparable_displays": [
-          "DiRe (auto cuVS)"
+          "DiRe (auto cuVS)",
+          "DiRe (IVF-Flat control)"
         ],
         "practically_comparable_methods": [
-          "dire_auto"
+          "dire_auto",
+          "dire"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.033952603172515014,
-        "q99_dtw_beta0": 3.5631500000000003,
-        "q99_dtw_beta1": 0.155775,
+        "q99_bottleneck_beta1": 0.032833087864977004,
+        "q99_dtw_beta0": 3.6110749999999996,
+        "q99_dtw_beta1": 0.146125,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 13.693127871998513,
+        "steady_sec": 13.808423265500096,
         "unique_exact_optimum": true,
-        "unique_within_tolerance": true
+        "unique_within_tolerance": false
       },
       "dtw_beta1": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.5833333730697632,
-        "centroid_spearman": 0.7458990207653309,
-        "cold_sec": 47.77518177300226,
-        "context_balanced_accuracy": 0.22609774499537932,
+        "bottleneck_beta1": 0.025962537061423062,
+        "centroid_adjacency_recall": 0.6458333730697632,
+        "centroid_spearman": 0.8013125911521632,
+        "cold_sec": 44.97703008799999,
+        "context_balanced_accuracy": 0.2539986059444496,
         "dataset": "arxiv",
-        "display": "DiRe (topology preset)",
-        "dtw_beta0": 4.022875,
-        "dtw_beta1": 0.11005000000000001,
+        "display": "DiRe (IVF-Flat control)",
+        "dtw_beta0": 3.653125,
+        "dtw_beta1": 0.13847500000000001,
         "exact_optimum_displays": [
-          "DiRe (topology preset)"
+          "DiRe (IVF-Flat control)"
         ],
         "exact_optimum_methods": [
-          "dire_topology"
+          "dire"
         ],
-        "gpu_gib": 4.009765625,
-        "knn_overlap": 0.09914667159318924,
-        "method": "dire_topology",
+        "gpu_gib": 4.25390625,
+        "knn_overlap": 0.07057000696659088,
+        "method": "dire",
         "practically_comparable_displays": [
-          "DiRe (topology preset)"
+          "DiRe (IVF-Flat control)"
         ],
         "practically_comparable_methods": [
-          "dire_topology"
+          "dire"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.03184650905696175,
-        "q99_dtw_beta0": 3.49985,
-        "q99_dtw_beta1": 0.09240000000000001,
+        "q99_bottleneck_beta1": 0.032881779845434146,
+        "q99_dtw_beta0": 3.727125,
+        "q99_dtw_beta1": 0.132875,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 46.62387471200054,
+        "steady_sec": 44.08585875850031,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1001,53 +989,51 @@
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
         "bottleneck_beta1": 0.02459406554698944,
-        "centroid_adjacency_recall": 0.5833333730697632,
-        "centroid_spearman": 0.7458990207653309,
-        "cold_sec": 47.77518177300226,
-        "context_balanced_accuracy": 0.22609774499537932,
+        "centroid_adjacency_recall": 0.75,
+        "centroid_spearman": 0.845940690325717,
+        "cold_sec": 40.27827315800005,
+        "context_balanced_accuracy": 0.3204187160509368,
         "dataset": "arxiv",
-        "display": "DiRe (topology preset)",
-        "dtw_beta0": 4.022875,
-        "dtw_beta1": 0.11005000000000001,
+        "display": "cuML UMAP",
+        "dtw_beta0": 5.3161249999999995,
+        "dtw_beta1": 0.517325,
         "exact_optimum_displays": [
-          "DiRe (topology preset)"
+          "cuML UMAP"
         ],
         "exact_optimum_methods": [
-          "dire_topology"
+          "cuml_umap"
         ],
-        "gpu_gib": 4.009765625,
-        "knn_overlap": 0.09914667159318924,
-        "method": "dire_topology",
+        "gpu_gib": 2.49566650390625,
+        "knn_overlap": 0.09908000379800797,
+        "method": "cuml_umap",
         "practically_comparable_displays": [
-          "DiRe (topology preset)",
           "cuML UMAP"
         ],
         "practically_comparable_methods": [
-          "dire_topology",
           "cuml_umap"
         ],
-        "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.03184650905696175,
-        "q99_dtw_beta0": 3.49985,
-        "q99_dtw_beta1": 0.09240000000000001,
+        "q99_bottleneck_beta0": 0.4296650348450187,
+        "q99_bottleneck_beta1": 0.03612110361197086,
+        "q99_dtw_beta0": 3.62235,
+        "q99_dtw_beta1": 0.236,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 46.62387471200054,
+        "steady_sec": 39.868964586000175,
         "unique_exact_optimum": true,
-        "unique_within_tolerance": false
+        "unique_within_tolerance": true
       },
       "steady_sec": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.35169721245765684,
-        "bottleneck_beta1": 0.026932626962661743,
+        "bottleneck_beta1": 0.025752632506191732,
         "centroid_adjacency_recall": 0.625,
-        "centroid_spearman": 0.8093062018195707,
-        "cold_sec": 15.109447537997767,
-        "context_balanced_accuracy": 0.25154438565465415,
+        "centroid_spearman": 0.8134801027849156,
+        "cold_sec": 15.659768893000091,
+        "context_balanced_accuracy": 0.26739029128911057,
         "dataset": "arxiv",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 3.46995,
-        "dtw_beta1": 0.16237500000000002,
+        "dtw_beta0": 3.5740749999999997,
+        "dtw_beta1": 0.1467,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -1055,7 +1041,7 @@
           "dire_auto"
         ],
         "gpu_gib": 4.255859375,
-        "knn_overlap": 0.07178667187690735,
+        "knn_overlap": 0.07162000983953476,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -1064,11 +1050,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 0.4481942921473642,
-        "q99_bottleneck_beta1": 0.033952603172515014,
-        "q99_dtw_beta0": 3.5631500000000003,
-        "q99_dtw_beta1": 0.155775,
+        "q99_bottleneck_beta1": 0.032833087864977004,
+        "q99_dtw_beta0": 3.6110749999999996,
+        "q99_dtw_beta1": 0.146125,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 13.693127871998513,
+        "steady_sec": 13.808423265500096,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }
@@ -1083,7 +1069,7 @@
         "bottleneck_beta1": 0.01955434437841177,
         "centroid_adjacency_recall": 0.4333333373069763,
         "centroid_spearman": 0.6831695294081627,
-        "cold_sec": 0.3727124710021599,
+        "cold_sec": 0.45929681100005837,
         "context_balanced_accuracy": 0.4731127356657855,
         "dataset": "tenx",
         "display": "PCA (2D)",
@@ -1094,7 +1080,6 @@
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
           "DiRe (spectral init)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE",
           "Cell Ranger t-SNE"
@@ -1104,7 +1089,6 @@
           "dire_auto",
           "dire",
           "dire_spectral",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne",
           "cellranger_tsne"
@@ -1117,7 +1101,6 @@
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
           "DiRe (spectral init)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE",
           "Cell Ranger t-SNE"
@@ -1127,7 +1110,6 @@
           "dire_auto",
           "dire",
           "dire_spectral",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne",
           "cellranger_tsne"
@@ -1137,7 +1119,7 @@
         "q99_dtw_beta0": 0.40090000000000003,
         "q99_dtw_beta1": 0.0833,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.1481473259991617,
+        "steady_sec": 0.1973729920000551,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -1145,15 +1127,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1161,7 +1143,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1171,10 +1153,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1185,7 +1167,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1211,7 +1193,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1222,7 +1204,7 @@
         "bottleneck_beta1": 0.01955434437841177,
         "centroid_adjacency_recall": 0.4333333373069763,
         "centroid_spearman": 0.6831695294081627,
-        "cold_sec": 0.3727124710021599,
+        "cold_sec": 0.45929681100005837,
         "context_balanced_accuracy": 0.4731127356657855,
         "dataset": "tenx",
         "display": "PCA (2D)",
@@ -1248,7 +1230,7 @@
         "q99_dtw_beta0": 0.40090000000000003,
         "q99_dtw_beta1": 0.0833,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.1481473259991617,
+        "steady_sec": 0.1973729920000551,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1259,7 +1241,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1285,7 +1267,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1293,15 +1275,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1309,7 +1291,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1319,10 +1301,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1349,12 +1331,10 @@
         "knn_overlap": 0.28512001037597656,
         "method": "cellranger_tsne",
         "practically_comparable_displays": [
-          "Cell Ranger t-SNE",
-          "cuML t-SNE"
+          "Cell Ranger t-SNE"
         ],
         "practically_comparable_methods": [
-          "cellranger_tsne",
-          "cuml_tsne"
+          "cellranger_tsne"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
@@ -1363,21 +1343,21 @@
         "relative_comparability_tolerance": 0.05,
         "steady_sec": null,
         "unique_exact_optimum": true,
-        "unique_within_tolerance": false
+        "unique_within_tolerance": true
       },
       "knn_overlap": {
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1385,7 +1365,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1395,10 +1375,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1409,7 +1389,7 @@
         "bottleneck_beta1": 0.01955434437841177,
         "centroid_adjacency_recall": 0.4333333373069763,
         "centroid_spearman": 0.6831695294081627,
-        "cold_sec": 0.3727124710021599,
+        "cold_sec": 0.45929681100005837,
         "context_balanced_accuracy": 0.4731127356657855,
         "dataset": "tenx",
         "display": "PCA (2D)",
@@ -1435,7 +1415,7 @@
         "q99_dtw_beta0": 0.40090000000000003,
         "q99_dtw_beta1": 0.0833,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 0.1481473259991617,
+        "steady_sec": 0.1973729920000551,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }
@@ -1445,15 +1425,15 @@
         "all_candidates_exactly_equal": true,
         "all_candidates_within_tolerance": true,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.032455158047378065,
-        "centroid_adjacency_recall": 0.28333336114883423,
-        "centroid_spearman": -0.3314980295415677,
-        "cold_sec": 9.481872272001056,
-        "context_balanced_accuracy": 0.4276212837640233,
+        "bottleneck_beta1": 0.03382926397025585,
+        "centroid_adjacency_recall": 0.30000001192092896,
+        "centroid_spearman": -0.3423733854706575,
+        "cold_sec": 10.673768752000342,
+        "context_balanced_accuracy": 0.4357206842204963,
         "dataset": "tenx",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 0.221325,
-        "dtw_beta1": 0.046475,
+        "dtw_beta0": 0.22147499999999995,
+        "dtw_beta1": 0.046775,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)",
           "cuML UMAP",
@@ -1465,7 +1445,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 7.1640625,
-        "knn_overlap": 0.14390666782855988,
+        "knn_overlap": 0.1443733423948288,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)",
@@ -1478,11 +1458,11 @@
           "cuml_tsne"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05233834839185558,
-        "q99_dtw_beta0": 0.41525000000000006,
-        "q99_dtw_beta1": 0.074075,
+        "q99_bottleneck_beta1": 0.05303669239932801,
+        "q99_dtw_beta0": 0.4176,
+        "q99_dtw_beta1": 0.0741,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 7.814731788499557,
+        "steady_sec": 7.511235444999784,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -1490,15 +1470,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1506,7 +1486,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1516,10 +1496,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1530,7 +1510,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1556,7 +1536,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1564,36 +1544,36 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.426390700999946,
+        "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
-        "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
         "exact_optimum_displays": [
-          "cuML t-SNE"
+          "cuML UMAP"
         ],
         "exact_optimum_methods": [
-          "cuml_tsne"
+          "cuml_umap"
         ],
-        "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
-        "method": "cuml_tsne",
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
         "practically_comparable_displays": [
-          "cuML t-SNE"
+          "cuML UMAP"
         ],
         "practically_comparable_methods": [
-          "cuml_tsne"
+          "cuml_umap"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1604,7 +1584,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1630,7 +1610,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1638,15 +1618,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1654,7 +1634,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1664,10 +1644,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1675,15 +1655,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1691,7 +1671,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1701,10 +1681,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1712,15 +1692,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1728,7 +1708,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1738,10 +1718,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1749,15 +1729,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.032455158047378065,
-        "centroid_adjacency_recall": 0.28333336114883423,
-        "centroid_spearman": -0.3314980295415677,
-        "cold_sec": 9.481872272001056,
-        "context_balanced_accuracy": 0.4276212837640233,
+        "bottleneck_beta1": 0.03382926397025585,
+        "centroid_adjacency_recall": 0.30000001192092896,
+        "centroid_spearman": -0.3423733854706575,
+        "cold_sec": 10.673768752000342,
+        "context_balanced_accuracy": 0.4357206842204963,
         "dataset": "tenx",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 0.221325,
-        "dtw_beta1": 0.046475,
+        "dtw_beta0": 0.22147499999999995,
+        "dtw_beta1": 0.046775,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -1765,7 +1745,7 @@
           "dire_auto"
         ],
         "gpu_gib": 7.1640625,
-        "knn_overlap": 0.14390666782855988,
+        "knn_overlap": 0.1443733423948288,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -1774,11 +1754,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05233834839185558,
-        "q99_dtw_beta0": 0.41525000000000006,
-        "q99_dtw_beta1": 0.074075,
+        "q99_bottleneck_beta1": 0.05303669239932801,
+        "q99_dtw_beta0": 0.4176,
+        "q99_dtw_beta1": 0.0741,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 7.814731788499557,
+        "steady_sec": 7.511235444999784,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }
@@ -1788,20 +1768,19 @@
         "all_candidates_exactly_equal": true,
         "all_candidates_within_tolerance": true,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.032455158047378065,
-        "centroid_adjacency_recall": 0.28333336114883423,
-        "centroid_spearman": -0.3314980295415677,
-        "cold_sec": 9.481872272001056,
-        "context_balanced_accuracy": 0.4276212837640233,
+        "bottleneck_beta1": 0.03382926397025585,
+        "centroid_adjacency_recall": 0.30000001192092896,
+        "centroid_spearman": -0.3423733854706575,
+        "cold_sec": 10.673768752000342,
+        "context_balanced_accuracy": 0.4357206842204963,
         "dataset": "tenx",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 0.221325,
-        "dtw_beta1": 0.046475,
+        "dtw_beta0": 0.22147499999999995,
+        "dtw_beta1": 0.046775,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
           "DiRe (spectral init)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE"
         ],
@@ -1809,18 +1788,16 @@
           "dire_auto",
           "dire",
           "dire_spectral",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne"
         ],
         "gpu_gib": 7.1640625,
-        "knn_overlap": 0.14390666782855988,
+        "knn_overlap": 0.1443733423948288,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)",
           "DiRe (IVF-Flat control)",
           "DiRe (spectral init)",
-          "DiRe (topology preset)",
           "cuML UMAP",
           "cuML t-SNE"
         ],
@@ -1828,16 +1805,15 @@
           "dire_auto",
           "dire",
           "dire_spectral",
-          "dire_topology",
           "cuml_umap",
           "cuml_tsne"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05233834839185558,
-        "q99_dtw_beta0": 0.41525000000000006,
-        "q99_dtw_beta1": 0.074075,
+        "q99_bottleneck_beta1": 0.05303669239932801,
+        "q99_dtw_beta0": 0.4176,
+        "q99_dtw_beta1": 0.0741,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 7.814731788499557,
+        "steady_sec": 7.511235444999784,
         "unique_exact_optimum": false,
         "unique_within_tolerance": false
       },
@@ -1845,15 +1821,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -1861,7 +1837,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -1871,10 +1847,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1885,7 +1861,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1911,7 +1887,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1919,36 +1895,36 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.03950318563729525,
+        "centroid_adjacency_recall": 0.4833333492279053,
+        "centroid_spearman": 0.09174856862925201,
+        "cold_sec": 14.426390700999946,
+        "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
-        "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "display": "cuML UMAP",
+        "dtw_beta0": 0.20237500000000003,
+        "dtw_beta1": 0.04792500000000001,
         "exact_optimum_displays": [
-          "cuML t-SNE"
+          "cuML UMAP"
         ],
         "exact_optimum_methods": [
-          "cuml_tsne"
+          "cuml_umap"
         ],
-        "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
-        "method": "cuml_tsne",
+        "gpu_gib": 1.87457275390625,
+        "knn_overlap": 0.1442333459854126,
+        "method": "cuml_umap",
         "practically_comparable_displays": [
-          "cuML t-SNE"
+          "cuML UMAP"
         ],
         "practically_comparable_methods": [
-          "cuml_tsne"
+          "cuml_umap"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_bottleneck_beta1": 0.05490155023106365,
+        "q99_dtw_beta0": 0.412575,
+        "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1959,7 +1935,7 @@
         "bottleneck_beta1": 0.03950318563729525,
         "centroid_adjacency_recall": 0.4833333492279053,
         "centroid_spearman": 0.09174856862925201,
-        "cold_sec": 14.237860211000225,
+        "cold_sec": 14.426390700999946,
         "context_balanced_accuracy": 0.6430304985061659,
         "dataset": "tenx",
         "display": "cuML UMAP",
@@ -1985,7 +1961,7 @@
         "q99_dtw_beta0": 0.412575,
         "q99_dtw_beta1": 0.08014999999999999,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 14.301782358499622,
+        "steady_sec": 14.441290521000155,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -1993,15 +1969,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -2009,7 +1985,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -2019,10 +1995,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -2030,15 +2006,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -2046,7 +2022,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -2056,10 +2032,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -2067,15 +2043,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.014140013605356216,
-        "centroid_adjacency_recall": 0.3333333432674408,
-        "centroid_spearman": 0.20012421979906136,
-        "cold_sec": 33.63555932699819,
-        "context_balanced_accuracy": 0.4706325819493074,
+        "bottleneck_beta1": 0.013651499524712563,
+        "centroid_adjacency_recall": 0.3500000238418579,
+        "centroid_spearman": -0.052447873610728404,
+        "cold_sec": 33.901326453000365,
+        "context_balanced_accuracy": 0.44670428071969165,
         "dataset": "tenx",
         "display": "cuML t-SNE",
-        "dtw_beta0": 0.12969999999999998,
-        "dtw_beta1": 0.040075,
+        "dtw_beta0": 0.130475,
+        "dtw_beta1": 0.04055,
         "exact_optimum_displays": [
           "cuML t-SNE"
         ],
@@ -2083,7 +2059,7 @@
           "cuml_tsne"
         ],
         "gpu_gib": 2.94097900390625,
-        "knn_overlap": 0.347653329372406,
+        "knn_overlap": 0.33471667766571045,
         "method": "cuml_tsne",
         "practically_comparable_displays": [
           "cuML t-SNE"
@@ -2093,10 +2069,10 @@
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
         "q99_bottleneck_beta1": 0.05130708261336736,
-        "q99_dtw_beta0": 0.418025,
-        "q99_dtw_beta1": 0.07325000000000001,
+        "q99_dtw_beta0": 0.4191,
+        "q99_dtw_beta1": 0.0743,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 32.865373805499985,
+        "steady_sec": 33.20051632900004,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       },
@@ -2104,15 +2080,15 @@
         "all_candidates_exactly_equal": false,
         "all_candidates_within_tolerance": false,
         "bottleneck_beta0": 0.4270747244358063,
-        "bottleneck_beta1": 0.032455158047378065,
-        "centroid_adjacency_recall": 0.28333336114883423,
-        "centroid_spearman": -0.3314980295415677,
-        "cold_sec": 9.481872272001056,
-        "context_balanced_accuracy": 0.4276212837640233,
+        "bottleneck_beta1": 0.03382926397025585,
+        "centroid_adjacency_recall": 0.30000001192092896,
+        "centroid_spearman": -0.3423733854706575,
+        "cold_sec": 10.673768752000342,
+        "context_balanced_accuracy": 0.4357206842204963,
         "dataset": "tenx",
         "display": "DiRe (auto cuVS)",
-        "dtw_beta0": 0.221325,
-        "dtw_beta1": 0.046475,
+        "dtw_beta0": 0.22147499999999995,
+        "dtw_beta1": 0.046775,
         "exact_optimum_displays": [
           "DiRe (auto cuVS)"
         ],
@@ -2120,7 +2096,7 @@
           "dire_auto"
         ],
         "gpu_gib": 7.1640625,
-        "knn_overlap": 0.14390666782855988,
+        "knn_overlap": 0.1443733423948288,
         "method": "dire_auto",
         "practically_comparable_displays": [
           "DiRe (auto cuVS)"
@@ -2129,11 +2105,11 @@
           "dire_auto"
         ],
         "q99_bottleneck_beta0": 2.687212553767567,
-        "q99_bottleneck_beta1": 0.05233834839185558,
-        "q99_dtw_beta0": 0.41525000000000006,
-        "q99_dtw_beta1": 0.074075,
+        "q99_bottleneck_beta1": 0.05303669239932801,
+        "q99_dtw_beta0": 0.4176,
+        "q99_dtw_beta1": 0.0741,
         "relative_comparability_tolerance": 0.05,
-        "steady_sec": 7.814731788499557,
+        "steady_sec": 7.511235444999784,
         "unique_exact_optimum": true,
         "unique_within_tolerance": true
       }

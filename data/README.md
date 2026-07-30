@@ -3,7 +3,7 @@
 This directory is the GPU-free entry point.
 
 - `archived/json_logs/` contains self-contained JSON logs for all six datasets. These logs include environment records, labels, canonical embeddings, metric values, and repeated-run aggregate metrics. Each aggregate records its own `n`, so repeated scalar metrics and more expensive topology metrics can be audited separately.
-- `archived/embedding_pngs/` contains all canonical embedding PNGs for the archived run: 6 datasets times 4 methods.
+- `archived/embedding_pngs/` contains all canonical embedding PNGs for the archived run: 6 datasets times 5 methods.
 - `label_metadata.json` maps raw benchmark labels to legend text. MNIST labels are digit identities; Levine labels use the upstream population-name files from the Levine 13- and 32-dimensional benchmark-data repositories.
 
 Run the local pipeline from these files with:
@@ -39,8 +39,7 @@ high-dimensional prepared arrays outside Git:
   records, fallback diagnostics, and fixed-query kNN graph samples; this stage
   does not overwrite the historical scaling records;
 - `revision3/topology_sensitivity_results/`: the separately labelled
-  spectral-only DiRe control and source-predeclared DiRe topology preset at
-  100,000 and full scale;
+  spectral-only DiRe control at 100,000 and full scale;
 - `revision3/evaluation/`: common-row local, centroid, context, and topology
   measurements, including fixed reference coordinates/diagrams, the historical
   diameter-normalized FastDTW approximation to Betti-curve distance, exact
@@ -54,8 +53,8 @@ high-dimensional prepared arrays outside Git:
 - `revision3/small_json_logs/`: six reference datasets with 20 GPU and 10 CPU
   fits per method, direct GPU rank-based local-kNN atlas topology evaluated on
   every fit over paired, independently seeded fixed 1,000-row index subsets,
-  with records requiring `prefer_ripser=false`, and both default DiRe and the
-  separately labelled source-distributed topology preset;
+  with records requiring `prefer_ripser=false` and default DiRe as the fixed
+  comparator;
 - `revision3/bundles/`: compact deterministic archives plus SHA-256 sidecars;
 - `revision3/downloads/` and `revision3/fetched/`: locally downloaded and
   safely verified bundles.

@@ -82,7 +82,7 @@ def layout_path(bundle_root: Path, dataset: str, method: str) -> Path:
         )
     result_directory = (
         "topology_sensitivity_results"
-        if method in ("dire_spectral", "dire_topology")
+        if method == "dire_spectral"
         else "large_results"
     )
     run_root = (

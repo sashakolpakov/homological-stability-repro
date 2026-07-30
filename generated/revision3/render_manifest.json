@@ -10,8 +10,8 @@
     "revision3-backend-policy-quality-gate.csv",
     "revision3-dataset-stats.csv",
     "revision3-dataset-stats.tex",
-    "revision3-dire-topology-sensitivity-layouts.pdf",
-    "revision3-dire-topology-sensitivity-layouts.png",
+    "revision3-dire-control-layouts.pdf",
+    "revision3-dire-control-layouts.png",
     "revision3-initialization-ablation.csv",
     "revision3-initialization-ablation.pdf",
     "revision3-initialization-ablation.png",
@@ -60,44 +60,44 @@
   ],
   "outputs": [
     {
-      "bytes": 973537,
+      "bytes": 994962,
       "path": "revision3-arxiv-layouts.pdf",
-      "sha256": "ba24650ecf2e79034eb318f508783264738c143b3fcd6318f822d4ec935d63de"
+      "sha256": "f74a52d5500b44ea71e9675fbf47575fbc13b01d62353eda6f602f32b4a7a02b"
     },
     {
-      "bytes": 3591746,
+      "bytes": 3670238,
       "path": "revision3-arxiv-layouts.png",
-      "sha256": "ed3032e0566a8c8d028da1d5e8dcd080b6b7901310ea6ce0328801fea710b5fd"
+      "sha256": "50f6c5a5db7ca5b02efe25cc438444007202544b530409ad2751b471650711dc"
     },
     {
-      "bytes": 2426,
+      "bytes": 2427,
       "path": "revision3-arxiv-topology-paired-effects.tex",
-      "sha256": "0e9448fc921e2a3b2c2068b2f7917e856e00d3992a460ff8fb5bcea716acedc0"
+      "sha256": "986f18ce0b1ae8dbfb8cddfcb393b4336823f4c49f0489b4ea8bb80ac09783e0"
     },
     {
-      "bytes": 923,
+      "bytes": 924,
       "path": "revision3-backend-policy-audit.csv",
-      "sha256": "39280266b51527d11b575aa4afabecdd60a7ea42f8d35ae678a551476f4a3499"
+      "sha256": "11d9d3afb00ccb13c2c677eda6b0e84fda54d6f4d0d59e34fe0177381adee981"
     },
     {
-      "bytes": 18091,
+      "bytes": 17740,
       "path": "revision3-backend-policy-audit.pdf",
-      "sha256": "fb02bbab89ddce63da72352f0dc17cb276ea5531381523d1d85fa7f24f05a966"
+      "sha256": "fc6e06f3ae81d9f0537a89ef110ff81f3f92ea630d600682bafbe51e0064fff1"
     },
     {
-      "bytes": 94107,
+      "bytes": 95257,
       "path": "revision3-backend-policy-audit.png",
-      "sha256": "e8d0b655ac68e4ee0cc1aea9063156f313a9c3ad971905de092545f017aa3bb9"
+      "sha256": "c5134b1bdc5f646763aeb71c9d866cb72ca3ae21c12ed7ba098433ecb88a9b4d"
     },
     {
       "bytes": 380,
       "path": "revision3-backend-policy-audit.tex",
-      "sha256": "1a0d5a9f973315f655516e41a62f834d4e55f023605c7e9d95209c347526b744"
+      "sha256": "23574e3ca78df603ff00985cd645410357c09773bf0b78c8f0664742196c7a03"
     },
     {
-      "bytes": 3105,
+      "bytes": 3167,
       "path": "revision3-backend-policy-quality-gate.csv",
-      "sha256": "9815019fbfd25bdb9bbcbd88a43f177fc466c7fad3417a8ad7d6cf496edbf624"
+      "sha256": "adc5d0ea98e5b069b41e1a6e7c9851d95c098d3d1a03ffa0ef9c891742b099e8"
     },
     {
       "bytes": 266,
@@ -110,164 +110,164 @@
       "sha256": "9baa01aa30a653be8c4d958110e8bd36bcf4f38dcc359433cad1de671f86cc1e"
     },
     {
-      "bytes": 1134317,
-      "path": "revision3-dire-topology-sensitivity-layouts.pdf",
-      "sha256": "914658e43470c56fb6f133cf67ca902716b6b781dfa88dad814b88a3e62c8c22"
+      "bytes": 830662,
+      "path": "revision3-dire-control-layouts.pdf",
+      "sha256": "58f621e0c4fb2c77943e97f74622dcda4cee24ccbbf4e82fd7c7c8e86984a13d"
     },
     {
-      "bytes": 4757170,
-      "path": "revision3-dire-topology-sensitivity-layouts.png",
-      "sha256": "61e209b15c44fea6eca71c3893be4bddb8c516f3a750ca3c3c301a7c325b79a5"
+      "bytes": 3509802,
+      "path": "revision3-dire-control-layouts.png",
+      "sha256": "ec33b546c9bbdd62ea27e12e6445521f6201c25f9a8aa0a65c89f27e063e00d5"
     },
     {
-      "bytes": 3531,
+      "bytes": 3532,
       "path": "revision3-initialization-ablation.csv",
-      "sha256": "1d89f44ff39154d07b70c916fcf9acadab1616e21797897bb83afdc6160066ae"
+      "sha256": "38305941d7834f976dd68656eeb6a2ecc80f4d5bd9c63c124dbb37eade975dcd"
     },
     {
-      "bytes": 35512,
+      "bytes": 35513,
       "path": "revision3-initialization-ablation.pdf",
-      "sha256": "d62ac467ed59554149fb19120cc5f44050a84a3ec04fd29b3ad14cc7d9ede00d"
+      "sha256": "59b45fccdc17f3b2df4128fa00b9459521d35cfe1f88711360ac198721bfb908"
     },
     {
-      "bytes": 372511,
+      "bytes": 369451,
       "path": "revision3-initialization-ablation.png",
-      "sha256": "ef994dfb9ee3405e2d31e4a11599e78884e29549fa56b6f6e2e0426cafade7a4"
+      "sha256": "1b8cb2096ea0df777cd1d8e7083e7e9ab5752221ba553de62f7a3dd57b731422"
     },
     {
-      "bytes": 1900,
+      "bytes": 1901,
       "path": "revision3-initialization-ablation.tex",
-      "sha256": "a19d679e12020833047fde73e9d6f4ee93e3174ff8634bd4fdce3ea042f82738"
+      "sha256": "b648d9acd01229aff5714de42fe66d7408953139ad61ad7c655758cee8c005b0"
     },
     {
-      "bytes": 4542,
+      "bytes": 3916,
       "path": "revision3-large-metrics.csv",
-      "sha256": "8d7d2e9f163740b5b71172fc400fad3ce39dced9ff80d8859a50e58f16034880"
+      "sha256": "406359bb8f3bf123358b7c2e6ca831e8a744987dd93c7f49b43b035e9c39141f"
     },
     {
-      "bytes": 1926,
+      "bytes": 1690,
       "path": "revision3-large-metrics.tex",
-      "sha256": "087141d33e79c86a5e145a71e391f1b614d205c2ac586984f193daf8e2fdd921"
+      "sha256": "5ff799bebde27e835831e2743f5e5bc2afe399fda76973ed8f331f3f26c17106"
     },
     {
-      "bytes": 31181,
+      "bytes": 31108,
       "path": "revision3-large-quality.pdf",
-      "sha256": "df1c3beac6ac86edc921dfb29ef0841ff6a76c139c2addd3115021fba0d92827"
+      "sha256": "f1309eb74626b72ca4288ee1e00e12de5bfa21fa310a990ea217be19294ed925"
     },
     {
-      "bytes": 477993,
+      "bytes": 428569,
       "path": "revision3-large-quality.png",
-      "sha256": "07737700e65139df1806d1cf4e0b7c42a6f28cc963859f490977e7775780fa98"
+      "sha256": "788e0fb3f9dfcff313a7ba25056c19233f11778a02f7e79cc2a4972ea21d17a1"
     },
     {
-      "bytes": 33474,
+      "bytes": 33557,
       "path": "revision3-large-scaling.pdf",
-      "sha256": "6794de092bc38b093757f4a1d0e2d1e304fa0bd628b2cd436b29e1d0a2c5edd2"
+      "sha256": "009d04645f1d88d70e4c7f5324e5d4b68c9d908e73cb285d18b9cf74c59cfd42"
     },
     {
-      "bytes": 426873,
+      "bytes": 431887,
       "path": "revision3-large-scaling.png",
-      "sha256": "0fda4bc5ccebfb2ec5131747973941bbfedd6d4c7de0371137c2e02e6c1d3397"
+      "sha256": "3689408d1007e152066c8160d2d30ca14183f6adfd1ecd2a502ebc846572dc5e"
     },
     {
-      "bytes": 20629,
+      "bytes": 18925,
       "path": "revision3-results-macros.tex",
-      "sha256": "00133559b87e12c9e133d791c07f65ea391a8342868447c3caab94e00e4edea5"
+      "sha256": "e9b9fe3b6c7caf4f8bba19a801166cc2d3fae48754d1c45033a06f9d2e022c89"
     },
     {
-      "bytes": 75050,
+      "bytes": 73682,
       "path": "revision3-results-summary.json",
-      "sha256": "a048cfb50f1bd16eb2ddf277f7da5bddc0b58dc0f73965f7dddb0aec347a6692"
+      "sha256": "399e0d56f05ce95d5da6beeef7465c95c73b841d54a9a150cfbd6e1ad7d26244"
     },
     {
-      "bytes": 5626,
+      "bytes": 5370,
       "path": "revision3-results-summary.md",
-      "sha256": "d9176d9b38c9f969a871e6c457e92fa91d4f9e93675de6259d833a9d51993c1f"
+      "sha256": "c899178635fff1f88057bc967c96e7054ef4de6a3bbbe9c3c1b3a6ad831b2016"
     },
     {
-      "bytes": 161890,
+      "bytes": 122227,
       "path": "revision3-small-atlas-topology-paired-effects.csv",
-      "sha256": "f6c05d21035f8b21c4f606cea28ca2b9d8f666d62ef764831c4256d377dcb2b6"
+      "sha256": "a0dba719b6a88819af2442e334a05243dbf77ab96cc281d4763fd38de19c1905"
     },
     {
-      "bytes": 21917,
+      "bytes": 21054,
       "path": "revision3-small-atlas-topology-paired-effects.pdf",
-      "sha256": "f5611713986999d8319b35150115a824f3dc3c14607250c9902393d797ded874"
+      "sha256": "0e87c54e7a3ea644595e6710f4c9b81a12ac14bcd6bc9429a7080c7694188790"
     },
     {
-      "bytes": 119859,
+      "bytes": 112609,
       "path": "revision3-small-atlas-topology-paired-effects.png",
-      "sha256": "7b878a5bfb8ec6efec4dbc2d150d9ed7fc7c0165885fb9145ef3a422ee6e87ed"
+      "sha256": "f2b065db7e262eae7ae36db9634af2be3d53f472d60e5a4fe8345a9282fc91b0"
     },
     {
-      "bytes": 8502,
+      "bytes": 6908,
       "path": "revision3-small-atlas-topology-summary.csv",
-      "sha256": "49638b4cc4186380bb6f915dc2c6a11f995134d0ffa6e5e0e1d424aa3a3fac21"
+      "sha256": "86d326d2af850193eb339c039b3fadbbf7c39c342c1671e8a2d92ddf9055ffb7"
     },
     {
-      "bytes": 1739,
+      "bytes": 1404,
       "path": "revision3-small-atlas-topology-summary.tex",
-      "sha256": "e03707ca444e5b1e9ece3946371b846788f23e7bb4bf390fac942512bfbfc5e8"
+      "sha256": "5bf9e7649e8b1c7a7fe33153a018f6a590ce487ec678906aa5ec0f0d3981a71c"
     },
     {
-      "bytes": 3677,
+      "bytes": 2980,
       "path": "revision3-small-runtime.csv",
-      "sha256": "a6e4f45d17705f4acd41ea0ed34005eefffbc457a5362c3b4d0b3e34c1aae579"
+      "sha256": "d712031217e480493ac3d8ff922c9e07b3c7d93801a7d957ab596a2b5cce35ed"
     },
     {
-      "bytes": 21379,
+      "bytes": 20376,
       "path": "revision3-small-runtime.pdf",
-      "sha256": "f7649f7dfbb899834751cd3de2b81b45681676ed66f37ffcbc2c61210e2339f0"
+      "sha256": "533e02c588f12d83cc1428cfeecb5031343f3a94b8c3645b00c10286af9b1556"
     },
     {
-      "bytes": 133993,
+      "bytes": 127744,
       "path": "revision3-small-runtime.png",
-      "sha256": "51ba931c0aa8f8c91c3354ecdbf019e684fe1e0cdd5b7914f6ae0acf011b7591"
+      "sha256": "e3be69a07ce76619eb2fc1fc2ad5e1da68d04ae48f16ec3b8b84b3d5e0c96c19"
     },
     {
-      "bytes": 2076,
+      "bytes": 1693,
       "path": "revision3-small-runtime.tex",
-      "sha256": "1829c4b319e8e5d599ca0d0eeba2a5b4f29693f6e7a0d9342a88fa751b418158"
+      "sha256": "322da928450a4b34d03d8e5c681b07371f00bd5277a0cf335021d8650e1fa649"
     },
     {
-      "bytes": 79880,
+      "bytes": 69713,
       "path": "revision3-tenx-adjacency-audit.json",
-      "sha256": "759dfdf7a8351391b885bff9448b83df88fbbf3317c86fee5f6dd31a5980d678"
+      "sha256": "37d62aee07706cb8451ac0befec5a46c1818149993c4acb66951c076f12423a5"
     },
     {
-      "bytes": 11306,
+      "bytes": 9721,
       "path": "revision3-tenx-adjacency-by-source.csv",
-      "sha256": "d63e32fc8d8a193fcef8a3825972143153812557bc5326149bcc3796cf1fdc91"
+      "sha256": "a12cbd80a2112aae54ce70f7a4c07915e9d40a835eb2f317acb1a2bfc8342386"
     },
     {
-      "bytes": 59631,
+      "bytes": 50971,
       "path": "revision3-tenx-adjacency-pairs.csv",
-      "sha256": "b5f879316e4712353872cda3a9a111785ea0c812578e8d2a9accc9cf01cc4e41"
+      "sha256": "3f37ed7054a92e750d1a72599337a1d834880d47d752480d8a90f5c9647c11f7"
     },
     {
-      "bytes": 19211,
+      "bytes": 16520,
       "path": "revision3-tenx-adjacency-sensitivity.csv",
-      "sha256": "1b06374027947b069a474ccdb401179adf7b7547e8e1d9b9dcb3c96dd07fd64a"
+      "sha256": "cf1b250813647f4e04982c23deb0a410f79d9c6c267f5617921098a4f326a61d"
     },
     {
-      "bytes": 698,
+      "bytes": 599,
       "path": "revision3-tenx-adjacency-summary.csv",
-      "sha256": "19cc8495b13fb13a957bdcd37cd5b9c19cb500b0622482f6158597bd18fb6722"
+      "sha256": "eb862b53435f83226ff74e8210788bed257c47a0dda309d64d54543513b780c0"
     },
     {
-      "bytes": 583,
+      "bytes": 526,
       "path": "revision3-tenx-adjacency-summary.tex",
-      "sha256": "578f970756844f51d4d4352abcdc5e237dae35731853c795d632873a699997dc"
+      "sha256": "d0308ca54ede24ed1043806a1d23bd9024945bd46ca1aa5202a69bdb6a6da6cb"
     },
     {
-      "bytes": 717076,
+      "bytes": 717692,
       "path": "revision3-tenx-layouts.pdf",
-      "sha256": "1928daba2a26436b33cfa304a009f7c82c1b16fa0e63e7211e45c3c4443e1f5b"
+      "sha256": "986c131e28f8af98e5dd2c34e6ca1587b8cba585ac08495b4a01cf3195cd6266"
     },
     {
-      "bytes": 3984195,
+      "bytes": 3951159,
       "path": "revision3-tenx-layouts.png",
-      "sha256": "2e5a722aed20b13a9655cfbd22d7963aa34ca4d3a715a9404551899477ab0eae"
+      "sha256": "3e28db9e5f57eb1f3f6009b9b0c7ed750bb02c1a60bc59b9ba277a0854ce52e3"
     },
     {
       "bytes": 900,
@@ -280,86 +280,86 @@
       "sha256": "47f431bfed2da21864fb37a1ac1e3a076d0c3c035d11c784ca00ac1864d53c63"
     },
     {
-      "bytes": 263870,
+      "bytes": 219257,
       "path": "revision3-topology-effect-audit.json",
-      "sha256": "0e2eb85cfe375101781c08b8083686f28d16c176edba5324716a94f068426c51"
+      "sha256": "f9eeb096ec1c3db2b60e787c8bdf07c0723016acca92a344279e5617573dd0f3"
     },
     {
-      "bytes": 1418,
+      "bytes": 1200,
       "path": "revision3-topology-layout-seed-sensitivity.tex",
-      "sha256": "710f7b440ac8ddb26ad5fd4807267c6aec13f77ac2f0da4503b7c2d8d206ae77"
+      "sha256": "c1836a16b99c46c6f848f2f997e10b1cc37557a89e5376d4449ef1ac2b6e14fd"
     },
     {
-      "bytes": 56482,
+      "bytes": 46153,
       "path": "revision3-topology-paired-effects.csv",
-      "sha256": "31e7fc66d69a00dd1705639f5c596517a95b2e5c47583a2d5924c6e2a4463b29"
+      "sha256": "b479b19934f6cbc432874e89f76a80bcf2a61af2f4cd1b1b2a7d3f528610ff92"
     },
     {
-      "bytes": 20961,
+      "bytes": 21031,
       "path": "revision3-topology-paired-effects.pdf",
-      "sha256": "d0dfa807f13b4e07e2329636fcf4d3d6f84438526c0c40a6bf5421621940aaaa"
+      "sha256": "86c6d075b4e1d8e640bb1c8e15b71d01f0c9d6a2ceea31ca789b2533b36a8a49"
     },
     {
-      "bytes": 160587,
+      "bytes": 161451,
       "path": "revision3-topology-paired-effects.png",
-      "sha256": "d69c8fe8d081517cc1baef9f6a1c634aea047a4ed1b4bd003be38653c28417fe"
+      "sha256": "48b2a10978b139a0222bb84b2a6cafd687cc1f983b5b1f383b12c14f629bdb92"
     },
     {
-      "bytes": 6715,
+      "bytes": 5796,
       "path": "revision3-topology-sensitivity.csv",
-      "sha256": "b7fad58572f824504aa0a2d30940a7e03cbc3823beb3eb7cb2e26b63dff84326"
+      "sha256": "f01142eaad43efa280672efd805f6dff9af6b9aa333d4f9e3a8f0c19e612ee65"
     },
     {
-      "bytes": 1239,
+      "bytes": 1087,
       "path": "revision3-topology-sensitivity.tex",
-      "sha256": "94099124873874aeb58332f3a53add752185b599da3fcfe9787149d204bed047"
+      "sha256": "61e41187e97a09d1bab5939fa4d5c7b9beea5d9fd1b227a8a41d2e0a6108e861"
     },
     {
-      "bytes": 35007,
+      "bytes": 28887,
       "path": "revision3-topology-size-reversals.csv",
-      "sha256": "b983ea0d651c35876ad5347d7d586df4e647a5a28c9f872df54220cd3b3abacc"
+      "sha256": "4816ab122d2b1f96ba3612d97f87ed8c42f8b1fd0409d78d3fde868ba04a411b"
     },
     {
-      "bytes": 6573,
+      "bytes": 5664,
       "path": "revision3-topology-subset-size-sensitivity.csv",
-      "sha256": "8312d817994f4011152be3b2504d26e2e708032fb25893313a92f6fb6fc4f234"
+      "sha256": "4c498b9392db1fd0bea3bea872198ec231317e3daf6fe8d097898251093b1d03"
     },
     {
-      "bytes": 33037,
+      "bytes": 31421,
       "path": "revision3-topology-subset-size-sensitivity.pdf",
-      "sha256": "0178b541a5cd0a12375c81a1a9b051da603b0ef411592a90bcfc9d6a12615a6b"
+      "sha256": "e3628291e30971b4038ed8936e8e92533f2f6bfb1307eaa355f20016a9206068"
     },
     {
-      "bytes": 578550,
+      "bytes": 554749,
       "path": "revision3-topology-subset-size-sensitivity.png",
-      "sha256": "36aa3cf5ad4ddc272e0f23cc62187b9b4a2269b3644d51207b5fb81d2c90052d"
+      "sha256": "70daac4a004b08a94c13c6e883b493d5efb7e555f1515c0f13041aeae1b09276"
     },
     {
-      "bytes": 1479,
+      "bytes": 1305,
       "path": "revision3-topology-subset-size-sensitivity.tex",
-      "sha256": "7303e05125afe094f5e1cb5878f3f31168516f3cc277593314cfdf1cb33beb37"
+      "sha256": "bbb420ef51a60491764771c5c730699e158bf55572941a611fc8f17f69d24e0d"
     },
     {
-      "bytes": 391224,
+      "bytes": 337083,
       "path": "topology-audit.json",
-      "sha256": "fe674079c18893ca8d32f2adcd6b53557f748fe1f490505e091b6338083ebd98"
+      "sha256": "1e3f5f898ba208c8a7b328b70dd5079cff0de5501bc161cb74ca740c23440815"
     }
   ],
   "renderer": {
     "matplotlib": "3.10.9",
     "numpy": "2.4.4",
     "script": "render_revision3_artifacts.py",
-    "script_sha256": "0944cbaa82ccdf46f9d4becbbc2c9d129e9f758f6f46f90f135ead2ee19f1e69"
+    "script_sha256": "da52c6737821057aa119261b5b1e6cd7a4186b1e6baa6ef63411d8c2af80550f"
   },
   "schema_version": 2,
   "source_bundle": {
-    "directory_name": "revision3-results-20260729-202035",
-    "manifest_sha256": "0fcbf3e5b420953c243a4b805fbf8baef48da78df9e38a7298f3f4248b322c72",
-    "run_id": "20260729-202035"
+    "directory_name": "revision3-results-20260730-171900",
+    "manifest_sha256": "8aab3de473f431877702cd560005b94f1613f550a21e7523e04aafaf9c6018cb",
+    "run_id": "20260730-171900"
   },
   "topology_audit": {
     "file": "topology-audit.json",
-    "sha256": "fe674079c18893ca8d32f2adcd6b53557f748fe1f490505e091b6338083ebd98",
+    "sha256": "1e3f5f898ba208c8a7b328b70dd5079cff0de5501bc161cb74ca740c23440815",
     "status": "success"
   }
 }

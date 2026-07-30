@@ -28,8 +28,8 @@ https://sashakolpakov.github.io/homological-stability-repro/
 - `scripts/reproduce_revision3.sh`: one-command, version-pinned million-point Revision 3 rerun on an 80 GB NVIDIA GPU followed by an independently isolated CPU-only topology audit.
 - `scripts/run_remote_revision3.sh`: creates a size-gated, content-verified source-only archive and launches that rerun under `nohup`, optionally preserving remote run state and surviving SSH disconnects.
 - `scripts/package_revision3_remote_source.py`: deterministically packages and verifies the executable remote source surface; its allowlist cannot contain `data/`, `generated/`, `pics/`, documentation builds, PDFs, or common binary dataset formats.
-- `scripts/verify_archived_clone_payload.py`: verifies the distinct ordinary-clone mode, including all committed six-dataset logs, 36 embeddings, publication artifacts, real file contents, byte-size floors, and Git tracking.
-- `scripts/fetch_revision3_results.sh`: fetches the compact result bundle and matching CPU-only audit, verifies both SHA-256 sidecars plus every bundled file, and regenerates figures/tables locally.
+- `scripts/verify_archived_clone_payload.py`: verifies the distinct ordinary-clone mode, including all committed six-dataset logs, 30 embeddings, publication artifacts, real file contents, byte-size floors, and Git tracking.
+- `scripts/fetch_revision3_results.sh`: resumably fetches the compact result bundle and matching CPU-only audit with `rsync`, verifies both SHA-256 sidecars plus every bundled file, and regenerates figures/tables locally.
 - `docker/Dockerfile`: GPU-capable benchmark and manuscript build environment matching the NumPy 2/RAPIDS setup used on Lambda Labs.
 - `docs/`: Sphinx source for the GitHub Pages site.
 
@@ -96,13 +96,9 @@ post-hoc equivalence threshold. Library-level diagnostics are tracked
 independently in
 [`dire-rapids` issue #13](https://github.com/sashakolpakov/dire-rapids/issues/13).
 
-One
-single-factor sensitivity row changes only that initialization to spectral
-while holding all force parameters fixed. A second sensitivity row uses the
-source-distributed `TOPOLOGY_TUNED` preset (spectral initialization and its
-predeclared force parameters), committed on 2026-04-23 before this 10x/arXiv
-experiment. Both are labelled as sensitivity analyses and neither is
-substituted for the default result.
+One single-factor sensitivity row changes only that initialization to spectral
+while holding all force parameters fixed. It is labelled as a sensitivity
+analysis and is never substituted for the default result.
 
 The six--dataset reference suite uses one consistent small--data topology
 protocol. Every GPU configuration has 20 seeded fits and every CPU reference
@@ -111,10 +107,9 @@ directly on every fit using a fixed 1,000-row index subset; every record must
 identify the atlas backend, the direct evaluator, and
 `prefer_ripser=false`. The subset seed is independent of the layout seed, and
 each corresponding method run records the identical indices and SHA--256
-digest. Default DiRe and the source--distributed topology preset are both
-retained. Generated outputs report mean, sample standard deviation, minimum,
-every paired gap, and continuous direction--adjusted log ratios rather than
-ordinal ranks.
+digest. Default DiRe is the fixed comparator. Generated outputs report mean,
+sample standard deviation, minimum, every paired gap, and continuous
+direction--adjusted log ratios rather than ordinal ranks.
 
 The topology protocol uses ten independently seeded, fixed 4,000-row index
 subsets. Every subset is applied identically to the high-dimensional input and
@@ -205,7 +200,9 @@ In either case, local committed data and generated publication artifacts are
 never in the transfer archive or Docker build context.
 
 After the remote status reports `state=success`, fetch, verify, and render on a
-normal CPU workstation:
+normal CPU workstation. The fetch host and remote host must both provide
+`rsync`; interrupted transfers retain a deterministic partial file and resume
+on the next invocation:
 
 ```bash
 python3 -m pip install -r requirements/render.txt
@@ -224,7 +221,7 @@ The fetcher:
 5. requires the current semantic contract: ten complete 4,000-row topology
    subsets, nested 1,000/2,000/4,000 records, bundled input centroids, and no
    retired replication/sign-count fields; it separately requires all six
-   small--suite logs, the exact default/preset/baseline method set, 20 GPU and
+   small--suite logs, the exact declared method set, 20 GPU and
    10 CPU repeats, direct atlas topology on every fit, fixed 1,000-row subset
    metadata, valid index hashes, and identical paired subsets across methods.
    It also rejects every retained reducer `result.json` whose status is not
@@ -345,7 +342,7 @@ scripts/reproduce_archived.sh
 ```
 
 The first command proves that the committed payload is present, is not a set of
-Git-LFS pointer stubs, has the exact six-dataset/36-image contract, includes
+Git-LFS pointer stubs, has the exact six-dataset/30-image contract, includes
 the required Revision 3 publication artifacts, and is tracked by Git. The
 second uses that payload and regenerates:
 

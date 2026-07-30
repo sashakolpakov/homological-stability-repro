@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
   "description": "Self-contained JSON benchmark logs for regenerating DiRe paper figures.",
-  "source_bundle": "revision3-results-20260729-202035",
-  "source_bundle_archive_sha256": "4b5eeebaf8b02a44df41b8ff63076c01aebf65c0cb01f5b78fc6f7bb6ba75e63",
-  "source_bundle_manifest_sha256": "0fcbf3e5b420953c243a4b805fbf8baef48da78df9e38a7298f3f4248b322c72",
-  "source_topology_audit_sha256": "fe674079c18893ca8d32f2adcd6b53557f748fe1f490505e091b6338083ebd98",
+  "source_bundle": "revision3-results-20260730-171900",
+  "source_bundle_archive_sha256": "b5e6a512ddd67efa8d6eefbf1d57e0cb57c594d7e30b596539d5ff2615cca594",
+  "source_bundle_manifest_sha256": "8aab3de473f431877702cd560005b94f1613f550a21e7523e04aafaf9c6018cb",
+  "source_topology_audit_sha256": "1e3f5f898ba208c8a7b328b70dd5079cff0de5501bc161cb74ca740c23440815",
   "datasets": [
     "blobs",
     "disk",
@@ -15,7 +15,6 @@
   ],
   "methods": [
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
     "opentsne",

@@ -23,6 +23,29 @@ from package_revision3_remote_source import (  # noqa: E402
 from verify_archived_clone_payload import verify_archived_clone  # noqa: E402
 
 
+def test_removed_preset_cannot_reenter_remote_or_publication_sources() -> None:
+    forbidden_terms = (
+        "dire_" + "topology",
+        "dire-" + "topology",
+        "TOPOLOGY_" + "TUNED",
+        "topology " + "preset",
+        "topology-" + "preset",
+    )
+    publication_sources = (
+        "dire_short.tex",
+        "editor_cover_letter_round2.tex",
+        "response_to_referees_round2.tex",
+        "data/README.md",
+        "docs/index.rst",
+    )
+    for relative_name in (*REVISION3_SOURCE_FILES, *publication_sources):
+        source = (ROOT / relative_name).read_text(encoding="utf-8").lower()
+        for term in forbidden_terms:
+            assert term.lower() not in source, (
+                f"removed preset term {term!r} leaked into {relative_name}"
+            )
+
+
 def test_remote_source_archive_is_small_deterministic_and_data_free(
     tmp_path: Path,
 ) -> None:
@@ -74,9 +97,9 @@ def test_ordinary_clone_payload_is_committed_and_complete() -> None:
 
     assert result["mode"] == "ordinary-clone-with-committed-archive"
     assert result["archived_json_files"] == 7
-    assert result["archived_embedding_pngs"] == 36
+    assert result["archived_embedding_pngs"] == 30
     assert result["git_tracking_checked"] is True
-    assert result["source_bundle"] == "revision3-results-20260729-202035"
+    assert result["source_bundle"] == "revision3-results-20260730-171900"
 
 
 def test_remote_shell_runner_uses_verified_archive_not_repository_tar() -> None:
@@ -131,9 +154,9 @@ def test_remote_pipeline_runs_and_fetches_matching_cpu_only_audit() -> None:
         'EVALUATION_TOPOLOGY_WORKERS="${EVALUATION_TOPOLOGY_WORKERS:-24}"'
         in inside
     )
-    assert 'PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v10}"' in reproduce
+    assert 'PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v11}"' in reproduce
     assert '-e REVISION3_PIPELINE_VERSION="$PIPELINE_VERSION"' in reproduce
-    assert 'PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v10}"' in inside
+    assert 'PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v11}"' in inside
     assert 'SMALL_GPU_REPEATS="${SMALL_GPU_REPEATS:-20}"' in reproduce
     assert 'SMALL_CPU_REPEATS="${SMALL_CPU_REPEATS:-10}"' in reproduce
     assert (
@@ -147,15 +170,21 @@ def test_remote_pipeline_runs_and_fetches_matching_cpu_only_audit() -> None:
     assert 'TOPOLOGY_SAMPLE_SIZE="${SMALL_TOPOLOGY_SAMPLE_SIZE:-1000}"' in inside
     assert "TOPOLOGY_BACKEND" not in inside
     assert (
-        'METHODS="dire dire_topology cuml_tsne cuml_umap opentsne umap"'
+        'METHODS="dire cuml_tsne cuml_umap opentsne umap"'
         in inside
     )
+    assert "dire_" + "topology" not in inside
+    assert "TOPOLOGY_" + "TUNED" not in inside
     assert "python3 scripts/audit_revision3_topology.py" in reproduce
     assert "NVIDIA_VISIBLE_DEVICES=void" in reproduce
     assert '--workers "${CPU_AUDIT_WORKERS:-24}"' in reproduce
     assert "cpu_audit/LATEST" in fetch
     assert 'payload.get("source_bundle") != bundle_name' in fetch
     assert 'payload.get("status") != "success"' in fetch
+    assert "--partial" in fetch
+    assert "--append" in fetch
+    assert "--timeout=60" in fetch
+    assert "Resumable download retained for retry" in fetch
     assert "prune_revision3_entries" in fetch
     assert "--require-clean-local-artifacts" in fetch
     assert "Removing superseded artifact" in fetch

@@ -24,7 +24,6 @@ from runtime_protocol import summarize_fit_times
 
 METHODS = (
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
     "opentsne",
@@ -32,7 +31,6 @@ METHODS = (
 )
 DISPLAY = {
     "dire": "DiRe-RAPIDS",
-    "dire_topology": "DiRe (topology preset)",
     "cuml_tsne": "cuML tSNE",
     "cuml_umap": "cuML UMAP",
     "opentsne": "openTSNE",
@@ -40,7 +38,6 @@ DISPLAY = {
 }
 EMBEDDING_FILENAMES = {
     "dire": "dire-rapids",
-    "dire_topology": "dire-topology",
     "cuml_tsne": "tsne",
     "cuml_umap": "cuml-umap",
     "opentsne": "opentsne",
@@ -48,7 +45,6 @@ EMBEDDING_FILENAMES = {
 }
 ARCHIVED_EMBEDDING_FILENAMES = {
     "dire": "dire",
-    "dire_topology": "dire-topology",
     "cuml_tsne": "cuml-tsne",
     "cuml_umap": "cuml-umap",
     "opentsne": "opentsne",
@@ -63,11 +59,10 @@ METRICS = (
     ("persistence-dim-0", "DTW Betti discrepancy: dimension 0"),
     ("persistence-dim-1", "DTW Betti discrepancy: dimension 1"),
 )
-GPU_METHODS = ("dire", "dire_topology", "cuml_tsne", "cuml_umap")
+GPU_METHODS = ("dire", "cuml_tsne", "cuml_umap")
 CPU_METHODS = ("opentsne", "umap")
 METHOD_COLORS = {
     "dire": "#1b9e77",
-    "dire_topology": "#006d5b",
     "cuml_umap": "#d95f02",
     "cuml_tsne": "#7570b3",
     "opentsne": "#1f78b4",
@@ -507,7 +502,13 @@ def render_quality_summary(data_root: Path, path: Path) -> None:
         ax.set_title(dataset)
         ax.set_xticks(range(len(QUALITY_METRICS)))
         ax.set_xticklabels(
-            ["stress", "neighbors", "|context|", r"DTW $\beta_0$", r"DTW $\beta_1$"],
+            [
+                "stress",
+                "neighbors",
+                "context score",
+                r"DTW $\beta_0$",
+                r"DTW $\beta_1$",
+            ],
             rotation=28,
             ha="right",
             fontsize=8,

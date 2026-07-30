@@ -36,7 +36,6 @@ EXPECTED_METHODS = {
         "dire_auto",
         "dire",
         "dire_spectral",
-        "dire_topology",
         "cuml_umap",
         "cuml_tsne",
         "cellranger_tsne",
@@ -46,7 +45,6 @@ EXPECTED_METHODS = {
         "dire_auto",
         "dire",
         "dire_spectral",
-        "dire_topology",
         "cuml_umap",
         "cuml_tsne",
     },
@@ -57,7 +55,26 @@ FORBIDDEN_CURRENT_SCHEMA_TERMS = (
     "dire_" + "better_count",
     "competitor_" + "better_count",
     "tie_" + "count",
+    "dire_" + "topology",
+    "TOPOLOGY_" + "TUNED",
+    "topology " + "preset",
 )
+REMOVED_PRESET_TERMS = (
+    "dire_" + "topology",
+    "dire-" + "topology",
+    "TOPOLOGY_" + "TUNED",
+    "topology " + "preset",
+    "topology-" + "preset",
+)
+TEXT_PAYLOAD_SUFFIXES = {
+    ".csv",
+    ".json",
+    ".log",
+    ".md",
+    ".rst",
+    ".tex",
+    ".txt",
+}
 SMALL_DATASETS = (
     "blobs",
     "disk",
@@ -68,7 +85,6 @@ SMALL_DATASETS = (
 )
 SMALL_GPU_METHODS = (
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
 )
@@ -78,9 +94,6 @@ SMALL_GPU_REPEATS = 20
 SMALL_CPU_REPEATS = 10
 SMALL_TOPOLOGY_SUBSET_SIZE = 1_000
 SMALL_TOPOLOGY_BACKEND_DETAIL = "direct GPU rank-based local-kNN atlas"
-SMALL_TOPOLOGY_PRESET_COMMIT = (
-    "9117dc45a3e130fa1d636dfd181f3e97960c5b3b"
-)
 
 
 def sha256_file(path: Path) -> str:
@@ -226,17 +239,6 @@ def verify_small_atlas_suite(bundle_root: Path) -> dict:
                 raise RuntimeError(
                     f"{dataset}/{method} has the wrong topology subset size"
                 )
-            if method == "dire_topology":
-                origin = result.get("configuration_origin", {})
-                if origin.get("name") != "dire_rapids.TOPOLOGY_TUNED":
-                    raise RuntimeError(
-                        f"{dataset}/dire_topology has no preset provenance"
-                    )
-                if origin.get("source_commit") != SMALL_TOPOLOGY_PRESET_COMMIT:
-                    raise RuntimeError(
-                        f"{dataset}/dire_topology has the wrong preset commit"
-                    )
-
             records = result.get("repeats")
             if not isinstance(records, list) or len(records) != expected_repeats:
                 raise RuntimeError(
@@ -339,6 +341,27 @@ def verify_small_atlas_suite(bundle_root: Path) -> dict:
 def verify_current_revision3_contract(bundle_root: Path) -> dict:
     """Verify the semantic contract required by the pending revision."""
     manifest = read_manifest(bundle_root)
+    removed_preset_hits: list[str] = []
+    lowered_terms = tuple(
+        term.lower().encode("ascii") for term in REMOVED_PRESET_TERMS
+    )
+    for record in manifest["files"]:
+        relative_text = str(record["path"])
+        lowered_path = relative_text.lower()
+        if any(term.lower() in lowered_path for term in REMOVED_PRESET_TERMS):
+            removed_preset_hits.append(relative_text)
+            continue
+        path = bundle_root / relative_text
+        if path.suffix.lower() not in TEXT_PAYLOAD_SUFFIXES:
+            continue
+        payload = path.read_bytes().lower()
+        if any(term in payload for term in lowered_terms):
+            removed_preset_hits.append(relative_text)
+    if removed_preset_hits:
+        raise RuntimeError(
+            "bundle retains removed preset paths or metadata: "
+            f"{removed_preset_hits[:5]}"
+        )
     stale_result_paths = sorted(
         str(record["path"])
         for record in manifest["files"]

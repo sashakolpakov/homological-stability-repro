@@ -57,8 +57,26 @@ if [[ ! "$REMOTE_DIR" =~ ^/[A-Za-z0-9._/-]+$ ]]; then
   exit 2
 fi
 
-SSH=(ssh -i "$SSH_KEY" -o BatchMode=yes "$HOST")
-SCP=(scp -i "$SSH_KEY" -o BatchMode=yes)
+SSH=(
+  ssh
+  -i "$SSH_KEY"
+  -o BatchMode=yes
+  -o ConnectTimeout=15
+  -o ServerAliveInterval=15
+  -o ServerAliveCountMax=4
+  "$HOST"
+)
+printf -v RSYNC_RSH \
+  'ssh -i %q -o BatchMode=yes -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=4' \
+  "$SSH_KEY"
+RSYNC=(
+  rsync
+  -a
+  --partial
+  --append
+  --timeout=60
+  -e "$RSYNC_RSH"
+)
 STATUS="$("${SSH[@]}" "cat $REMOTE_DIR/data/revision3/pipeline.status 2>/dev/null || true")"
 if [[ "$STATUS" != *"state=success"* ]]; then
   echo "Remote pipeline is not marked successful:" >&2
@@ -86,16 +104,18 @@ download_atomic() {
   local remote_subdirectory="$1"
   local remote_name="$2"
   local destination="$3"
-  local temporary
-  temporary="$(mktemp "$DOWNLOAD_ROOT/.revision3-download.XXXXXX")"
-  if ! "${SCP[@]}" \
+  local temporary="$DOWNLOAD_ROOT/.revision3-download.$remote_name.partial"
+  if [[ -L "$temporary" || ( -e "$temporary" && ! -f "$temporary" ) ]]; then
+    echo "Refusing unsafe resumable download path: $temporary" >&2
+    return 1
+  fi
+  if ! "${RSYNC[@]}" \
       "$HOST:$REMOTE_DIR/data/revision3/$remote_subdirectory/$remote_name" \
       "$temporary"; then
-    rm -f -- "$temporary"
+    echo "Resumable download retained for retry: $temporary" >&2
     return 1
   fi
   if ! mv "$temporary" "$destination"; then
-    rm -f -- "$temporary"
     return 1
   fi
 }

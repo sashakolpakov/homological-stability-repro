@@ -50,7 +50,6 @@ TOPOLOGY_SEED_METHODS = (
     "dire_auto",
     "dire",
     "dire_spectral",
-    "dire_topology",
     "cuml_umap",
     "cuml_tsne",
 )
@@ -58,7 +57,6 @@ METHOD_DISPLAY = {
     "dire_auto": "DiRe-RAPIDS (production auto policy)",
     "dire": "DiRe-RAPIDS (forced IVF-Flat control)",
     "dire_spectral": "DiRe-RAPIDS (spectral-init sensitivity)",
-    "dire_topology": "DiRe-RAPIDS (topology preset)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
     "pca2": "cuML PCA (2D reference)",
@@ -777,7 +775,6 @@ def discover_full_layouts(
         "cuml_tsne": large_results_root,
         "pca2": large_results_root,
         "dire_spectral": topology_sensitivity_results_root,
-        "dire_topology": topology_sensitivity_results_root,
     }
     for method, results_root in roots.items():
         base = (

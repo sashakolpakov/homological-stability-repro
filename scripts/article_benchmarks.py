@@ -50,7 +50,6 @@ DEFAULT_METHODS = ("dire", "cuml_tsne", "cuml_umap", "opentsne", "umap")
 CPU_METHODS = frozenset({"opentsne", "umap"})
 KNOWN_METHODS = (
     "dire",
-    "dire_topology",
     "cuml_tsne",
     "cuml_umap",
     "opentsne",
@@ -61,7 +60,6 @@ KNOWN_METHODS = (
 )
 DISPLAY = {
     "dire": "DiRe-RAPIDS",
-    "dire_topology": "DiRe (topology preset)",
     "cuml_tsne": "cuML tSNE",
     "cuml_umap": "cuML UMAP",
     "opentsne": "openTSNE",
@@ -72,7 +70,6 @@ DISPLAY = {
 }
 BACKEND = {
     "dire": "GPU: DiRe-RAPIDS/PyTorch/cuVS",
-    "dire_topology": "GPU: DiRe-RAPIDS/PyTorch/cuVS",
     "cuml_tsne": "GPU: RAPIDS cuML",
     "cuml_umap": "GPU: RAPIDS cuML",
     "opentsne": "CPU: openTSNE",
@@ -282,15 +279,6 @@ def make_reducer(method, seed, args):
             max_iter_layout=args.dire_iterations,
             random_state=seed,
             verbose=False,
-        )
-    if method == "dire_topology":
-        from dire_rapids import TOPOLOGY_TUNED
-
-        return create_dire(
-            n_components=2,
-            random_state=seed,
-            verbose=False,
-            **TOPOLOGY_TUNED,
         )
     if method == "dire_pca_init":
         return create_dire(
@@ -678,22 +666,6 @@ def run_dataset(name, args):
             "input_n_samples": int(len(X_method)),
             "input_sample": input_sample,
         }
-        if method == "dire_topology":
-            from dire_rapids import TOPOLOGY_TUNED
-
-            method_result["configuration_origin"] = {
-                "name": "dire_rapids.TOPOLOGY_TUNED",
-                "source_commit": "9117dc45a3e130fa1d636dfd181f3e97960c5b3b",
-                "committed_utc": "2026-04-23T02:01:37Z",
-                "selection_independence": (
-                    "The named source-distributed preset predates the "
-                    "Revision 3 benchmark."
-                ),
-            }
-            method_result["parameters"] = {
-                "n_components": 2,
-                **json_ready(TOPOLOGY_TUNED),
-            }
         if y_method is not None and len(y_method) != len(y):
             np.save(dataset_dir / f"{method}_labels.npy", np.asarray(y_method))
         try:

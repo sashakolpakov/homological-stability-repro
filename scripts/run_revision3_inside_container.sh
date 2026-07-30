@@ -3,7 +3,7 @@ set -euo pipefail
 
 PYTHON="${PYTHON:-python3}"
 REVISION3_ROOT="${REVISION3_ROOT:-data/revision3}"
-PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v10}"
+PIPELINE_VERSION="${REVISION3_PIPELINE_VERSION:-v11}"
 FORCE_STAGES="${FORCE_STAGES:-0}"
 STAGE_ROOT="$REVISION3_ROOT/stages/$PIPELINE_VERSION"
 
@@ -68,7 +68,7 @@ run_stage topology_sensitivity \
     --prepared-root "$REVISION3_ROOT/prepared" \
     --output-root "$REVISION3_ROOT/topology_sensitivity_results" \
     --datasets tenx arxiv \
-    --methods dire_auto dire dire_spectral dire_topology cuml_umap cuml_tsne \
+    --methods dire_auto dire dire_spectral cuml_umap cuml_tsne \
     --tenx-sizes 100000 1306127 \
     --arxiv-sizes 100000 723457 \
     --repeats "$LARGE_REPEATS" \
@@ -96,7 +96,7 @@ run_stage small_reference_suite \
     OUTPUT_ROOT="$REVISION3_ROOT/small_results" \
     JSON_LOG_ROOT="$REVISION3_ROOT/small_json_logs" \
     EMBEDDING_PNG_ROOT="$REVISION3_ROOT/small_embedding_pngs" \
-    METHODS="dire dire_topology cuml_tsne cuml_umap opentsne umap" \
+    METHODS="dire cuml_tsne cuml_umap opentsne umap" \
     REPEATS="${SMALL_GPU_REPEATS:-20}" \
     CPU_REPEATS="${SMALL_CPU_REPEATS:-10}" \
     CPU_JOBS="${SMALL_CPU_JOBS:-24}" \

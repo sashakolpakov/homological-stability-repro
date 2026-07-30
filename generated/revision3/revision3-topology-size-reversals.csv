@@ -1,313 +1,265 @@
 dataset,m,metric,dire_method,competitor,competitor_display,dire_value,competitor_value,gap_competitor_minus_dire,winner
-tenx,1000,dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.235,0.335,0.10000000000000003,dire_auto
-tenx,1000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.095,0.08,-0.015,cellranger_tsne
+tenx,1000,dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.268,0.335,0.067,dire_auto
+tenx,1000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.081,0.08,-0.0010000000000000009,cellranger_tsne
 tenx,1000,bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.03929886594414711,0.022447803989052773,-0.016851061955094337,cellranger_tsne
-tenx,1000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.733,0.75,0.017000000000000015,dire_auto
-tenx,1000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.053,0.021,-0.032,cellranger_tsne
+tenx,1000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.04087886027991772,0.022447803989052773,-0.018431056290864944,cellranger_tsne
+tenx,1000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.747,0.75,0.0030000000000000027,dire_auto
+tenx,1000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.056,0.021,-0.035,cellranger_tsne
 tenx,1000,q99_bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.03740902220151257,0.02043561784451664,-0.01697340435699593,cellranger_tsne
-tenx,2000,dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.09,0.386,0.29600000000000004,dire_auto
-tenx,2000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.0855,0.057,-0.028500000000000004,cellranger_tsne
+tenx,1000,q99_bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.039452334135771705,0.02043561784451664,-0.019016716291255065,cellranger_tsne
+tenx,2000,dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.078,0.386,0.308,dire_auto
+tenx,2000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.069,0.057,-0.012000000000000004,cellranger_tsne
 tenx,2000,bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.028260808438062668,0.02253804262727499,-0.005722765810787678,cellranger_tsne
-tenx,2000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.5525,0.57,0.01749999999999996,dire_auto
-tenx,2000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.0785,0.0675,-0.010999999999999996,cellranger_tsne
+tenx,2000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.036313608288764954,0.02253804262727499,-0.013775565661489964,cellranger_tsne
+tenx,2000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.5625,0.57,0.007499999999999951,dire_auto
+tenx,2000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.072,0.0675,-0.00449999999999999,cellranger_tsne
 tenx,2000,q99_bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.08898443153642499,0.08898443153642499,0.0,tie
 tenx,4000,dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.18825,0.138,-0.05024999999999999,cellranger_tsne
-tenx,4000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.04675,0.04225,-0.004499999999999997,cellranger_tsne
+tenx,4000,dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.04825,0.04225,-0.005999999999999998,cellranger_tsne
 tenx,4000,bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.030862729996442795,0.016749434173107147,-0.014113295823335648,cellranger_tsne
-tenx,4000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.40775,0.41175,0.0040000000000000036,dire_auto
-tenx,4000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.0855,0.0875,0.001999999999999988,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.03923290967941284,0.016749434173107147,-0.022483475506305695,cellranger_tsne
+tenx,4000,q99_dtw_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.413,0.41175,-0.0012499999999999734,cellranger_tsne
+tenx,4000,q99_dtw_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.0865,0.0875,0.0010000000000000009,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,cellranger_tsne,Cell Ranger t-SNE,2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,cellranger_tsne,Cell Ranger t-SNE,0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.235,0.353,0.118,dire_auto
-tenx,1000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.095,0.093,-0.0020000000000000018,cuml_tsne
+tenx,1000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.268,0.396,0.128,dire_auto
+tenx,1000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.081,0.073,-0.008000000000000007,cuml_tsne
 tenx,1000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.03929886594414711,0.02426649071276188,-0.015032375231385231,cuml_tsne
-tenx,1000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.733,0.75,0.017000000000000015,dire_auto
-tenx,1000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.053,0.022,-0.031,cuml_tsne
+tenx,1000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.04087886027991772,0.02455045748502016,-0.016328402794897556,cuml_tsne
+tenx,1000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.747,0.744,-0.0030000000000000027,cuml_tsne
+tenx,1000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.056,0.03,-0.026000000000000002,cuml_tsne
 tenx,1000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.03740902220151257,0.02043561784451664,-0.01697340435699593,cuml_tsne
-tenx,2000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.09,0.324,0.234,dire_auto
-tenx,2000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.0855,0.0585,-0.027000000000000003,cuml_tsne
+tenx,1000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.039452334135771705,0.02160921639697498,-0.017843117738796724,cuml_tsne
+tenx,2000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.078,0.3705,0.2925,dire_auto
+tenx,2000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.069,0.0565,-0.012500000000000004,cuml_tsne
 tenx,2000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.028260808438062668,0.019691619090735912,-0.008569189347326756,cuml_tsne
-tenx,2000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.5525,0.5675,0.015000000000000013,dire_auto
-tenx,2000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.0785,0.0655,-0.012999999999999998,cuml_tsne
+tenx,2000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.036313608288764954,0.026703979820013046,-0.009609628468751907,cuml_tsne
+tenx,2000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.5625,0.5725,0.010000000000000009,dire_auto
+tenx,2000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.072,0.062,-0.009999999999999995,cuml_tsne
 tenx,2000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.08898443153642499,0.08898443153642499,0.0,tie
-tenx,4000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.18825,0.09125,-0.097,cuml_tsne
-tenx,4000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.04675,0.04025,-0.006499999999999999,cuml_tsne
+tenx,4000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.18825,0.1095,-0.07875,cuml_tsne
+tenx,4000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.04825,0.05275,0.004499999999999997,dire_auto
 tenx,4000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.030862729996442795,0.01563531532883644,-0.015227414667606354,cuml_tsne
-tenx,4000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.40775,0.413,0.005249999999999977,dire_auto
-tenx,4000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.0855,0.092,0.006499999999999992,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.03923290967941284,0.013821538537740707,-0.025411371141672134,cuml_tsne
+tenx,4000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.413,0.41675,0.003750000000000031,dire_auto
+tenx,4000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.0865,0.08825,0.0017500000000000016,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.235,0.382,0.14700000000000002,dire_auto
-tenx,1000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.095,0.078,-0.017,cuml_umap
+tenx,1000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.268,0.382,0.11399999999999999,dire_auto
+tenx,1000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.081,0.078,-0.0030000000000000027,cuml_umap
 tenx,1000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.03929886594414711,0.016032667830586433,-0.023266198113560677,cuml_umap
-tenx,1000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.733,0.726,-0.007000000000000006,cuml_umap
-tenx,1000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.053,0.059,0.005999999999999998,dire_auto
+tenx,1000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.04087886027991772,0.016032667830586433,-0.024846192449331284,cuml_umap
+tenx,1000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.747,0.726,-0.02100000000000002,cuml_umap
+tenx,1000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.056,0.059,0.0029999999999999957,dire_auto
 tenx,1000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.03740902220151257,0.02043561784451664,-0.01697340435699593,cuml_umap
-tenx,2000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.09,0.1335,0.04350000000000001,dire_auto
-tenx,2000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.0855,0.065,-0.020500000000000004,cuml_umap
+tenx,1000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.039452334135771705,0.02043561784451664,-0.019016716291255065,cuml_umap
+tenx,2000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.078,0.1335,0.05550000000000001,dire_auto
+tenx,2000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.069,0.065,-0.0040000000000000036,cuml_umap
 tenx,2000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.028260808438062668,0.030916929244995117,0.0026561208069324493,dire_auto
-tenx,2000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.5525,0.565,0.012499999999999956,dire_auto
-tenx,2000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.0785,0.074,-0.004500000000000004,cuml_umap
+tenx,2000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.036313608288764954,0.030916929244995117,-0.005396679043769836,cuml_umap
+tenx,2000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.5625,0.565,0.0024999999999999467,dire_auto
+tenx,2000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.072,0.074,0.0020000000000000018,dire_auto
 tenx,2000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.08898443153642499,0.08898443153642499,0.0,tie
 tenx,4000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.18825,0.15375,-0.0345,cuml_umap
-tenx,4000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.04675,0.056,0.009250000000000001,dire_auto
+tenx,4000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.04825,0.056,0.00775,dire_auto
 tenx,4000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.030862729996442795,0.028788574039936066,-0.002074155956506729,cuml_umap
-tenx,4000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.40775,0.4105,0.0027499999999999747,dire_auto
-tenx,4000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.0855,0.09525,0.009749999999999995,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.03923290967941284,0.028788574039936066,-0.010444335639476776,cuml_umap
+tenx,4000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,0.413,0.4105,-0.0025000000000000022,cuml_umap
+tenx,4000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.0865,0.09525,0.008750000000000008,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.235,0.232,-0.002999999999999975,dire
-tenx,1000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.095,0.077,-0.018000000000000002,dire
+tenx,1000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.268,0.23,-0.038000000000000006,dire
+tenx,1000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.081,0.081,0.0,tie
 tenx,1000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.03929886594414711,0.029309777542948723,-0.009989088401198387,dire
-tenx,1000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.733,0.736,0.0030000000000000027,dire_auto
-tenx,1000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.053,0.059,0.005999999999999998,dire_auto
+tenx,1000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.04087886027991772,0.029111694544553757,-0.01176716573536396,dire
+tenx,1000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.747,0.736,-0.01100000000000001,dire
+tenx,1000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.056,0.059,0.0029999999999999957,dire_auto
 tenx,1000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.03740902220151257,0.032343839021473225,-0.005065183180039345,dire
-tenx,2000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.09,0.092,0.0020000000000000018,dire_auto
-tenx,2000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.0855,0.0795,-0.006000000000000005,dire
+tenx,1000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.039452334135771705,0.03249721386848717,-0.006955120267284537,dire
+tenx,2000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.078,0.0925,0.014499999999999999,dire_auto
+tenx,2000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.069,0.0805,0.011499999999999996,dire_auto
 tenx,2000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.028260808438062668,0.026711441576480865,-0.0015493668615818024,dire
-tenx,2000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.5525,0.5495,-0.0030000000000000027,dire
-tenx,2000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.0785,0.0725,-0.006000000000000005,dire
+tenx,2000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.036313608288764954,0.026360010728240013,-0.00995359756052494,dire
+tenx,2000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.5625,0.5505,-0.01200000000000001,dire
+tenx,2000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.072,0.0725,0.0005000000000000004,dire_auto
 tenx,2000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.08898443153642499,0.08898443153642499,0.0,tie
-tenx,4000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.18825,0.182,-0.0062500000000000056,dire
-tenx,4000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.04675,0.056,0.009250000000000001,dire_auto
+tenx,4000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.18825,0.18375,-0.004500000000000004,dire
+tenx,4000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.04825,0.05775,0.009500000000000001,dire_auto
 tenx,4000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.030862729996442795,0.030957944691181183,9.521469473838806e-05,dire_auto
-tenx,4000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.40775,0.413,0.005249999999999977,dire_auto
-tenx,4000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.0855,0.09,0.00449999999999999,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.03923290967941284,0.030783655121922493,-0.008449254557490349,dire
+tenx,4000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.413,0.413,0.0,tie
+tenx,4000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.0865,0.09075,0.004250000000000004,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.235,0.291,0.055999999999999994,dire_auto
-tenx,1000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.095,0.062,-0.033,dire_spectral
+tenx,1000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.268,0.305,0.03699999999999998,dire_auto
+tenx,1000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.081,0.043,-0.038000000000000006,dire_spectral
 tenx,1000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.03929886594414711,0.01581532694399357,-0.02348353900015354,dire_spectral
-tenx,1000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.733,0.743,0.010000000000000009,dire_auto
-tenx,1000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.053,0.065,0.012000000000000004,dire_auto
+tenx,1000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.04087886027991772,0.01903606951236725,-0.02184279076755047,dire_spectral
+tenx,1000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.747,0.74,-0.007000000000000006,dire_spectral
+tenx,1000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.056,0.064,0.008,dire_auto
 tenx,1000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.03740902220151257,0.02043561784451664,-0.01697340435699593,dire_spectral
-tenx,2000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.09,0.3145,0.2245,dire_auto
-tenx,2000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.0855,0.0455,-0.04000000000000001,dire_spectral
+tenx,1000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.039452334135771705,0.02044747105024452,-0.019004863085527186,dire_spectral
+tenx,2000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.078,0.2905,0.21249999999999997,dire_auto
+tenx,2000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.069,0.0395,-0.029500000000000005,dire_spectral
 tenx,2000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.028260808438062668,0.03260175138711929,0.004340942949056625,dire_auto
-tenx,2000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.5525,0.5475,-0.0050000000000000044,dire_spectral
-tenx,2000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.0785,0.089,0.010499999999999995,dire_auto
+tenx,2000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.036313608288764954,0.050786092877388,0.014472484588623047,dire_auto
+tenx,2000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.5625,0.5435,-0.019000000000000017,dire_spectral
+tenx,2000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.072,0.091,0.019000000000000003,dire_auto
 tenx,2000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.08898443153642499,0.08898443153642499,0.0,tie
-tenx,4000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.18825,0.275,0.08675000000000002,dire_auto
-tenx,4000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.04675,0.05425,0.0075,dire_auto
+tenx,4000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.18825,0.2715,0.08325000000000002,dire_auto
+tenx,4000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.04825,0.054,0.005749999999999998,dire_auto
 tenx,4000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.030862729996442795,0.03864170238375664,0.007778972387313843,dire_auto
-tenx,4000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.40775,0.404,-0.0037499999999999756,dire_spectral
-tenx,4000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.0855,0.09775,0.012249999999999997,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.03923290967941284,0.03425171971321106,-0.004981189966201782,dire_spectral
+tenx,4000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.413,0.399,-0.013999999999999957,dire_spectral
+tenx,4000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.0865,0.09875,0.012250000000000011,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.235,0.142,-0.093,dire_topology
-tenx,1000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.095,0.076,-0.019000000000000003,dire_topology
-tenx,1000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.03929886594414711,0.02893231064081192,-0.01036655530333519,dire_topology
-tenx,1000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.733,0.759,0.026000000000000023,dire_auto
-tenx,1000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.053,0.06,0.006999999999999999,dire_auto
-tenx,1000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.03740902220151257,0.028859396343715205,-0.008549625857797366,dire_topology
-tenx,2000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.09,0.241,0.151,dire_auto
-tenx,2000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.0855,0.074,-0.01150000000000001,dire_topology
-tenx,2000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.028260808438062668,0.030788011848926544,0.0025272034108638763,dire_auto
-tenx,2000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.5525,0.5575,0.0050000000000000044,dire_auto
-tenx,2000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.0785,0.0775,-0.0010000000000000009,dire_topology
-tenx,2000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),2.637183019695253,2.637183019695253,0.0,tie
-tenx,2000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.08898443153642499,0.08898443153642499,0.0,tie
-tenx,4000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.18825,0.2645,0.07625000000000001,dire_auto
-tenx,4000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.04675,0.0625,0.01575,dire_auto
-tenx,4000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.030862729996442795,0.03275671601295471,0.0018939860165119171,dire_auto
-tenx,4000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),0.40775,0.41425,0.006500000000000006,dire_auto
-tenx,4000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.0855,0.096,0.010499999999999995,dire_auto
-tenx,4000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),2.6149994367508933,2.6149994367508933,0.0,tie
-tenx,4000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.13134666928990152,0.13134666928990152,0.0,tie
-tenx,1000,dtw_beta0,dire_auto,pca2,PCA (2D),0.235,0.4,0.16500000000000004,dire_auto
-tenx,1000,dtw_beta1,dire_auto,pca2,PCA (2D),0.095,0.063,-0.032,pca2
+tenx,1000,dtw_beta0,dire_auto,pca2,PCA (2D),0.268,0.4,0.132,dire_auto
+tenx,1000,dtw_beta1,dire_auto,pca2,PCA (2D),0.081,0.063,-0.018000000000000002,pca2
 tenx,1000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,1000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.03929886594414711,0.01134919747710228,-0.02794966846704483,pca2
-tenx,1000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.733,0.675,-0.05799999999999994,pca2
-tenx,1000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.053,0.062,0.009000000000000001,dire_auto
+tenx,1000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.04087886027991772,0.01134919747710228,-0.029529662802815437,pca2
+tenx,1000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.747,0.675,-0.07199999999999995,pca2
+tenx,1000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.056,0.062,0.005999999999999998,dire_auto
 tenx,1000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),2.4612562821899697,2.4612562821899697,0.0,tie
-tenx,1000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.03740902220151257,0.02043561784451664,-0.01697340435699593,pca2
-tenx,2000,dtw_beta0,dire_auto,pca2,PCA (2D),0.09,0.3465,0.25649999999999995,dire_auto
-tenx,2000,dtw_beta1,dire_auto,pca2,PCA (2D),0.0855,0.0675,-0.018000000000000002,pca2
+tenx,1000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.039452334135771705,0.02043561784451664,-0.019016716291255065,pca2
+tenx,2000,dtw_beta0,dire_auto,pca2,PCA (2D),0.078,0.3465,0.26849999999999996,dire_auto
+tenx,2000,dtw_beta1,dire_auto,pca2,PCA (2D),0.069,0.0675,-0.0015000000000000013,pca2
 tenx,2000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,2000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.028260808438062668,0.013194449245929718,-0.01506635919213295,pca2
-tenx,2000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.5525,0.5315,-0.02100000000000002,pca2
-tenx,2000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.0785,0.087,0.008499999999999994,dire_auto
+tenx,2000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.036313608288764954,0.013194449245929718,-0.023119159042835236,pca2
+tenx,2000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.5625,0.5315,-0.031000000000000028,pca2
+tenx,2000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.072,0.087,0.015,dire_auto
 tenx,2000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),2.637183019695253,2.637183019695253,0.0,tie
 tenx,2000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.08898443153642499,0.08898443153642499,0.0,tie
 tenx,4000,dtw_beta0,dire_auto,pca2,PCA (2D),0.18825,0.2945,0.10624999999999998,dire_auto
-tenx,4000,dtw_beta1,dire_auto,pca2,PCA (2D),0.04675,0.07525,0.028499999999999998,dire_auto
+tenx,4000,dtw_beta1,dire_auto,pca2,PCA (2D),0.04825,0.07525,0.026999999999999996,dire_auto
 tenx,4000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.3910366892814636,0.3910366892814636,0.0,tie
-tenx,4000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.030862729996442795,0.023704107850790024,-0.007158622145652771,pca2
-tenx,4000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.40775,0.39275,-0.015000000000000013,pca2
-tenx,4000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.0855,0.095,0.009499999999999995,dire_auto
+tenx,4000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.03923290967941284,0.023704107850790024,-0.015528801828622818,pca2
+tenx,4000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),0.413,0.39275,-0.02024999999999999,pca2
+tenx,4000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.0865,0.095,0.008500000000000008,dire_auto
 tenx,4000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),2.6149994367508933,2.6149994367508933,0.0,tie
 tenx,4000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.13134666928990152,0.13134666928990152,0.0,tie
-arxiv,1000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.157,4.685,2.5279999999999996,dire_auto
-arxiv,1000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.47,0.382,-0.08799999999999997,cuml_tsne
+arxiv,1000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.196,4.047,1.8509999999999995,dire_auto
+arxiv,1000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.409,0.349,-0.06,cuml_tsne
 arxiv,1000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.3852379024028778,0.3852379024028778,0.0,tie
-arxiv,1000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.03919438272714615,0.029324322938919067,-0.009870059788227081,cuml_tsne
-arxiv,1000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.157,4.236,2.0789999999999997,dire_auto
-arxiv,1000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.469,0.384,-0.08499999999999996,cuml_tsne
-arxiv,1000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.46490040521371445,0.4554114505904979,-0.009488954623216528,cuml_tsne
-arxiv,1000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.047310283535747844,0.04345487180887675,-0.003855411726871094,cuml_tsne
-arxiv,2000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.6885,5.0145,2.326,dire_auto
-arxiv,2000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.0965,0.431,0.3345,dire_auto
+arxiv,1000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.029324322938919067,0.029324322938919067,0.0,tie
+arxiv,1000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.135,3.793,1.6580000000000004,dire_auto
+arxiv,1000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.447,0.392,-0.05499999999999999,cuml_tsne
+arxiv,1000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.46490040521371445,0.46490040521371445,0.0,tie
+arxiv,1000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.035388235508208576,0.046129105309275414,0.010740869801066838,dire_auto
+arxiv,2000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.733,4.934,2.201,dire_auto
+arxiv,2000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.1205,0.417,0.2965,dire_auto
 arxiv,2000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.02467084303498268,0.022107288241386414,-0.0025635547935962677,cuml_tsne
-arxiv,2000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.7435,4.64,1.8964999999999996,dire_auto
-arxiv,2000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.098,0.4325,0.3345,dire_auto
-arxiv,2000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.46193402700481456,0.44968612168814054,-0.012247905316674024,cuml_tsne
-arxiv,2000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.029912854468108874,0.027563620749308293,-0.0023492337188005807,cuml_tsne
-arxiv,4000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,3.58125,5.436,1.8547500000000001,dire_auto
-arxiv,4000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.138,0.42875,0.29075,dire_auto
-arxiv,4000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.35578441619873047,0.35578441619873047,0.0,tie
+arxiv,2000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.022107288241386414,0.027802281081676483,0.00569499284029007,dire_auto
+arxiv,2000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,2.7235,4.053,1.3295,dire_auto
+arxiv,2000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.1215,0.4095,0.288,dire_auto
+arxiv,2000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.46193402700481456,0.4451870830196286,-0.016746943985185947,cuml_tsne
+arxiv,2000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.027563620749308293,0.08824708869652487,0.060683467947216574,dire_auto
+arxiv,4000,dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,3.7585,5.84925,2.0907499999999994,dire_auto
+arxiv,4000,dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.1445,0.42775,0.28325,dire_auto
+arxiv,4000,bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.35578441619873047,0.3492864966392517,-0.00649791955947876,cuml_tsne
 arxiv,4000,bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,3.65475,5.00225,1.3475000000000001,dire_auto
-arxiv,4000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.1425,0.4395,0.29700000000000004,dire_auto
-arxiv,4000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.4469823316290332,0.4314712059115055,-0.015511125717527718,cuml_tsne
-arxiv,4000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.029651723088428505,0.0315097307599045,0.0018580076714759947,dire_auto
-arxiv,1000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.157,2.957,0.7999999999999998,dire_auto
-arxiv,1000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.47,0.157,-0.31299999999999994,cuml_umap
+arxiv,4000,q99_dtw_beta0,dire_auto,cuml_tsne,cuML t-SNE,3.73875,1.45875,-2.2800000000000002,cuml_tsne
+arxiv,4000,q99_dtw_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.13875,0.10375,-0.03500000000000002,cuml_tsne
+arxiv,4000,q99_bottleneck_beta0,dire_auto,cuml_tsne,cuML t-SNE,0.4469823316290332,1.7314310884275939,1.2844487567985605,dire_auto
+arxiv,4000,q99_bottleneck_beta1,dire_auto,cuml_tsne,cuML t-SNE,0.029651723088428505,0.03760475949860542,0.007953036410176917,dire_auto
+arxiv,1000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.196,2.957,0.7609999999999997,dire_auto
+arxiv,1000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.409,0.157,-0.252,cuml_umap
 arxiv,1000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.3852379024028778,0.37737491726875305,-0.007862985134124756,cuml_umap
-arxiv,1000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.03919438272714615,0.029324322938919067,-0.009870059788227081,cuml_umap
-arxiv,1000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.157,2.126,-0.03100000000000014,cuml_umap
-arxiv,1000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.469,0.492,0.02300000000000002,dire_auto
+arxiv,1000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.029324322938919067,0.029324322938919067,0.0,tie
+arxiv,1000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.135,2.126,-0.008999999999999897,cuml_umap
+arxiv,1000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.447,0.492,0.044999999999999984,dire_auto
 arxiv,1000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.46490040521371445,0.4380566094130737,-0.026843795800640724,cuml_umap
-arxiv,1000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.047310283535747844,0.035388235508208576,-0.011922048027539267,cuml_umap
-arxiv,2000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.6885,4.2265,1.5379999999999998,dire_auto
-arxiv,2000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.0965,0.5025,0.4059999999999999,dire_auto
+arxiv,1000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.035388235508208576,0.035388235508208576,0.0,tie
+arxiv,2000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.733,4.2265,1.4934999999999996,dire_auto
+arxiv,2000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.1205,0.5025,0.38199999999999995,dire_auto
 arxiv,2000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.02467084303498268,0.022107288241386414,-0.0025635547935962677,cuml_umap
-arxiv,2000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.7435,2.7535,0.009999999999999787,dire_auto
-arxiv,2000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.098,0.1975,0.0995,dire_auto
+arxiv,2000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.022107288241386414,0.022107288241386414,0.0,tie
+arxiv,2000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,2.7235,2.7535,0.029999999999999805,dire_auto
+arxiv,2000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.1215,0.1975,0.07600000000000001,dire_auto
 arxiv,2000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.46193402700481456,0.37765561301304623,-0.08427841399176833,cuml_umap
-arxiv,2000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.029912854468108874,0.04505831154551479,0.015145457077405916,dire_auto
-arxiv,4000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,3.58125,5.55875,1.9775,dire_auto
-arxiv,4000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.138,0.34175,0.20375,dire_auto
+arxiv,2000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.027563620749308293,0.04505831154551479,0.017494690796206497,dire_auto
+arxiv,4000,dtw_beta0,dire_auto,cuml_umap,cuML UMAP,3.7585,5.55875,1.8002499999999997,dire_auto
+arxiv,4000,dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.1445,0.34175,0.19725,dire_auto
 arxiv,4000,bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.35578441619873047,0.35578441619873047,0.0,tie
 arxiv,4000,bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,3.65475,3.68675,0.03200000000000003,dire_auto
-arxiv,4000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.1425,0.15875,0.016250000000000014,dire_auto
+arxiv,4000,q99_dtw_beta0,dire_auto,cuml_umap,cuML UMAP,3.73875,3.68675,-0.052000000000000046,cuml_umap
+arxiv,4000,q99_dtw_beta1,dire_auto,cuml_umap,cuML UMAP,0.13875,0.15875,0.01999999999999999,dire_auto
 arxiv,4000,q99_bottleneck_beta0,dire_auto,cuml_umap,cuML UMAP,0.4469823316290332,0.4469823316290332,0.0,tie
 arxiv,4000,q99_bottleneck_beta1,dire_auto,cuml_umap,cuML UMAP,0.029651723088428505,0.04110181122488084,0.011450088136452333,dire_auto
-arxiv,1000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.157,2.218,0.06099999999999994,dire_auto
-arxiv,1000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.47,0.47,0.0,tie
+arxiv,1000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.196,2.217,0.020999999999999908,dire_auto
+arxiv,1000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.409,0.49,0.08100000000000002,dire_auto
 arxiv,1000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.3852379024028778,0.3852379024028778,0.0,tie
-arxiv,1000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.03919438272714615,0.029324322938919067,-0.009870059788227081,dire
-arxiv,1000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.157,2.181,0.02400000000000002,dire_auto
-arxiv,1000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.469,0.48,0.01100000000000001,dire_auto
+arxiv,1000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.029324322938919067,0.029324322938919067,0.0,tie
+arxiv,1000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.135,2.177,0.04200000000000026,dire_auto
+arxiv,1000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.447,0.496,0.04899999999999999,dire_auto
 arxiv,1000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.46490040521371445,0.46490040521371445,0.0,tie
-arxiv,1000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.047310283535747844,0.035388235508208576,-0.011922048027539267,dire
-arxiv,2000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.6885,2.7775,0.08899999999999997,dire_auto
-arxiv,2000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.0965,0.126,0.0295,dire_auto
+arxiv,1000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.035388235508208576,0.035388235508208576,0.0,tie
+arxiv,2000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.733,2.77,0.03699999999999992,dire_auto
+arxiv,2000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.1205,0.1195,-0.0010000000000000009,dire
 arxiv,2000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.02467084303498268,0.022107288241386414,-0.0025635547935962677,dire
-arxiv,2000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.7435,2.7795,0.03600000000000003,dire_auto
-arxiv,2000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.098,0.1305,0.0325,dire_auto
+arxiv,2000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.022107288241386414,0.022107288241386414,0.0,tie
+arxiv,2000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),2.7235,2.7875,0.06400000000000006,dire_auto
+arxiv,2000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.1215,0.1305,0.009000000000000008,dire_auto
 arxiv,2000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.46193402700481456,0.46193402700481456,0.0,tie
-arxiv,2000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.029912854468108874,0.027563620749308293,-0.0023492337188005807,dire
-arxiv,4000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),3.58125,3.7955,0.21425000000000027,dire_auto
-arxiv,4000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.138,0.1255,-0.012500000000000011,dire
+arxiv,2000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.027563620749308293,0.027563620749308293,0.0,tie
+arxiv,4000,dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),3.7585,3.77775,0.01924999999999999,dire_auto
+arxiv,4000,dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.1445,0.12075,-0.023749999999999993,dire
 arxiv,4000,bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.35578441619873047,0.35578441619873047,0.0,tie
 arxiv,4000,bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),3.65475,3.8325,0.17775000000000007,dire_auto
-arxiv,4000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.1425,0.12075,-0.02174999999999999,dire
+arxiv,4000,q99_dtw_beta0,dire_auto,dire,DiRe (IVF-Flat control),3.73875,3.806,0.06725000000000003,dire_auto
+arxiv,4000,q99_dtw_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.13875,0.126,-0.012750000000000011,dire
 arxiv,4000,q99_bottleneck_beta0,dire_auto,dire,DiRe (IVF-Flat control),0.4469823316290332,0.4469823316290332,0.0,tie
 arxiv,4000,q99_bottleneck_beta1,dire_auto,dire,DiRe (IVF-Flat control),0.029651723088428505,0.029651723088428505,0.0,tie
-arxiv,1000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.157,2.469,0.31199999999999983,dire_auto
-arxiv,1000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.47,0.475,0.0050000000000000044,dire_auto
+arxiv,1000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.196,3.56,1.3639999999999999,dire_auto
+arxiv,1000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.409,0.144,-0.265,dire_spectral
 arxiv,1000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.3852379024028778,0.3852379024028778,0.0,tie
-arxiv,1000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.03919438272714615,0.029324322938919067,-0.009870059788227081,dire_spectral
-arxiv,1000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.157,1.865,-0.29200000000000004,dire_spectral
-arxiv,1000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.469,0.117,-0.352,dire_spectral
+arxiv,1000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.029324322938919067,0.029324322938919067,0.0,tie
+arxiv,1000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.135,2.057,-0.07799999999999985,dire_spectral
+arxiv,1000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.447,0.487,0.03999999999999998,dire_auto
 arxiv,1000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.46490040521371445,0.4554114505904979,-0.009488954623216528,dire_spectral
-arxiv,1000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.047310283535747844,0.035388235508208576,-0.011922048027539267,dire_spectral
-arxiv,2000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.6885,3.278,0.5895000000000001,dire_auto
-arxiv,2000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.0965,0.095,-0.0015000000000000013,dire_spectral
+arxiv,1000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.035388235508208576,0.035388235508208576,0.0,tie
+arxiv,2000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.733,4.6155,1.8824999999999998,dire_auto
+arxiv,2000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.1205,0.5075,0.38699999999999996,dire_auto
 arxiv,2000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.02467084303498268,0.022107288241386414,-0.0025635547935962677,dire_spectral
-arxiv,2000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.7435,2.5475,-0.19600000000000017,dire_spectral
-arxiv,2000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.098,0.459,0.361,dire_auto
+arxiv,2000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.022107288241386414,0.022107288241386414,0.0,tie
+arxiv,2000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),2.7235,2.6415,-0.08199999999999985,dire_spectral
+arxiv,2000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.1215,0.1075,-0.013999999999999999,dire_spectral
 arxiv,2000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.46193402700481456,0.44968612168814054,-0.012247905316674024,dire_spectral
-arxiv,2000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.029912854468108874,0.028005082562167036,-0.001907771905941838,dire_spectral
-arxiv,4000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),3.58125,4.39875,0.8174999999999999,dire_auto
-arxiv,4000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.138,0.50875,0.37075,dire_auto
+arxiv,2000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.027563620749308293,0.04146289528137034,0.01389927453206205,dire_auto
+arxiv,4000,dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),3.7585,5.70425,1.9457499999999999,dire_auto
+arxiv,4000,dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.1445,0.163,0.018500000000000016,dire_auto
 arxiv,4000,bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.35578441619873047,0.35578441619873047,0.0,tie
 arxiv,4000,bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),3.65475,3.4465,-0.20825000000000005,dire_spectral
-arxiv,4000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.1425,0.1,-0.04249999999999998,dire_spectral
-arxiv,4000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.4469823316290332,0.4314712059115055,-0.015511125717527718,dire_spectral
-arxiv,4000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.029651723088428505,0.029651723088428505,0.0,tie
-arxiv,1000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),2.157,2.245,0.08800000000000008,dire_auto
-arxiv,1000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.47,0.11,-0.36,dire_topology
-arxiv,1000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.3852379024028778,0.3852379024028778,0.0,tie
-arxiv,1000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.03919438272714615,0.029324322938919067,-0.009870059788227081,dire_topology
-arxiv,1000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),2.157,1.865,-0.29200000000000004,dire_topology
-arxiv,1000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.469,0.101,-0.368,dire_topology
-arxiv,1000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.46490040521371445,0.46490040521371445,0.0,tie
-arxiv,1000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.047310283535747844,0.0355267554161508,-0.011783528119597042,dire_topology
-arxiv,2000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),2.6885,2.985,0.2965,dire_auto
-arxiv,2000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.0965,0.1245,0.027999999999999997,dire_auto
-arxiv,2000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.02467084303498268,0.022107288241386414,-0.0025635547935962677,dire_topology
-arxiv,2000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),2.7435,2.659,-0.08450000000000024,dire_topology
-arxiv,2000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.098,0.4345,0.3365,dire_auto
-arxiv,2000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.46193402700481456,0.46193402700481456,0.0,tie
-arxiv,2000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.029912854468108874,0.029462256520486334,-0.00045059794762253996,dire_topology
-arxiv,4000,dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),3.58125,3.994,0.4127500000000004,dire_auto
-arxiv,4000,dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.138,0.10225,-0.03575000000000002,dire_topology
-arxiv,4000,bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.35578441619873047,0.35578441619873047,0.0,tie
-arxiv,4000,bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,dire_topology,DiRe (topology preset),3.65475,3.61925,-0.035499999999999865,dire_topology
-arxiv,4000,q99_dtw_beta1,dire_auto,dire_topology,DiRe (topology preset),0.1425,0.10775,-0.03474999999999999,dire_topology
-arxiv,4000,q99_bottleneck_beta0,dire_auto,dire_topology,DiRe (topology preset),0.4469823316290332,0.4469823316290332,0.0,tie
-arxiv,4000,q99_bottleneck_beta1,dire_auto,dire_topology,DiRe (topology preset),0.029651723088428505,0.029651723088428505,0.0,tie
-arxiv,1000,dtw_beta0,dire_auto,pca2,PCA (2D),2.157,1.932,-0.2250000000000001,pca2
-arxiv,1000,dtw_beta1,dire_auto,pca2,PCA (2D),0.47,0.528,0.05800000000000005,dire_auto
+arxiv,4000,q99_dtw_beta0,dire_auto,dire_spectral,DiRe (spectral init),3.73875,3.82,0.08124999999999982,dire_auto
+arxiv,4000,q99_dtw_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.13875,0.11325,-0.02550000000000001,dire_spectral
+arxiv,4000,q99_bottleneck_beta0,dire_auto,dire_spectral,DiRe (spectral init),0.4469823316290332,0.3849305651028351,-0.06205176652619815,dire_spectral
+arxiv,4000,q99_bottleneck_beta1,dire_auto,dire_spectral,DiRe (spectral init),0.029651723088428505,0.03595284397593229,0.006301120887503786,dire_auto
+arxiv,1000,dtw_beta0,dire_auto,pca2,PCA (2D),2.196,1.932,-0.26400000000000023,pca2
+arxiv,1000,dtw_beta1,dire_auto,pca2,PCA (2D),0.409,0.528,0.11900000000000005,dire_auto
 arxiv,1000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.3852379024028778,0.3852379024028778,0.0,tie
-arxiv,1000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.03919438272714615,0.029324322938919067,-0.009870059788227081,pca2
-arxiv,1000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),2.157,1.78,-0.377,pca2
-arxiv,1000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.469,0.522,0.05300000000000005,dire_auto
+arxiv,1000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.029324322938919067,0.029324322938919067,0.0,tie
+arxiv,1000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),2.135,1.78,-0.35499999999999976,pca2
+arxiv,1000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.447,0.522,0.07500000000000001,dire_auto
 arxiv,1000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),0.46490040521371445,0.46490040521371445,0.0,tie
-arxiv,1000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.047310283535747844,0.035388235508208576,-0.011922048027539267,pca2
-arxiv,2000,dtw_beta0,dire_auto,pca2,PCA (2D),2.6885,2.5,-0.1884999999999999,pca2
-arxiv,2000,dtw_beta1,dire_auto,pca2,PCA (2D),0.0965,0.1735,0.07699999999999999,dire_auto
+arxiv,1000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.035388235508208576,0.035388235508208576,0.0,tie
+arxiv,2000,dtw_beta0,dire_auto,pca2,PCA (2D),2.733,2.5,-0.2330000000000001,pca2
+arxiv,2000,dtw_beta1,dire_auto,pca2,PCA (2D),0.1205,0.1735,0.05299999999999999,dire_auto
 arxiv,2000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.37049227952957153,0.37049227952957153,0.0,tie
-arxiv,2000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.02467084303498268,0.022107288241386414,-0.0025635547935962677,pca2
-arxiv,2000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),2.7435,2.279,-0.46450000000000014,pca2
-arxiv,2000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.098,0.478,0.38,dire_auto
+arxiv,2000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.022107288241386414,0.022107288241386414,0.0,tie
+arxiv,2000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),2.7235,2.279,-0.4445000000000001,pca2
+arxiv,2000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.1215,0.478,0.3565,dire_auto
 arxiv,2000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),0.46193402700481456,0.46193402700481456,0.0,tie
-arxiv,2000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.029912854468108874,0.027563620749308293,-0.0023492337188005807,pca2
-arxiv,4000,dtw_beta0,dire_auto,pca2,PCA (2D),3.58125,3.3295,-0.2517499999999999,pca2
-arxiv,4000,dtw_beta1,dire_auto,pca2,PCA (2D),0.138,0.124,-0.014000000000000012,pca2
+arxiv,2000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.027563620749308293,0.027563620749308293,0.0,tie
+arxiv,4000,dtw_beta0,dire_auto,pca2,PCA (2D),3.7585,3.3295,-0.42900000000000027,pca2
+arxiv,4000,dtw_beta1,dire_auto,pca2,PCA (2D),0.1445,0.124,-0.02049999999999999,pca2
 arxiv,4000,bottleneck_beta0,dire_auto,pca2,PCA (2D),0.35578441619873047,0.35578441619873047,0.0,tie
 arxiv,4000,bottleneck_beta1,dire_auto,pca2,PCA (2D),0.023601874709129333,0.023601874709129333,0.0,tie
-arxiv,4000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),3.65475,3.0295,-0.6252499999999999,pca2
-arxiv,4000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.1425,0.142,-0.0005000000000000004,pca2
+arxiv,4000,q99_dtw_beta0,dire_auto,pca2,PCA (2D),3.73875,3.0295,-0.7092499999999999,pca2
+arxiv,4000,q99_dtw_beta1,dire_auto,pca2,PCA (2D),0.13875,0.142,0.003249999999999975,dire_auto
 arxiv,4000,q99_bottleneck_beta0,dire_auto,pca2,PCA (2D),0.4469823316290332,0.4469823316290332,0.0,tie
 arxiv,4000,q99_bottleneck_beta1,dire_auto,pca2,PCA (2D),0.029651723088428505,0.029651723088428505,0.0,tie

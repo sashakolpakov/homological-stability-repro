@@ -73,8 +73,7 @@ request in that report seriously. The revision is extensive:
   subsets shared by the input and every embedding, and includes a separately
   labelled robust-scale sensitivity calculation. DiRe's default
   \texttt{init="pca"} pathway is shown
-  alongside a one-factor spectral-initialisation control and the
-  source-predeclared topology preset; neither sensitivity variant is
+  alongside a one-factor spectral-initialisation control, which is not
   substituted for the default. The manuscript now states the backend dispatch:
   the H100 cuVS path uses cuML PCA at most 100 input features and cuML
   TruncatedSVD above 100.
@@ -379,11 +378,8 @@ We also separate two sources of variability that the earlier presentation
 merged too easily: \TopologySubsetCount{} independently seeded, fixed topology
 row--index subsets are evaluated on the canonical layout, while three
 independently seeded full layouts are evaluated on one fixed row--index subset.
-Production-policy DiRe, its forced-IVF--Flat and spectral-only controls, the predeclared
-topology preset, UMAP, and tSNE all follow this same seed protocol.
-The preset is not a post hoc parameter search on either new dataset: it was
-\href{https://github.com/sashakolpakov/dire-rapids/blob/9117dc45a3e130fa1d636dfd181f3e97960c5b3b/dire_rapids/presets.py}
-{committed to the DiRe source on 23 April 2026}, before these experiments.
+Production-policy DiRe, its forced-IVF--Flat and spectral-only controls, UMAP,
+and tSNE all follow this same seed protocol.
 
 The six--dataset reference suite is now rerun with one consistent topology
 protocol rather than silently changing evaluators between figures. For every
@@ -393,9 +389,8 @@ over an independently seeded, fixed $m=1000$ row--index subset. Each record
 must identify \texttt{backend="atlas"}, the direct atlas implementation, and
 \texttt{prefer\_ripser=False}; a wrapper's Ripser preference cannot silently
 change this protocol. The corresponding method runs use identical indices.
-Default DiRe and the predeclared topology preset are both reported; neither
-replaces the other. The generated table gives the mean, sample standard
-deviation, and minimum:
+Default DiRe is the fixed comparator. The generated table gives the mean,
+sample standard deviation, and minimum:
 
 \begin{center}
 \resizebox{\textwidth}{!}{%
@@ -661,12 +656,10 @@ the predeclared three--centroid result. The audited one--factor controls further
 show that this global relation is sensitive to initialization and configuration
 rather than caused by a broken edge calculation: spectral--initialised DiRe
 preserves \TenxDireSpectralAdjacencyPreserved{} of 60 relationships with
-source--cell--weighted recall \TenxDireSpectralAdjacencyCellWeighted{}, and the
-predeclared topology preset preserves
-\TenxDireTopologyAdjacencyPreserved{} with weighted recall
-\TenxDireTopologyAdjacencyCellWeighted{}. UMAP remains the leader on the
-predeclared equal--cluster score; we do not substitute either control for
-default DiRe. At the same time, DiRe retains interpretable input
+source--cell--weighted recall \TenxDireSpectralAdjacencyCellWeighted{}.
+UMAP remains the leader on the predeclared equal--cluster score; we do not
+substitute the control for default DiRe. At the same time, DiRe retains
+interpretable input
 relations including clusters 9$\leftrightarrow$10 (cell--cycle marker
 profiles), 20$\rightarrow$19 (both containing \textit{S100a8}),
 13$\rightarrow$15 (\textit{Cldn5}/\textit{Flt1} to

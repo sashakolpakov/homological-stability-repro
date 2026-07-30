@@ -195,7 +195,6 @@ def include_topology_sensitivity_results(
             "dire_auto",
             "dire",
             "dire_spectral",
-            "dire_topology",
             "cuml_umap",
             "cuml_tsne",
         ):

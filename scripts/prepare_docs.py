@@ -15,7 +15,6 @@ from pathlib import Path
 DATASETS = ("blobs", "mnist", "disk", "moons", "levine13", "levine32")
 METHOD_SUFFIXES = (
     "dire-rapids",
-    "dire-topology",
     "tsne",
     "cuml-umap",
     "umap",
@@ -37,8 +36,8 @@ REVISION3_FIGURES = (
     ),
     ("revision3-large-quality.png", "Large-data fidelity summary"),
     (
-        "revision3-dire-topology-sensitivity-layouts.png",
-        "DiRe default, spectral-only, and predeclared topology-preset layouts",
+        "revision3-dire-control-layouts.png",
+        "DiRe production, backend-control, and spectral-control layouts",
     ),
     (
         "revision3-topology-subset-size-sensitivity.png",
@@ -157,9 +156,8 @@ def write_revision3_page(path: Path, generated_root: Path) -> None:
         "directly on every fit over a paired fixed 1,000-row index subset. "
         "Every record must identify the atlas backend, the direct evaluator, "
         "and prefer_ripser=False, so a wrapper preference cannot silently "
-        "change the protocol. Default DiRe and the source-distributed topology "
-        "preset are both retained. Raw means, sample standard deviations, "
-        "minima, and every paired gap are reported.",
+        "change the protocol. Default DiRe is the fixed comparator. Raw means, "
+        "sample standard deviations, minima, and every paired gap are reported.",
         "",
         "Production DiRe uses the package's automatic cuVS index policy. A "
         "separately named forced-IVF-Flat control records synchronized graph, "
@@ -263,7 +261,7 @@ def write_revision3_page(path: Path, generated_root: Path) -> None:
                 row
                 for row in csv.DictReader(handle)
                 if row["method"]
-                in ("dire", "dire_topology", "cuml_umap", "cuml_tsne")
+                in ("dire", "cuml_umap", "cuml_tsne")
             ]
         small_effect_path = (
             generated_root
@@ -507,7 +505,6 @@ def write_revision3_page(path: Path, generated_root: Path) -> None:
         by_method = {row["method"]: row for row in adjacency_rows}
         dire_row = by_method["dire_auto"]
         dire_spectral_row = by_method["dire_spectral"]
-        dire_topology_row = by_method["dire_topology"]
         umap_row = by_method["cuml_umap"]
         sensitivity_path = (
             generated_root / "revision3-tenx-adjacency-sensitivity.csv"
@@ -632,13 +629,9 @@ def write_revision3_page(path: Path, generated_root: Path) -> None:
                     "sensitivity: spectral-initialised DiRe preserves "
                     f"{dire_spectral_row['preserved_directed_edges']}/60 "
                     "relations with source-cell-weighted recall "
-                    f"{float(dire_spectral_row['source_cell_weighted_recall']):.3f}, "
-                    "and the predeclared topology preset preserves "
-                    f"{dire_topology_row['preserved_directed_edges']}/60 with "
-                    "weighted recall "
-                    f"{float(dire_topology_row['source_cell_weighted_recall']):.3f}. "
+                    f"{float(dire_spectral_row['source_cell_weighted_recall']):.3f}. "
                     "UMAP remains the leader in the predeclared equal-cluster "
-                    "comparison; neither DiRe control replaces the production "
+                    "comparison; the spectral control does not replace the production "
                     "row."
                 ),
                 "",
@@ -729,7 +722,7 @@ def write_revision3_page(path: Path, generated_root: Path) -> None:
                 ),
                 (
                     "nonlinear_gpu_with_sensitivity",
-                    "Same-GPU nonlinear methods including the predeclared DiRe sensitivity preset",
+                    "Same-GPU nonlinear methods including DiRe controls",
                 ),
             ):
                 lines.extend([group_display, "^" * len(group_display), ""])
