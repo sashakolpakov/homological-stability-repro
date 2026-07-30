@@ -158,8 +158,9 @@ That one command builds the pinned container, prepares both datasets, runs
 nested fixed-seed scaling sweeps through 1,306,127 cells and 723,457 papers,
 records cold/steady runtime and peak incremental device-memory use sampled
 through NVML, runs shared-row-subset
-local/global/context/topology evaluation, runs the spectral-only and
-predeclared DiRe topology sensitivities at 100,000 and full scale, audits
+local/global/context/topology evaluation, and repeats the nonlinear methods at
+100,000 observations and full scale for a separately labelled sensitivity
+audit that includes a one-factor spectral-initialization control. It then audits
 production auto cuVS against the forced IVF-Flat control with fixed-query graph
 overlap and synchronized stage timings, runs the
 CPU-reference small suite, runs PCA-versus-spectral initialization ablations,
