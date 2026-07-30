@@ -35,26 +35,38 @@ METHODS = (
     "dire_auto",
     "dire",
     "dire_ivf_flat_control",
+    "dire_index_search",
+    "dire_all_neighbors",
     "dire_spectral",
     "cuml_umap",
     "cuml_tsne",
     "pca2",
 )
 DEFAULT_METHODS = tuple(
-    method for method in METHODS if method != "dire_ivf_flat_control"
+    method
+    for method in METHODS
+    if method
+    not in (
+        "dire_ivf_flat_control",
+        "dire_index_search",
+        "dire_all_neighbors",
+    )
 )
+CUVS_KNN_AB_METHODS = ("dire_index_search", "dire_all_neighbors")
 DISPLAY = {
     "dire_auto": "DiRe-RAPIDS (production auto policy)",
     "dire": "DiRe-RAPIDS (forced IVF-Flat control)",
     "dire_ivf_flat_control": "DiRe-RAPIDS (fresh IVF-Flat policy control)",
+    "dire_index_search": "DiRe-RAPIDS (explicit cuVS index-search)",
+    "dire_all_neighbors": "DiRe-RAPIDS (cuVS all-neighbors NN-descent)",
     "dire_spectral": "DiRe-RAPIDS (spectral-init sensitivity)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
     "pca2": "cuML PCA (2D reference)",
 }
-EXPECTED_DIRE_COMMIT = "293b622cc79fa8ea6fd5b54009e0930e3385b22f"
-EXPECTED_DIRE_REF = "refs/heads/main"
-DIRE_REF_RESOLVED_UTC = "2026-07-28"
+EXPECTED_DIRE_COMMIT = "f3a6161815b5526aeea4408729654008ee68a4cc"
+EXPECTED_DIRE_REF = "refs/pull/12/head"
+DIRE_REF_RESOLVED_UTC = "2026-07-31"
 
 DATASET_FILES = {
     "tenx": {
@@ -328,18 +340,37 @@ def build_reducer(method: str, seed: int, n_neighbors: int, dire_iterations: int
         "dire_auto",
         "dire",
         "dire_ivf_flat_control",
+        "dire_index_search",
+        "dire_all_neighbors",
         "dire_spectral",
     ):
         # Importing dire_rapids loads RAPIDS before torch to avoid shared-library
         # ordering problems documented by the package.
         from dire_rapids import create_dire
 
+        if method == "dire_index_search":
+            graph_parameters = {
+                "cuvs_knn_method": "index_search",
+                "cuvs_index_type": "auto",
+            }
+        elif method == "dire_all_neighbors":
+            graph_parameters = {
+                "cuvs_knn_method": "all_neighbors",
+                "cuvs_index_type": "auto",
+                "all_neighbors_algo": "nn_descent",
+                "all_neighbors_n_clusters": 1,
+                "all_neighbors_overlap_factor": 0,
+            }
+        else:
+            graph_parameters = {
+                "cuvs_index_type": (
+                    "auto" if method == "dire_auto" else "ivf_flat"
+                ),
+            }
         common = {
             "backend": "cuvs",
             "knn_backend": "cuvs",
-            "cuvs_index_type": (
-                "auto" if method == "dire_auto" else "ivf_flat"
-            ),
+            **graph_parameters,
             "n_components": 2,
             "random_state": seed,
             "normalize": False,
@@ -395,7 +426,11 @@ def reducer_diagnostics(reducer) -> dict:
         "_last_knn_reducer",
         "_last_knn_chunk_size",
         "_last_knn_distance_strategy",
+        "cuvs_knn_method",
         "cuvs_index_type",
+        "all_neighbors_algo",
+        "all_neighbors_n_clusters",
+        "all_neighbors_overlap_factor",
         "n_neighbors",
         "neg_ratio",
         "max_iter_layout",
@@ -408,13 +443,11 @@ def reducer_diagnostics(reducer) -> dict:
 
 
 def instrument_dire_reducer(reducer) -> dict:
-    """Instrument one DiRe instance without changing its numerical work.
+    """Compatibility instrumentation for DiRe revisions without diagnostics.
 
-    The upstream library issue tracking public diagnostics is
-    https://github.com/sashakolpakov/dire-rapids/issues/13.  Until that is
-    resolved independently, this benchmark records synchronized timings around
-    the existing private stage boundaries and observes the index type passed to
-    the existing cuVS search call.
+    The pinned A/B candidate exposes public synchronized timings and effective
+    graph-policy diagnostics. This private wrapper is retained only so the
+    historical profiles remain readable with older installed revisions.
     """
 
     state = {
@@ -478,9 +511,43 @@ def instrument_dire_reducer(reducer) -> dict:
 
 def dire_runtime_diagnostics(reducer, instrumentation: dict | None) -> dict:
     diagnostics = reducer_diagnostics(reducer)
+    get_diagnostics = getattr(reducer, "get_diagnostics", None)
+    if callable(get_diagnostics):
+        public = json_ready(get_diagnostics())
+        diagnostics["public_diagnostics"] = public
+        if isinstance(public, dict):
+            stage_timings = public.get("stage_timings_seconds")
+            if isinstance(stage_timings, dict):
+                diagnostics["stage_timings_sec"] = {
+                    "knn_graph": stage_timings.get("graph_construction"),
+                    "initialization": stage_timings.get("initialization"),
+                    "layout": stage_timings.get("layout"),
+                    "total": stage_timings.get("total"),
+                }
+            diagnostics["chunked_force_fallback_calls"] = int(
+                public.get("force_chunked_fallback_calls", 0)
+            )
+            diagnostics["chunked_force_fallback_used"] = bool(
+                public.get("force_chunked_fallback_used", False)
+            )
+            cuvs = public.get("cuvs")
+            if isinstance(cuvs, dict):
+                diagnostics["requested_cuvs_knn_method"] = cuvs.get(
+                    "requested_knn_method"
+                )
+                diagnostics["effective_cuvs_knn_method"] = cuvs.get(
+                    "effective_knn_method"
+                )
+                diagnostics["effective_cuvs_index_type"] = cuvs.get(
+                    "effective_index_type"
+                )
+                diagnostics["effective_all_neighbors_algo"] = cuvs.get(
+                    "effective_all_neighbors_algo"
+                )
     if instrumentation is None:
         return diagnostics
-    diagnostics.update(instrumentation)
+    for key, value in instrumentation.items():
+        diagnostics.setdefault(key, value)
     try:
         from dire_rapids import dire_pytorch
 
@@ -556,6 +623,23 @@ def worker_main(args) -> int:
                 "https://github.com/sashakolpakov/dire-rapids/issues/13"
             ),
         }
+    if args.method in CUVS_KNN_AB_METHODS:
+        payload["configuration_origin"] = {
+            "name": "explicit cuVS graph-construction A/B",
+            "comparison_method": (
+                "dire_all_neighbors"
+                if args.method == "dire_index_search"
+                else "dire_index_search"
+            ),
+            "isolation_policy": (
+                "Only the cuVS graph-construction method changes. Both arms "
+                "use identical rows, PCA initialization, layout parameters, "
+                "seeds, and repeat counts. The all-neighbors arm uses in-core "
+                "single-cluster NN-descent so partitioning is not a second "
+                "experimental factor."
+            ),
+            "dire_commit": EXPECTED_DIRE_COMMIT,
+        }
     if args.method == "dire_spectral":
         payload["configuration_origin"] = {
             "name": "one-factor spectral-initialization sensitivity",
@@ -590,7 +674,10 @@ def worker_main(args) -> int:
             )
             instrumentation = (
                 instrument_dire_reducer(reducer)
-                if args.method.startswith("dire")
+                if (
+                    args.method.startswith("dire")
+                    and not callable(getattr(reducer, "get_diagnostics", None))
+                )
                 else None
             )
             monitor = NVMLMonitor(
@@ -635,7 +722,8 @@ def worker_main(args) -> int:
             )
             if (
                 repeat == 0
-                and args.method in ("dire_auto", "dire_ivf_flat_control")
+                and args.method
+                in ("dire_auto", "dire_ivf_flat_control", *CUVS_KNN_AB_METHODS)
                 and hasattr(reducer, "_knn_indices")
             ):
                 graph = np.asarray(reducer._knn_indices)
@@ -662,12 +750,20 @@ def worker_main(args) -> int:
                 neighbor_name = "knn_audit_neighbor_indices.npy"
                 np.save(output_dir / query_name, query_indices)
                 np.save(output_dir / neighbor_name, sampled_graph)
-                knn_audit = {
-                    "policy": (
+                if args.method in CUVS_KNN_AB_METHODS:
+                    audit_policy = (
+                        "Fixed-seed uniform query rows shared by explicit "
+                        "index-search and all-neighbors arms; neighbor "
+                        "identifiers refer to the identical worker input ordering."
+                    )
+                else:
+                    audit_policy = (
                         "Fixed-seed uniform query rows shared by production "
                         "auto and forced IVF-Flat; neighbor identifiers refer "
                         "to the identical worker input ordering."
-                    ),
+                    )
+                knn_audit = {
+                    "policy": audit_policy,
                     "sample_size": int(audit_size),
                     "seed": int(audit_seed),
                     "k": int(sampled_graph.shape[1]),
@@ -955,8 +1051,12 @@ def run_parent(args) -> int:
                     size,
                     args.save_repeat_embeddings,
                     (
-                        method in ("dire_auto", "dire_ivf_flat_control")
-                        and size == full_size
+                        method in CUVS_KNN_AB_METHODS
+                        or (
+                            method
+                            in ("dire_auto", "dire_ivf_flat_control")
+                            and size == full_size
+                        )
                     ),
                 ):
                     print(

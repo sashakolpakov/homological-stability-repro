@@ -49,6 +49,8 @@ TOPOLOGY_METRIC_KEYS = (
 TOPOLOGY_SEED_METHODS = (
     "dire_auto",
     "dire",
+    "dire_index_search",
+    "dire_all_neighbors",
     "dire_spectral",
     "cuml_umap",
     "cuml_tsne",
@@ -56,6 +58,8 @@ TOPOLOGY_SEED_METHODS = (
 METHOD_DISPLAY = {
     "dire_auto": "DiRe-RAPIDS (production auto policy)",
     "dire": "DiRe-RAPIDS (forced IVF-Flat control)",
+    "dire_index_search": "DiRe-RAPIDS (explicit cuVS index-search)",
+    "dire_all_neighbors": "DiRe-RAPIDS (cuVS all-neighbors NN-descent)",
     "dire_spectral": "DiRe-RAPIDS (spectral-init sensitivity)",
     "cuml_umap": "cuML UMAP",
     "cuml_tsne": "cuML t-SNE",
@@ -763,6 +767,7 @@ def discover_full_layouts(
     dataset: str,
     large_results_root: Path,
     topology_sensitivity_results_root: Path,
+    cuvs_knn_ab_results_root: Path,
     prepared_root: Path,
 ) -> tuple[dict[str, np.ndarray], dict[str, dict]]:
     full_size = PREPARED[dataset]["full_size"]
@@ -775,6 +780,8 @@ def discover_full_layouts(
         "cuml_tsne": large_results_root,
         "pca2": large_results_root,
         "dire_spectral": topology_sensitivity_results_root,
+        "dire_index_search": cuvs_knn_ab_results_root,
+        "dire_all_neighbors": cuvs_knn_ab_results_root,
     }
     for method, results_root in roots.items():
         base = (
@@ -823,12 +830,18 @@ def discover_full_layouts(
 def discover_topology_seed_layouts(
     dataset: str,
     topology_sensitivity_results_root: Path,
+    cuvs_knn_ab_results_root: Path,
 ) -> dict[str, list[dict]]:
     full_size = PREPARED[dataset]["full_size"]
     layouts: dict[str, list[dict]] = {}
     for method in TOPOLOGY_SEED_METHODS:
+        results_root = (
+            cuvs_knn_ab_results_root
+            if method in ("dire_index_search", "dire_all_neighbors")
+            else topology_sensitivity_results_root
+        )
         run_root = (
-            topology_sensitivity_results_root
+            results_root
             / dataset
             / method
             / f"n_{full_size:09d}"
@@ -995,6 +1008,172 @@ def quality_gate_comparison(
     return comparisons
 
 
+def cuvs_knn_quality_comparison(
+    index_search: dict,
+    all_neighbors: dict,
+) -> dict:
+    """Compare every predeclared quality metric with unambiguous arm names."""
+    legacy = quality_gate_comparison(index_search, all_neighbors)
+    comparisons = {}
+    for key, record in legacy.items():
+        index_value = record["production_auto"]
+        all_value = record["forced_ivf_flat"]
+        difference = all_value - index_value
+        comparisons[key] = {
+            "direction": record["direction"],
+            "index_search": index_value,
+            "all_neighbors": all_value,
+            "all_neighbors_minus_index_search": difference,
+            "relative_all_neighbors_minus_index_search": (
+                difference / abs(index_value)
+                if index_value != 0
+                else None
+            ),
+        }
+    return comparisons
+
+
+def build_cuvs_knn_ab_audit(
+    dataset: str,
+    full_size: int,
+    results_root: Path,
+    methods: dict[str, dict],
+) -> dict | None:
+    """Build the explicit index-search versus all-neighbors audit record."""
+    arm_names = ("dire_index_search", "dire_all_neighbors")
+    if any(name not in methods for name in arm_names):
+        return None
+    index_result, index_query, index_graph = load_knn_graph_audit(
+        results_root,
+        dataset,
+        arm_names[0],
+        full_size,
+    )
+    all_result, all_query, all_graph = load_knn_graph_audit(
+        results_root,
+        dataset,
+        arm_names[1],
+        full_size,
+    )
+    if not np.array_equal(index_query, all_query):
+        raise RuntimeError(
+            f"{dataset} cuVS k-NN A/B graph-audit queries are not identical"
+        )
+
+    index_seeds = [
+        int(record["seed"]) for record in index_result.get("records", [])
+    ]
+    all_seeds = [
+        int(record["seed"]) for record in all_result.get("records", [])
+    ]
+    if index_seeds != all_seeds:
+        raise RuntimeError(
+            f"{dataset} cuVS k-NN A/B repeat seeds are not identical"
+        )
+
+    graph_parameter_names = {
+        "cuvs_knn_method",
+        "all_neighbors_algo",
+        "all_neighbors_n_clusters",
+        "all_neighbors_overlap_factor",
+        "all_neighbors_device_ids",
+        "all_neighbors_algo_params",
+    }
+
+    def invariant_parameters(result: dict) -> dict:
+        return {
+            key: value
+            for key, value in result.get("method_parameters", {}).items()
+            if key not in graph_parameter_names
+        }
+
+    index_invariants = invariant_parameters(index_result)
+    all_invariants = invariant_parameters(all_result)
+    if index_invariants != all_invariants:
+        raise RuntimeError(
+            f"{dataset} cuVS k-NN A/B changed non-graph parameters: "
+            f"{index_invariants!r} != {all_invariants!r}"
+        )
+
+    def arm_record(result: dict) -> dict:
+        diagnostics = [
+            record.get("reducer_diagnostics", {})
+            for record in result.get("records", [])
+        ]
+        parameters = result.get("method_parameters", {})
+        return {
+            "requested_cuvs_knn_method": parameters.get("cuvs_knn_method"),
+            "requested_cuvs_index_type": parameters.get("cuvs_index_type"),
+            "requested_all_neighbors_algo": parameters.get(
+                "all_neighbors_algo"
+            ),
+            "requested_all_neighbors_n_clusters": parameters.get(
+                "all_neighbors_n_clusters"
+            ),
+            "effective_cuvs_knn_methods": [
+                item.get("effective_cuvs_knn_method")
+                for item in diagnostics
+            ],
+            "effective_cuvs_index_types": [
+                item.get("effective_cuvs_index_type")
+                for item in diagnostics
+            ],
+            "effective_all_neighbors_algos": [
+                item.get("effective_all_neighbors_algo")
+                for item in diagnostics
+            ],
+            "cold_total_sec": result["timing"]["cold_start_sec"],
+            "steady_total_mean_sec": result["timing"]["steady_mean_sec"],
+            "steady_total_std_sec": result["timing"]["steady_std_sec"],
+            "steady_replicate_count": result["timing"]["steady_n"],
+            "stage_timings": summarize_stage_timings(result),
+            "chunked_force_fallback_calls": [
+                int(item.get("chunked_force_fallback_calls", 0))
+                for item in diagnostics
+            ],
+        }
+
+    index_record = arm_record(index_result)
+    all_record = arm_record(all_result)
+    return {
+        "policy": (
+            "Explicit cuVS index-search and in-core single-cluster "
+            "all-neighbors NN-descent use identical data, PCA initialization, "
+            "layout parameters, seeds, repeat count, and hardware. Only graph "
+            "construction changes. Runtime is reported together with fixed-"
+            "query graph overlap and every predeclared embedding-quality metric."
+        ),
+        "N_full_dataset": int(full_size),
+        "R_fit_total": int(len(index_seeds)),
+        "R_steady": int(index_result["timing"]["steady_n"]),
+        "m_graph_queries": int(len(index_query)),
+        "repeat_seeds": index_seeds,
+        "held_fixed_parameters": index_invariants,
+        "index_search": index_record,
+        "all_neighbors": all_record,
+        "steady_speedup_index_search_over_all_neighbors": (
+            index_record["steady_total_mean_sec"]
+            / all_record["steady_total_mean_sec"]
+        ),
+        "knn_graph_overlap": fixed_query_graph_overlap(
+            index_graph,
+            all_graph,
+        ),
+        "full_embedding_quality_gate": {
+            "status": "evaluated",
+            "interpretation": (
+                "Descriptive all-neighbors-versus-index-search differences "
+                "across every predeclared local, global, context, and topology "
+                "metric; no post-hoc equivalence threshold is imposed."
+            ),
+            "metrics": cuvs_knn_quality_comparison(
+                methods["dire_index_search"],
+                methods["dire_all_neighbors"],
+            ),
+        },
+    }
+
+
 def build_backend_policy_audit(
     dataset: str,
     full_size: int,
@@ -1116,11 +1295,13 @@ def evaluate_dataset(dataset: str, args) -> dict:
         dataset,
         args.large_results_root,
         args.topology_sensitivity_results_root,
+        args.cuvs_knn_ab_results_root,
         args.prepared_root,
     )
     topology_seed_layouts = discover_topology_seed_layouts(
         dataset,
         args.topology_sensitivity_results_root,
+        args.cuvs_knn_ab_results_root,
     )
     if not layouts:
         raise RuntimeError(f"no full-scale layouts available for {dataset}")
@@ -1458,6 +1639,12 @@ def evaluate_dataset(dataset: str, args) -> dict:
         args.backend_policy_results_root,
         method_metrics,
     )
+    cuvs_knn_ab_audit = build_cuvs_knn_ab_audit(
+        dataset,
+        full_size,
+        args.cuvs_knn_ab_results_root,
+        method_metrics,
+    )
     payload = {
         "schema_version": 2,
         "dataset": dataset,
@@ -1551,6 +1738,7 @@ def evaluate_dataset(dataset: str, args) -> dict:
         "run_metadata": run_metadata,
         "methods": method_metrics,
         "backend_policy_audit": backend_policy_audit,
+        "cuvs_knn_ab_audit": cuvs_knn_ab_audit,
     }
     write_json(output_dir / "evaluation.json", payload)
     return payload
@@ -1583,6 +1771,11 @@ def main() -> None:
         "--topology-sensitivity-results-root",
         type=Path,
         default=Path("data/revision3/topology_sensitivity_results"),
+    )
+    parser.add_argument(
+        "--cuvs-knn-ab-results-root",
+        type=Path,
+        default=Path("data/cuvs-knn-ab/results"),
     )
     parser.add_argument(
         "--output-root",

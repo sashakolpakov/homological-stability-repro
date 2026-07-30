@@ -21,5 +21,5 @@ cuml-cu12>=26.2,<27
 cudf-cu12>=26.2,<27
 cuvs-cu12>=26.2,<27
 cupy-cuda12x>=14,<15
-# refs/heads/main resolved to this current HEAD on 2026-07-28.
-dire-rapids[persistent] @ git+https://github.com/sashakolpakov/dire-rapids.git@293b622cc79fa8ea6fd5b54009e0930e3385b22f
+# refs/pull/12/head resolved to the hardened A/B candidate on 2026-07-31.
+dire-rapids[persistent] @ git+https://github.com/sashakolpakov/dire-rapids.git@f3a6161815b5526aeea4408729654008ee68a4cc

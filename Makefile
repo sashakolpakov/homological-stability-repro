@@ -24,7 +24,7 @@ REVISION3_HOST ?=
 REVISION3_SSH_KEY ?=
 REVISION3_REMOTE_DIR ?= /home/ubuntu/homological-stability-repro-revision3
 
-.PHONY: figures manuscript docs authorial-invariants revision-documents revision3-submission benchmarks reproduce all docker-build docker-figures docker-manuscript docker-benchmarks docker-reproduce revision3-gpu revision3-remote revision3-fetch revision3-render revision3-topology-audit clean
+.PHONY: figures manuscript docs authorial-invariants revision-documents revision3-submission benchmarks reproduce all docker-build docker-figures docker-manuscript docker-benchmarks docker-reproduce revision3-gpu cuvs-knn-ab-gpu revision3-remote revision3-fetch revision3-render revision3-topology-audit clean
 
 figures:
 	MPLCONFIGDIR=$(MPLCONFIGDIR) $(PYTHON) scripts/render_figures.py --data-root $(DATA_ROOT) --embedding-png-root $(EMBEDDING_DATA_ROOT) --output .
@@ -83,6 +83,9 @@ docker-reproduce:
 
 revision3-gpu:
 	scripts/reproduce_revision3.sh
+
+cuvs-knn-ab-gpu:
+	scripts/reproduce_cuvs_knn_ab.sh
 
 revision3-remote:
 	scripts/run_remote_revision3.sh --host $(REVISION3_HOST) --ssh-key $(REVISION3_SSH_KEY) --remote-dir $(REVISION3_REMOTE_DIR)

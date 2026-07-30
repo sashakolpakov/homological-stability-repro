@@ -1,6 +1,7 @@
-# Fully resolved from the successful H100 environment on 2026-07-28.
-# Edit requirements/bench.in, rebuild on the pinned base image, and validate
-# the complete suite before changing this lock.
+# Dependency set resolved from the successful H100 environment on 2026-07-28;
+# only the immutable DiRe candidate pin below was updated for this A/B profile.
+# Rebuild on the pinned base image and validate the complete suite before
+# changing any resolved third-party version.
 --extra-index-url https://download.pytorch.org/whl/cu128
 --extra-index-url https://pypi.nvidia.com
 aiohappyeyeballs==2.7.1
@@ -30,8 +31,8 @@ Cython==3.2.9
 datasets==5.0.1
 Deprecated==1.3.1
 dill==0.4.1
-# refs/heads/main resolved to this current HEAD on 2026-07-28.
-dire-rapids @ git+https://github.com/sashakolpakov/dire-rapids.git@293b622cc79fa8ea6fd5b54009e0930e3385b22f
+# refs/pull/12/head resolved to the hardened A/B candidate on 2026-07-31.
+dire-rapids @ git+https://github.com/sashakolpakov/dire-rapids.git@f3a6161815b5526aeea4408729654008ee68a4cc
 docutils==0.21.2
 exceptiongroup==1.3.1
 fastdtw==0.3.4

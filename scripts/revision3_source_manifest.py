@@ -31,12 +31,15 @@ REVISION3_SOURCE_FILES = (
     "scripts/render_figures.py",
     "scripts/render_revision3_artifacts.py",
     "scripts/reproduce_revision3.sh",
+    "scripts/reproduce_cuvs_knn_ab.sh",
     "scripts/revision3_source_manifest.py",
     "scripts/runtime_protocol.py",
     "scripts/run_benchmarks.sh",
     "scripts/run_initialization_ablation.sh",
     "scripts/run_remote_revision3.sh",
     "scripts/run_revision3_inside_container.sh",
+    "scripts/run_cuvs_knn_ab_inside_container.sh",
+    "scripts/summarize_cuvs_knn_ab.py",
     "scripts/verify_revision3_bundle.py",
 )
 

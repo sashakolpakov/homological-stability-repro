@@ -446,12 +446,53 @@ Or run the full fresh pipeline in one command:
 make docker-reproduce
 ```
 
+## cuVS index-search versus all-neighbors A/B
+
+The dedicated H100 profile tests the graph-construction change proposed in
+`dire-rapids` pull request 12 without changing the historical Revision 3
+comparisons. It pins the hardened candidate commit
+`f3a6161815b5526aeea4408729654008ee68a4cc` and compares:
+
+- `dire_index_search`: explicit `cuvs_knn_method="index_search"` with the
+  released automatic cuVS index policy;
+- `dire_all_neighbors`: explicit `cuvs_knn_method="all_neighbors"` with
+  single-cluster, in-core NN-descent.
+
+Both arms receive identical rows, repeat seeds, PCA initialization, neighbor
+count, layout parameters, and iteration budget. Single-cluster all-neighbors
+keeps partitioning out of the comparison. Each fit records the public DiRe
+diagnostics, synchronized stage timings, NVML device-memory usage, and a fixed-query
+kNN graph sample. The validator fails if the effective graph method differs
+from the requested arm, public diagnostics are absent, non-graph parameters or
+seeds differ, query rows differ, or the force calculation uses its chunked
+fallback.
+
+The run is staged deliberately:
+
+1. prepare the pinned 10x and arXiv inputs;
+2. run and validate paired 100,000-row pilots;
+3. run paired full-data fits with three seeded embeddings per arm;
+4. apply the existing local, global, context, and H0/H1 topology evaluators;
+5. validate and archive the results.
+
+On an H100 host with Docker and at least 70,000 MiB of GPU memory:
+
+```bash
+make cuvs-knn-ab-gpu
+```
+
+The machine-readable and Markdown summaries are written below
+`data/cuvs-knn-ab/summary/`. The host wrapper also creates a timestamped tarball,
+SHA-256 sidecar, `LATEST` pointer, host preflight record, and resumable stage
+markers. Set `CUVS_KNN_AB_FORCE_STAGES=1` only to intentionally rerun completed
+stages.
+
 ## Notes
 
-The Docker image installs the current DiRe-RAPIDS `main` revision resolved on
-2026-07-28, pinned immutably as
-`293b622cc79fa8ea6fd5b54009e0930e3385b22f`. The runners record the requested
-branch and resolution date plus the installed package's PEP 610
+The Docker image installs the hardened DiRe-RAPIDS pull-request revision
+resolved on 2026-07-31, pinned immutably as
+`f3a6161815b5526aeea4408729654008ee68a4cc`. The runners record the requested
+ref and resolution date plus the installed package's PEP 610
 `direct_url.json` metadata, and fail if the installed commit does not match.
 Dataset revisions, input transformations, hardware, software versions, subset
 indices, method parameters, failures, and timing/memory protocols are retained
